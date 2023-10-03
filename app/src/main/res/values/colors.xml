@@ -7,4 +7,41 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="primary_blue">#5669FF</color>
+    <color name="light_blue">#7887FF</color>
+    <color name="soft_blue">#9AA5FF</color>
+    <color name="gentle_blue">#BBC3FF</color>
+    <color name="pale_blue">#DDE1FF</color>
+    <color name="icy_blue">#EEF0FF</color>
+
+    <color name="secondary_cyan">#00F8FF</color>
+    <color name="light_cyan">#33F9FF</color>
+    <color name="soft_cyan">#66FBFF</color>
+    <color name="gentle_cyan">#99FCFF</color>
+    <color name="pale_cyan">#CCFEFF</color>
+    <color name="icy_cyan">#E6FEFF</color>
+
+    <!-- Typography colors -->
+    <color name="main_black">#120D26</color>
+    <color name="dark_gray">#29253C</color>
+    <color name="medium_gray">#888693</color>
+    <color name="light_gray">#B8B6BE</color>
+    <color name="very_light_gray">#D0CFD4</color>
+    <color name="extra_light_gray">#E7E7E9</color>
+
+    <!-- Accent colors -->
+    <color name="accent_red">#F0635A</color>
+    <color name="accent_orange">#F59762</color>
+    <color name="accent_green">#29D697</color>
+    <color name="accent_cyan">#46CDFB</color>
+    <color name="accent_purple">#8C3EF1</color>
+    <color name="accent_yellow">#FDC400</color>
+
+    <!-- Background colors -->
+    <color name="background_black">#2D2D3A</color>
+    <color name="background_medium_black">#393948</color>
+    <color name="background_gray">#E5E5E5</color>
+
+
 </resources>
