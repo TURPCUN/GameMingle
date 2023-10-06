@@ -43,5 +43,8 @@
     <color name="background_medium_black">#393948</color>
     <color name="background_gray">#E5E5E5</color>
 
+    <!-- Material check colors -->
+    <color name="material_check_blue">#1BBBF4</color>
+
 
 </resources>
