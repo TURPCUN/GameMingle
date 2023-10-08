@@ -1,31 +1,21 @@
 package com.nt.gamemingle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.nt.gamemingle.ui.common.BaseViewModel;
-import com.nt.gamemingle.ui.common.SharedViewModel;
+import com.nt.gamemingle.app.AppViewModel;
+
 
 public class MainActivity extends AppCompatActivity {
-
-
-    private FirebaseAuth mAuth;
+    private AppViewModel appViewModel;
     EditText emailText, passwordText;
     Button signUpButton, signInButton;
     NavController navController;
@@ -34,14 +24,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
-        mAuth.signOut();
+        appViewModel = AppViewModel.instance;
+        // temporary sign out
+        appViewModel.signOut();
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host_container);
         navController = navHostFragment.getNavController();
 
-        SharedViewModel sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
-        sharedViewModel.setNavController(navController);
+        appViewModel.setNavController(navController);
 
         MaterialToolbar topAppBar = findViewById(R.id.topAppBar);
         topAppBar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -84,46 +74,6 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("User is not logged in");
         }
 */
-
-    }
-
-    public void signUp() {
-        mAuth.createUserWithEmailAndPassword(emailText.getText().toString(), passwordText.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isComplete()) {
-
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            String email = user.getEmail();
-                            System.out.println("Email: " + email);
-
-
-                            Toast.makeText(MainActivity.this, "Sign Up Successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(MainActivity.this, "Sign Up Failed", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-    }
-
-    public void signIn() {
-
-        mAuth.signInWithEmailAndPassword(emailText.getText().toString(), passwordText.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull  Task<AuthResult> task) {
-                        if(task.isComplete()) {
-                            Toast.makeText(MainActivity.this, "Sign In Successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(MainActivity.this, "Sign In Failed", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
 
     }
 }

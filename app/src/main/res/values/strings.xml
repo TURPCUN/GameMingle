@@ -16,5 +16,7 @@
     <string name="confirm_password">Confirm password</string>
     <string name="select_your_city">Select your city</string>
     <string name="accept_terms">I agree to the Terms of Service and Privacy Policy</string>
-
+    <string name="no_game_desc">Looks like there are no games here yet. Let\'s explore the games!</string>
+    <string name="no_game">No Game</string>
+    <string name="explore_games">Explore Games</string>
 </resources>

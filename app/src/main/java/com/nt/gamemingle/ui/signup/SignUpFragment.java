@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 
@@ -18,8 +19,8 @@ import android.widget.CheckBox;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.nt.gamemingle.R;
+import com.nt.gamemingle.app.AppViewModel;
 import com.nt.gamemingle.ui.common.BaseFragment;
-import com.nt.gamemingle.ui.common.SharedViewModel;
 
 public class SignUpFragment extends BaseFragment {
 
@@ -45,9 +46,8 @@ public class SignUpFragment extends BaseFragment {
 
         setToolBarVisibility(true);
 
-        mViewModel = new ViewModelProvider(this).get(SignUpViewModel.class);
-        SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        navController = sharedViewModel.getNavController().getValue();
+        mViewModel = new SignUpViewModel(appViewModel);
+        navController = appViewModel.getNavController().getValue();
         userFullName = getActivity().findViewById(R.id.fullName);
         userEmail = getActivity().findViewById(R.id.emailSignUp);
         userPassword = getActivity().findViewById(R.id.passwordSignUp);
@@ -67,6 +67,19 @@ public class SignUpFragment extends BaseFragment {
         autoCompleteTextView = getActivity().findViewById(R.id.autoCompleteTextView);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, citiesArray);
         autoCompleteTextView.setAdapter(adapter);
+
+        // Object to listen isSignedUp LiveData on the ViewModel
+        final Observer<Boolean> signUpObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isSignedUp) {
+                if (isSignedUp) {
+                    navController.navigate(R.id.action_signUpFragment_to_myGamesEmpty);
+                }
+            }
+        };
+
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        mViewModel.isSignedUp.observe(getViewLifecycleOwner(), signUpObserver);
 
     }
 

@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 
@@ -15,21 +16,20 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.nt.gamemingle.R;
+import com.nt.gamemingle.app.AppViewModel;
 import com.nt.gamemingle.ui.common.BaseFragment;
-import com.nt.gamemingle.ui.common.BaseViewModel;
-import com.nt.gamemingle.ui.common.SharedViewModel;
+
 
 public class SignInFragment extends BaseFragment {
 
-    private  SignInViewModel mViewModel;
+    //AppViewModel appViewModel;
 
+    private  SignInViewModel mViewModel;
     private TextInputEditText userEmail;
     private TextInputEditText userPassword;
     private Button signInButton;
     private TextView signUpButton;
     NavController navController;
-
-    public SignInFragment() { }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,11 +40,12 @@ public class SignInFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+       // appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
+
         setToolBarVisibility(false);
 
-        mViewModel = new ViewModelProvider(this).get(SignInViewModel.class);
-        SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        navController = sharedViewModel.getNavController().getValue();
+        mViewModel = new SignInViewModel(appViewModel);
+        navController = appViewModel.getNavController().getValue();
         userEmail = getActivity().findViewById(R.id.email);
         userPassword = getActivity().findViewById(R.id.password);
         signInButton = getActivity().findViewById(R.id.btn_sign_in);
@@ -61,6 +62,18 @@ public class SignInFragment extends BaseFragment {
                 navController.navigate(R.id.action_signInFragment_to_signUpFragment);
             }
         });
+
+        final Observer<Boolean> isSignedInObserver = new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isSignedIn) {
+                if (isSignedIn) {
+                    navController.navigate(R.id.action_signInFragment_to_myGamesEmpty);
+                }
+            }
+        };
+
+        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
+        mViewModel.isSignedIn.observe(getViewLifecycleOwner(), isSignedInObserver);
     }
 
     @Override
