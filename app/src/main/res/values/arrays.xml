@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="cities">
+        <item>Abbotsford</item>
+        <item>Burnaby</item>
+        <item>Chilliwack</item>
+        <item>Coquitlam</item>
+        <item>Delta</item>
+        <item>Hope</item>
+        <item>Horseshoe Bay</item>
+        <item>Langley</item>
+        <item>Maple Ridge</item>
+        <item>New Westminster</item>
+        <item>North Vancouver</item>
+        <item>Richmond</item>
+        <item>Surrey</item>
+        <item>Squamish</item>
+        <item>Vancouver</item>
+        <item>Whistler</item>
+        <item>White Rock</item>
+    </string-array>
+</resources>

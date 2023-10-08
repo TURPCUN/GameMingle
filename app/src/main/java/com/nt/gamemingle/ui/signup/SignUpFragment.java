@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 
@@ -12,8 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.CheckBox;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.nt.gamemingle.R;
@@ -27,7 +28,9 @@ public class SignUpFragment extends BaseFragment {
     private TextInputEditText userEmail;
     private TextInputEditText userPassword;
     private TextInputEditText userConfirmPassword;
+    private CheckBox userAgreement;
     private Button signUpButton;
+    private AutoCompleteTextView autoCompleteTextView;
     NavController navController;
     public SignUpFragment() { }
 
@@ -49,6 +52,7 @@ public class SignUpFragment extends BaseFragment {
         userEmail = getActivity().findViewById(R.id.emailSignUp);
         userPassword = getActivity().findViewById(R.id.passwordSignUp);
         userConfirmPassword = getActivity().findViewById(R.id.confPasswordSignUp);
+        userAgreement = getActivity().findViewById(R.id.checkBox);
         signUpButton = getActivity().findViewById(R.id.btn_sign_up);
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +61,13 @@ public class SignUpFragment extends BaseFragment {
             }
         });
 
+        String[] citiesArray = getResources().getStringArray(R.array.cities);
+
+        // AutoCompleteTextView for cities
+        autoCompleteTextView = getActivity().findViewById(R.id.autoCompleteTextView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, citiesArray);
+        autoCompleteTextView.setAdapter(adapter);
+
     }
 
     private void performSignUp(String fullName, String email, String password, String confirmPassword) {
@@ -64,8 +75,12 @@ public class SignUpFragment extends BaseFragment {
             Log.d("SignUpFragment", "Empty fields");
         } else if (!password.equals(confirmPassword)) {
             Log.d("SignUpFragment", "Passwords do not match");
+        } else if (!userAgreement.isChecked()){
+            Log.d("SignUpFragment", "User agreement not checked");
+        } else if (autoCompleteTextView.getText().toString().isEmpty()) {
+            Log.d("SignUpFragment", "City not selected");
         } else {
-            mViewModel.signUp(email, password, getContext());
+            mViewModel.signUp(fullName, email, password, getContext(), autoCompleteTextView.getText().toString());
         }
     }
 
