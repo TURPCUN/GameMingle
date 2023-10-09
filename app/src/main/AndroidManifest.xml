@@ -12,7 +12,10 @@
         android:theme="@style/Theme.GameMingle"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.splash.SplashActivity"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.RemoveSplashScreenTheme"
+            android:noHistory="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +23,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

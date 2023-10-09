@@ -1,0 +1,155 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal|center_vertical"
+    android:orientation="vertical"
+    tools:context=".ui.signin.SignInFragment">
+
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/icon"
+        android:contentDescription="@string/app_icon"
+        android:layout_marginTop="30dp"/>
+
+    <TextView
+        android:id="@+id/loginText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="38dp"
+        android:text="@string/sign_in"
+        android:textColor="#120D26"
+        android:textSize="24sp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutEmail"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginEnd="38dp"
+        android:hint="@string/email"
+        app:endIconMode="clear_text"
+        app:errorEnabled="true"
+        app:startIconContentDescription="email"
+        app:startIconDrawable="@drawable/message">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_sans_bold"
+            android:textColor="#747688"
+            android:textSize="14sp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayoutPassword"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="38dp"
+        android:layout_marginTop="21dp"
+
+        android:hint="@string/your_password"
+        app:endIconMode="password_toggle"
+        app:errorEnabled="true"
+        app:startIconContentDescription="lock"
+        app:startIconDrawable="@drawable/lock">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:textColor="#747688"
+            android:textSize="14sp"
+            tools:fontFamily="@font/nunito_sans_bold" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="38dp">
+
+        <Switch
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:checked="false"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/remember_me"
+            android:textColor="#120D26" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:fontFamily="@font/nunito_sans"
+            android:text="@string/forgot_password"
+            android:textAlignment="textEnd"
+            android:textColor="#120D26"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_sign_in"
+        android:layout_width="270dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="52dp"
+        android:background="@drawable/btn_back"
+        android:drawableEnd="@drawable/arrow_circle_right"
+        android:fontFamily="@font/nunito"
+        android:gravity="center"
+        android:text="@string/sign_in"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="38dp"
+        android:gravity="center_horizontal"
+        android:layout_marginEnd="38dp">
+
+    <TextView
+        android:id="@+id/txtMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:fontFamily="@font/nunito_sans"
+        android:lineSpacingExtra="5sp"
+        android:layout_gravity="bottom"
+        android:text="@string/don_t_have_an_account"
+        android:textColor="#120D26"
+        android:textSize="15sp" />
+        <TextView
+            android:id="@+id/txt_btn_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:fontFamily="@font/nunito_sans"
+            android:lineSpacingExtra="5sp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="5dp"
+            android:clickable="true"
+            android:text="@string/sign_up"
+            android:textColor="@color/primary_blue"
+            android:textSize="15sp"
+            android:focusable="true" />
+    </LinearLayout>
+
+</LinearLayout>
