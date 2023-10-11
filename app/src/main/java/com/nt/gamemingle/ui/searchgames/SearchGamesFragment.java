@@ -100,6 +100,7 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
         if(boardGameList.size() >= position && boardGameList.size() != 0){
            // Intent intent = new Intent(SearchCustomer.this, CustomerDetail.class);
             Bundle bundle = new Bundle();
+            bundle.putString("gameId",boardGameList.get(position).getBoardGameId());
             bundle.putString("title",boardGameList.get(position).getGameName());
             bundle.putString("imageUrl", "test");
             navController.navigate(R.id.action_searchGamesFragment_to_addFavGameFragment, bundle);

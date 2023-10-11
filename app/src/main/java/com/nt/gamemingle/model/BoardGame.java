@@ -2,6 +2,7 @@ package com.nt.gamemingle.model;
 
 public class BoardGame {
 
+    String boardGameId;
     String gameName;
     String gameDescription;
     String gameImageUrl;
@@ -9,7 +10,8 @@ public class BoardGame {
     String gameMaxPlayers;
     String gameCategory;
 
-    public BoardGame(String gameName, String gameDescription, String gameImageUrl, String gameMinPlayers, String gameMaxPlayers, String gameCategory) {
+    public BoardGame(String boardGameId, String gameName, String gameDescription, String gameImageUrl, String gameMinPlayers, String gameMaxPlayers, String gameCategory) {
+        this.boardGameId = boardGameId;
         this.gameName = gameName;
         this.gameDescription = gameDescription;
         this.gameImageUrl = gameImageUrl;
@@ -67,5 +69,13 @@ public class BoardGame {
 
     public void setGameCategory(String gameCategory) {
         this.gameCategory = gameCategory;
+    }
+
+    public String getBoardGameId() {
+        return boardGameId;
+    }
+
+    public void setBoardGameId(String boardGameId) {
+        this.boardGameId = boardGameId;
     }
 }

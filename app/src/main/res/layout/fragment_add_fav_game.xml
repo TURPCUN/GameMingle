@@ -70,7 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
-        android:id="@+id/btn_sign_up"
+        android:id="@+id/btn_add_fav_game"
         android:layout_width="270dp"
         android:layout_height="58dp"
         android:layout_marginTop="21dp"

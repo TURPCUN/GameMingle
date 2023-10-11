@@ -39,13 +39,15 @@ public class SearchGamesViewModel {
                     //BoardGame boardGame = dataSnapshot.getValue(BoardGame.class);
                     //boardGameList.add(boardGame);
                     HashMap<String, String> game = (HashMap<String, String>) dataSnapshot.getValue();
+
+                    String gameId = dataSnapshot.getKey();
                     String gameName = game.get("gameName");
                     String gameDescription = game.get("gameDescription");
                     String gameImageUrl = game.get("gameImageUrl");
                     String gameMinPlayers = game.get("minPlayer").toString();
                     String gameMaxPlayers = game.get("maxPlayer").toString();
                     String gameCategory = game.get("gameCategory");
-                    BoardGame boardGame = new BoardGame(gameName, gameDescription, gameImageUrl, gameMinPlayers, gameMaxPlayers, gameCategory);
+                    BoardGame boardGame = new BoardGame(gameId, gameName, gameDescription, gameImageUrl, gameMinPlayers, gameMaxPlayers, gameCategory);
                     tempBoardGameList.add(boardGame);
                 }
                 boardGamesLiveData.setValue(tempBoardGameList);
