@@ -9,10 +9,14 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.nt.gamemingle.R;
+import com.nt.gamemingle.ui.common.BaseFragment;
 
-public class AddFavGameFragment extends Fragment {
+public class AddFavGameFragment extends BaseFragment {
+
+    TextView titleGame;
     public AddFavGameFragment() {
         // Required empty public constructor
     }
@@ -32,5 +36,7 @@ public class AddFavGameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        titleGame = getActivity().findViewById(R.id.titleGame);
+        titleGame.setText(getArguments().getString("title"));
     }
 }

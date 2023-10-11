@@ -4,8 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
     app:cardCornerRadius="@dimen/card_corner_radius"
-    app:cardElevation="2dp">
+    app:cardElevation="4dp"
+    android:layout_margin="10dp"
+    app:cardBackgroundColor="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/medication_layout"
@@ -18,27 +21,27 @@
             android:layout_height="70dp"
             android:layout_margin="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/gameDetails"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/gameDetails"
-            tools:srcCompat="@tools:sample/avatars"  />
+            tools:srcCompat="@drawable/icon" />
 
         <LinearLayout
             android:id="@+id/gameDetails"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/textViewGameTitleSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/nunito_sans_bold"
-                android:layout_marginBottom="3dp"
                 android:layout_marginTop="14dp"
+                android:layout_marginBottom="3dp"
+                android:fontFamily="@font/nunito_sans_bold"
                 android:text="Game Title"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
@@ -47,16 +50,12 @@
                 android:id="@+id/textViewGameDescSearch"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/nunito"
                 android:maxLines="2"
-                android:layout_marginEnd="16dp"
                 android:text="There will be a short description of the game here. Maybe 2 or 3 lines."
                 android:textSize="12sp" />
         </LinearLayout>
-
-
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
