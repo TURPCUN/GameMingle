@@ -1,6 +1,5 @@
 package com.nt.gamemingle.ui.searchgames;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -72,7 +71,7 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
         recyclerSearchGames.setAdapter(gameSearchAdapter);
 
 
-        final Observer<List<BoardGame>> isBoardGameLoadad = new Observer<List<BoardGame>>() {
+        final Observer<List<BoardGame>> isBoardGameLoaded = new Observer<List<BoardGame>>() {
 
             @Override
             public void onChanged(List<BoardGame> boardGamesLiveData) {
@@ -84,7 +83,7 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
             }
         };
 
-        mViewModel.boardGamesLiveData.observe(getViewLifecycleOwner(), isBoardGameLoadad);
+        mViewModel.boardGamesLiveData.observe(getViewLifecycleOwner(), isBoardGameLoaded);
     }
 
 
@@ -98,7 +97,6 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
     @Override
     public void onItemClick(View view, int position) {
         if(boardGameList.size() >= position && boardGameList.size() != 0){
-           // Intent intent = new Intent(SearchCustomer.this, CustomerDetail.class);
             Bundle bundle = new Bundle();
             bundle.putString("gameId",boardGameList.get(position).getBoardGameId());
             bundle.putString("title",boardGameList.get(position).getGameName());

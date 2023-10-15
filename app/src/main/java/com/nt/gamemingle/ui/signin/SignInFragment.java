@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 
 import android.view.LayoutInflater;
@@ -16,13 +15,10 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.nt.gamemingle.R;
-import com.nt.gamemingle.app.AppViewModel;
 import com.nt.gamemingle.ui.common.BaseFragment;
 
 
 public class SignInFragment extends BaseFragment {
-
-    //AppViewModel appViewModel;
 
     private  SignInViewModel mViewModel;
     private TextInputEditText userEmail;
@@ -39,8 +35,6 @@ public class SignInFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-       // appViewModel = new ViewModelProvider(requireActivity()).get(AppViewModel.class);
 
         setToolBarVisibility(false);
 
@@ -67,7 +61,9 @@ public class SignInFragment extends BaseFragment {
             @Override
             public void onChanged(Boolean isSignedIn) {
                 if (isSignedIn) {
-                    navController.navigate(R.id.action_signInFragment_to_searchGamesFragment);
+                    //navController.navigate(R.id.action_signInFragment_to_searchGamesFragment);
+                    navController.navigate(R.id.action_signInFragment_to_myGamesFragment);
+                    //navController.navigate(R.id.action_signInFragment_to_myGamesEmpty);
                 }
             }
         };
