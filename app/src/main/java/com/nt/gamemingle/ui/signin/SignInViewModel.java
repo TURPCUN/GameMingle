@@ -20,6 +20,12 @@ public class SignInViewModel {
         this.appViewModel = appViewModel;
     }
     public void signInWithEmailAndPassword(String email, String password, Context context) {
+
+        if (email.isEmpty() || password.isEmpty()) {
+            showToast(context, "Email and password cannot be empty!");
+            return;
+        }
+
         appViewModel.mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -42,11 +48,17 @@ public class SignInViewModel {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
-    public void checkUser(Context context) {
+    public void checkUser(Context context, boolean rememberMeChecked) {
         FirebaseUser currentUser = appViewModel.mAuth.getCurrentUser();
-        if (currentUser != null) {
-            showToast(context, "User is logged in");
-            isSignedIn.setValue(true);
+        if (currentUser != null ) {
+            if(rememberMeChecked) {
+                showToast(context, "User is logged in");
+                isSignedIn.setValue(true);
+            } else {
+                showToast(context, "User is not logged in");
+                appViewModel.mAuth.signOut();
+                isSignedIn.setValue(false);
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.nt.gamemingle.ui.signin;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.navigation.NavController;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.FragmentSignInBinding;
@@ -20,6 +22,7 @@ public class SignInFragment extends BaseFragment {
 
     private  SignInViewModel signInViewModel;
     private FragmentSignInBinding binding;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,6 +34,7 @@ public class SignInFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = requireActivity().getPreferences(requireContext().MODE_PRIVATE);
     }
 
     @Override
@@ -40,7 +44,10 @@ public class SignInFragment extends BaseFragment {
         signInViewModel = new SignInViewModel(appViewModel);
         setupClickListeners();
         observeSignInStatus();
-        signInViewModel.checkUser(requireContext());
+
+        boolean rememberMeChecked = sharedPreferences.getBoolean("rememberMe", false);
+        binding.switchRememberMe.setChecked(rememberMeChecked);
+        signInViewModel.checkUser(requireContext(), rememberMeChecked);
     }
 
     private void setupClickListeners() {
@@ -55,6 +62,16 @@ public class SignInFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 navigateToSignUp();
+            }
+        });
+
+        // Remember Me
+        binding.switchRememberMe.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences.Editor editor= sharedPreferences.edit();
+                editor.putBoolean("rememberMe", isChecked);
+                editor.apply();
             }
         });
     }
