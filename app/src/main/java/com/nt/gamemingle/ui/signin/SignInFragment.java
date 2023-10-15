@@ -10,22 +10,23 @@ import androidx.navigation.NavController;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
-import com.google.android.material.textfield.TextInputEditText;
 import com.nt.gamemingle.R;
+import com.nt.gamemingle.databinding.FragmentSignInBinding;
 import com.nt.gamemingle.ui.common.BaseFragment;
 
 
 public class SignInFragment extends BaseFragment {
 
-    private  SignInViewModel mViewModel;
-    private TextInputEditText userEmail;
-    private TextInputEditText userPassword;
-    private Button signInButton;
-    private TextView signUpButton;
-    NavController navController;
+    private  SignInViewModel signInViewModel;
+    private FragmentSignInBinding binding;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentSignInBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,51 +36,57 @@ public class SignInFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         setToolBarVisibility(false);
+        signInViewModel = new SignInViewModel(appViewModel);
+        setupClickListeners();
+        observeSignInStatus();
+        signInViewModel.checkUser(requireContext());
+    }
 
-        mViewModel = new SignInViewModel(appViewModel);
-        navController = appViewModel.getNavController().getValue();
-        userEmail = getActivity().findViewById(R.id.email);
-        userPassword = getActivity().findViewById(R.id.password);
-        signInButton = getActivity().findViewById(R.id.btn_sign_in);
-        signInButton.setOnClickListener(new View.OnClickListener() {
+    private void setupClickListeners() {
+        binding.btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                performSignIn(userEmail.getText().toString(), userPassword.getText().toString());
-            }
-        });
-        signUpButton = getActivity().findViewById(R.id.txt_btn_sign_up);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navController.navigate(R.id.action_signInFragment_to_signUpFragment);
+                performSignIn();
             }
         });
 
-        final Observer<Boolean> isSignedInObserver = new Observer<Boolean>() {
+        binding.txtBtnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(Boolean isSignedIn) {
-                if (isSignedIn) {
-                    //navController.navigate(R.id.action_signInFragment_to_searchGamesFragment);
-                    navController.navigate(R.id.action_signInFragment_to_myGamesFragment);
-                    //navController.navigate(R.id.action_signInFragment_to_myGamesEmpty);
+            public void onClick(View v) {
+                navigateToSignUp();
+            }
+        });
+    }
+
+    private void observeSignInStatus() {
+        final NavController navController = appViewModel.getNavController().getValue();
+        if (navController != null) {
+            signInViewModel.isSignedIn.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean isSignedIn) {
+                    if (isSignedIn) {
+                        navigateToMyGamesFragment(navController);
+                    }
                 }
-            }
-        };
-
-        // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
-        mViewModel.isSignedIn.observe(getViewLifecycleOwner(), isSignedInObserver);
+            });
+        }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sign_in, container, false);
+    private void performSignIn() {
+        String email = binding.email.getText().toString();
+        String password = binding.password.getText().toString();
+        signInViewModel.signInWithEmailAndPassword(email, password, requireContext());
     }
 
-    private void performSignIn(String email, String password) {
-        mViewModel.signInWithEmailAndPassword(email, password,requireContext());
+    private void navigateToSignUp() {
+        NavController navController = appViewModel.getNavController().getValue();
+        if (navController != null) {
+            navController.navigate(R.id.action_signInFragment_to_signUpFragment);
+        }
+    }
+
+    private void navigateToMyGamesFragment(NavController navController) {
+        navController.navigate(R.id.action_signInFragment_to_myGamesFragment);
     }
 }
