@@ -35,9 +35,9 @@ public class MyGamesFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MyGamesFavoritesFragment myGamesFavoritesFragment = new MyGamesFavoritesFragment();
+        MyGamesFavouritesFragment myGamesFavouritesFragment = new MyGamesFavouritesFragment();
         getChildFragmentManager().beginTransaction()
-                .replace(R.id.card_view_favorites, myGamesFavoritesFragment)
+                .replace(R.id.card_view_favorites, myGamesFavouritesFragment)
                 .commit();
     }
 }

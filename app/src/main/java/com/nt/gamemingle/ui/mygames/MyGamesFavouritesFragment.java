@@ -15,19 +15,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.nt.gamemingle.R;
-import com.nt.gamemingle.adapters.FavoriteGamesAdapter;
+import com.nt.gamemingle.adapters.FavouriteGamesAdapter;
 import com.nt.gamemingle.model.BoardGame;
 import com.nt.gamemingle.ui.common.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyGamesFavoritesFragment extends BaseFragment {
+public class MyGamesFavouritesFragment extends BaseFragment {
 
-    private MyGamesFavoritesFragmentViewModel mViewModel;
+    private MyGamesFavouritesFragmentViewModel mViewModel;
 
     ArrayList<BoardGame> favBoardGameList;
-    private FavoriteGamesAdapter favoriteGamesAdapter;
+    private FavouriteGamesAdapter favouriteGamesAdapter;
     RecyclerView recyclerFavGames;
     NavController navController;
     Button btnSeeAllFavGames;
@@ -35,12 +35,12 @@ public class MyGamesFavoritesFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        favoriteGamesAdapter = new FavoriteGamesAdapter(requireContext(), new ArrayList<BoardGame>());
-        recyclerFavGames.setAdapter(favoriteGamesAdapter);
+        favouriteGamesAdapter = new FavouriteGamesAdapter(requireContext(), new ArrayList<BoardGame>());
+        recyclerFavGames.setAdapter(favouriteGamesAdapter);
         mViewModel.getPreviewFavBoardGames(requireContext());
     }
 
-    public MyGamesFavoritesFragment() {
+    public MyGamesFavouritesFragment() {
         // Required empty public constructor
     }
 
@@ -62,20 +62,20 @@ public class MyGamesFavoritesFragment extends BaseFragment {
 
         navController = appViewModel.getNavController().getValue();
 
-        mViewModel = new MyGamesFavoritesFragmentViewModel(appViewModel);
+        mViewModel = new MyGamesFavouritesFragmentViewModel(appViewModel);
 
         mViewModel.getPreviewFavBoardGames(requireContext());
         recyclerFavGames = getActivity().findViewById(R.id.recycler_fav_games);
         recyclerFavGames.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false  ));
-        favoriteGamesAdapter = new FavoriteGamesAdapter(requireContext(), favBoardGameList);
-        recyclerFavGames.setAdapter(favoriteGamesAdapter);
+        favouriteGamesAdapter = new FavouriteGamesAdapter(requireContext(), favBoardGameList);
+        recyclerFavGames.setAdapter(favouriteGamesAdapter);
 
         final Observer<List<BoardGame>> isFavBoardGameLoaded = new Observer<List<BoardGame>>() {
             @Override
             public void onChanged(List<BoardGame> boardGames) {
                 if(boardGames != null){
                     favBoardGameList = mViewModel.previewFavBoardGames.getValue();
-                    favoriteGamesAdapter.setFavouriteGamesList(favBoardGameList);
+                    favouriteGamesAdapter.setFavouriteGamesList(favBoardGameList);
                 }
             }
         };
@@ -88,7 +88,7 @@ public class MyGamesFavoritesFragment extends BaseFragment {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("favBoardGameList", favBoardGameList);
-                navController.navigate(R.id.action_myGamesFragment_to_allFavoriteGamesFragment, bundle);
+                navController.navigate(R.id.action_myGamesFragment_to_allFavouriteGamesFragment, bundle);
             }
         });
     }

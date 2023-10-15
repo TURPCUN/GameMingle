@@ -64,12 +64,12 @@
         android:label="fragment_my_games"
         tools:layout="@layout/fragment_my_games" >
         <action
-            android:id="@+id/action_myGamesFragment_to_allFavoriteGamesFragment"
+            android:id="@+id/action_myGamesFragment_to_allFavouriteGamesFragment"
             app:destination="@id/allFavoriteGamesFragment" />
     </fragment>
     <fragment
         android:id="@+id/allFavoriteGamesFragment"
-        android:name="com.nt.gamemingle.ui.favoritegames.AllFavoriteGamesFragment"
+        android:name="com.nt.gamemingle.ui.favoritegames.AllFavouriteGamesFragment"
         android:label="fragment_all_favorite_games"
         tools:layout="@layout/fragment_all_favorite_games" />
 </navigation>

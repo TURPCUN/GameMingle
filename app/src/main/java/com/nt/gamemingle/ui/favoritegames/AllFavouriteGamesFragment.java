@@ -19,9 +19,9 @@ import com.nt.gamemingle.ui.common.BaseFragment;
 
 import java.util.ArrayList;
 
-public class AllFavoriteGamesFragment extends BaseFragment {
+public class AllFavouriteGamesFragment extends BaseFragment {
 
-    private AllFavoriteGamesViewModel mViewModel;
+    private AllFavouriteGamesViewModel mViewModel;
     ArrayList<BoardGame> favBoardGameList2;
     private FavouriteGamesDetailsAdapter favouriteGamesDetailsAdapter;
     RecyclerView recyclerFavGames2;
@@ -35,7 +35,7 @@ public class AllFavoriteGamesFragment extends BaseFragment {
         recyclerFavGames2.setAdapter(favouriteGamesDetailsAdapter);
     }
 
-    public AllFavoriteGamesFragment() {
+    public AllFavouriteGamesFragment() {
         // Required empty public constructor
     }
 
@@ -59,7 +59,7 @@ public class AllFavoriteGamesFragment extends BaseFragment {
         setToolBarVisibility(true);
 
         navController = appViewModel.getNavController().getValue();
-        mViewModel = new AllFavoriteGamesViewModel(appViewModel);
+        mViewModel = new AllFavouriteGamesViewModel(appViewModel);
 
         recyclerFavGames2 = getActivity().findViewById(R.id.recycler_all_fav_games);
         recyclerFavGames2.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false  ));

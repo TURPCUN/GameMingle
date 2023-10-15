@@ -15,12 +15,12 @@ import com.nt.gamemingle.model.BoardGame;
 
 import java.util.ArrayList;
 
-public class MyGamesFavoritesFragmentViewModel {
+public class MyGamesFavouritesFragmentViewModel {
     private AppViewModel appViewModel;
 
     public MutableLiveData<ArrayList<BoardGame>> previewFavBoardGames = new MutableLiveData<>();
 
-    public MyGamesFavoritesFragmentViewModel(AppViewModel appViewModel) {
+    public MyGamesFavouritesFragmentViewModel(AppViewModel appViewModel) {
         super();
         this.appViewModel = appViewModel;
     }
@@ -32,7 +32,7 @@ public class MyGamesFavoritesFragmentViewModel {
     public void getPreviewFavBoardGames(Context context) {
         String userId = appViewModel.mAuth.getCurrentUser().getUid();
         if (userId != null) {
-            ArrayList<BoardGame> favoriteGames = new ArrayList<>();
+            ArrayList<BoardGame> favouriteGames = new ArrayList<>();
             DatabaseReference userGamesReference = appViewModel.database.getReference("USER_GAME").child(userId);
             userGamesReference.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -53,8 +53,8 @@ public class MyGamesFavoritesFragmentViewModel {
                                         String gameCategory = gameSnapshot.child("gameCategory").getValue(String.class);
 
                                         BoardGame boardGame = new BoardGame(gameId, gameName, gameDescription, gameImageUrl, gameMinPlayers, gameMaxPlayers, gameCategory);
-                                        favoriteGames.add(boardGame);
-                                        previewFavBoardGames.setValue(favoriteGames);
+                                        favouriteGames.add(boardGame);
+                                        previewFavBoardGames.setValue(favouriteGames);
                                     }
                                 }
 

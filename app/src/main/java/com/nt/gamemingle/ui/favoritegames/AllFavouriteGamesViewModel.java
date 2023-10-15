@@ -2,11 +2,11 @@ package com.nt.gamemingle.ui.favoritegames;
 
 import com.nt.gamemingle.app.AppViewModel;
 
-public class AllFavoriteGamesViewModel {
+public class AllFavouriteGamesViewModel {
 
     private AppViewModel appViewModel;
 
-    public AllFavoriteGamesViewModel(AppViewModel appViewModel) {
+    public AllFavouriteGamesViewModel(AppViewModel appViewModel) {
         super();
         this.appViewModel = appViewModel;
     }

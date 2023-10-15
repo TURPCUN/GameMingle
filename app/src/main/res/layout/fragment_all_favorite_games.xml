@@ -5,7 +5,7 @@
     android:background="@drawable/cardview_rl_top_radius_bg"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".ui.favoritegames.AllFavoriteGamesFragment">
+    tools:context=".ui.favoritegames.AllFavouriteGamesFragment">
 
     <TextView
         android:id="@+id/textView"

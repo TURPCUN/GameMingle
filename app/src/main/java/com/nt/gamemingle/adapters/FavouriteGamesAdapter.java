@@ -15,12 +15,12 @@ import com.nt.gamemingle.model.BoardGame;
 
 import java.util.ArrayList;
 
-public class FavoriteGamesAdapter extends RecyclerView.Adapter {
+public class FavouriteGamesAdapter extends RecyclerView.Adapter {
 
     ArrayList<BoardGame> favouriteGamesList;
     LayoutInflater inflater;
 
-    public FavoriteGamesAdapter(Context context, ArrayList<BoardGame> favoriteGamesList){
+    public FavouriteGamesAdapter(Context context, ArrayList<BoardGame> favoriteGamesList){
         this.favouriteGamesList = favoriteGamesList;
         inflater = LayoutInflater.from(context);
     }
