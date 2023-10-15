@@ -12,68 +12,47 @@ import android.widget.EditText;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.nt.gamemingle.app.AppViewModel;
+import com.nt.gamemingle.databinding.ActivityMainBinding;
 
 
 public class MainActivity extends AppCompatActivity {
     private AppViewModel appViewModel;
-    EditText emailText, passwordText;
-    Button signUpButton, signInButton;
-    NavController navController;
+    private NavController navController;
+    private ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
+        initializeViewModel();
+        initializeNavController();
+        setUpTopAppBarClickListener();
+    }
+
+    private void initializeViewModel() {
         appViewModel = AppViewModel.instance;
-        // temporary sign out
-        appViewModel.signOut();
+    }
 
+    private void initializeNavController() {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host_container);
         navController = navHostFragment.getNavController();
-
         appViewModel.setNavController(navController);
+    }
 
-        MaterialToolbar topAppBar = findViewById(R.id.topAppBar);
-        topAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+    private void setUpTopAppBarClickListener() {
+        binding.topAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navController.navigateUp();
-                // navController.popBackStack();
+                onClickNavigateUp();
             }
         });
+    }
 
-
-/*
-        emailText = findViewById(R.id.user_email_edit_text);
-        passwordText = findViewById(R.id.user_password_edit_text);
-
-        mAuth = FirebaseAuth.getInstance();
-
-        signUpButton = findViewById(R.id.btn_sign_up);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signUp();
-            }
-        });
-
-        signInButton = findViewById(R.id.btn_sign_in);
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
-
-        FirebaseUser user = mAuth.getCurrentUser();
-        if(user != null) {
-            System.out.println("User is logged in");
-            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(intent);
-        } else {
-            System.out.println("User is not logged in");
-        }
-*/
-
+    private void onClickNavigateUp() {
+        navController.navigateUp();
+        // navController.popBackStack();
     }
 }
