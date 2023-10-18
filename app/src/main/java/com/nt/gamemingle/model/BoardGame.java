@@ -82,6 +82,10 @@ public class BoardGame implements Parcelable {
         return gameImageUrl;
     }
 
+    public Integer getGameImageSource() {
+        return Integer.parseInt(gameImageUrl);
+    }
+
     public void setGameImageUrl(String gameImageUrl) {
         this.gameImageUrl = gameImageUrl;
     }

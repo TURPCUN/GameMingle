@@ -39,5 +39,10 @@ public class MyGamesFragment extends BaseFragment {
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.card_view_favorites, myGamesFavouritesFragment)
                 .commit();
+
+        MyGamesMyLibraryFragments myGamesMyLibraryFragments = new MyGamesMyLibraryFragments();
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.card_view_library, myGamesMyLibraryFragments)
+                .commit();
     }
 }

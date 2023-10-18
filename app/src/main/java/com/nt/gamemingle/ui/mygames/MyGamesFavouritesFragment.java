@@ -28,6 +28,7 @@ public class MyGamesFavouritesFragment extends BaseFragment {
 
     ArrayList<BoardGame> favBoardGameList;
     private FavouriteGamesAdapter favouriteGamesAdapter;
+    ArrayList<BoardGame> previewFavBoardGames = new ArrayList<>();
     RecyclerView recyclerFavGames;
     NavController navController;
     Button btnSeeAllFavGames;
@@ -75,7 +76,16 @@ public class MyGamesFavouritesFragment extends BaseFragment {
             public void onChanged(List<BoardGame> boardGames) {
                 if(boardGames != null){
                     favBoardGameList = mViewModel.previewFavBoardGames.getValue();
-                    favouriteGamesAdapter.setFavouriteGamesList(favBoardGameList);
+                    if (favBoardGameList.size() == 4) {
+                        previewFavBoardGames.clear();
+                        previewFavBoardGames.addAll(favBoardGameList.subList(0, 4));
+                        favouriteGamesAdapter.setFavouriteGamesList(previewFavBoardGames);
+                    }
+                    if(favBoardGameList.size() < 4){
+                        previewFavBoardGames.clear();
+                        previewFavBoardGames.addAll(favBoardGameList.subList(0, favBoardGameList.size()));
+                        favouriteGamesAdapter.setFavouriteGamesList(previewFavBoardGames);
+                    }
                 }
             }
         };

@@ -82,10 +82,8 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
                 }
             }
         };
-
         mViewModel.boardGamesLiveData.observe(getViewLifecycleOwner(), isBoardGameLoaded);
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

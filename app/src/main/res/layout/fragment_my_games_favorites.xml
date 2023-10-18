@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/cardview_rl_top_radius_bg"
     android:layout_width="match_parent"
+    android:background="#F5F4F9"
     android:layout_height="wrap_content"
     tools:context=".ui.mygames.MyGamesFavouritesFragment">
 
