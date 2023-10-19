@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_signInFragment_to_myGamesFragment"
             app:destination="@id/myGamesFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_createEventFragment"
+            app:destination="@id/createEventFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -80,4 +83,9 @@
         android:name="com.nt.gamemingle.ui.mylibrary.AllMyLibraryFragment"
         android:label="fragment_all_my_library"
         tools:layout="@layout/fragment_all_my_library" />
+    <fragment
+        android:id="@+id/createEventFragment"
+        android:name="com.nt.gamemingle.ui.createevent.CreateEventFragment"
+        android:label="fragment_create_event"
+        tools:layout="@layout/fragment_create_event" />
 </navigation>
