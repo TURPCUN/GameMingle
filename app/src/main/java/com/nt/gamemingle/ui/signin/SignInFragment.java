@@ -83,7 +83,7 @@ public class SignInFragment extends BaseFragment {
                 @Override
                 public void onChanged(Boolean isSignedIn) {
                     if (isSignedIn) {
-                        navigateToMyGamesFragment(navController);
+                        navController.navigate(R.id.action_signInFragment_to_createEventFragment);
                     }
                 }
             });
