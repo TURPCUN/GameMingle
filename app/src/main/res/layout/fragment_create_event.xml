@@ -91,7 +91,7 @@
             app:layout_constraintTop_toBottomOf="@+id/cardViewTimePicker">
 
             <AutoCompleteTextView
-                android:id="@+id/autoCompleteTextView"
+                android:id="@+id/autoCompleteTextViewBoardGame"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:editable="false"
@@ -183,7 +183,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="9"
                         android:text="12:00"
-                        android:textColor="@color/primary_blue"
                         android:textSize="16sp" />
                     <ImageView
                         android:id="@+id/removeTime"
