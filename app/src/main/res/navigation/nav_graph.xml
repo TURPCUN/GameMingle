@@ -66,10 +66,18 @@
         <action
             android:id="@+id/action_myGamesFragment_to_allFavouriteGamesFragment"
             app:destination="@id/allFavoriteGamesFragment" />
+        <action
+            android:id="@+id/action_myGamesFragment_to_allMyLibraryFragment"
+            app:destination="@id/allMyLibraryFragment" />
     </fragment>
     <fragment
         android:id="@+id/allFavoriteGamesFragment"
         android:name="com.nt.gamemingle.ui.favoritegames.AllFavouriteGamesFragment"
         android:label="fragment_all_favorite_games"
         tools:layout="@layout/fragment_all_favorite_games" />
+    <fragment
+        android:id="@+id/allMyLibraryFragment"
+        android:name="com.nt.gamemingle.ui.mylibrary.AllMyLibraryFragment"
+        android:label="fragment_all_my_library"
+        tools:layout="@layout/fragment_all_my_library" />
 </navigation>
