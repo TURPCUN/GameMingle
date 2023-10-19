@@ -43,7 +43,7 @@ public class SearchGamesViewModel {
                     String gameId = dataSnapshot.getKey();
                     String gameName = game.get("gameName");
                     String gameDescription = game.get("gameDescription");
-                    String gameImageUrl = game.get("gameImageUrl");
+                    String gameImageUrl = game.get("gameImageUrl"); // TODO, it should come from firebase storage
                     String gameMinPlayers = game.get("minPlayer").toString();
                     String gameMaxPlayers = game.get("maxPlayer").toString();
                     String gameCategory = game.get("gameCategory");

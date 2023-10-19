@@ -1,79 +1,91 @@
 package com.nt.gamemingle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.navigation.NavigationView;
 import com.nt.gamemingle.app.AppViewModel;
+import com.nt.gamemingle.databinding.ActivityMainBinding;
 
 
 public class MainActivity extends AppCompatActivity {
     private AppViewModel appViewModel;
-    EditText emailText, passwordText;
-    Button signUpButton, signInButton;
-    NavController navController;
+    private NavController navController;
+    private ActivityMainBinding binding;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
+        initializeViewModel();
+        initializeNavController();
+        setUpTopAppBarClickListener();
+        binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                // Tıklanan öğenin ID'sini alabilir ve işleyebilirsiniz
+                int id = item.getItemId();
+                switch (id) {
+                    case R.id.inbox_item:
+                        // İlk öğe tıklandığında yapılacak işlemler
+                        break;
+                    case R.id.outbox_item:
+                        // İkinci öğe tıklandığında yapılacak işlemler
+                        break;
+                    // Diğer öğeleri burada işleyin
+                }
+                // True döndürmek öğenin seçili olduğunu gösterir
+                return true;
+            }
+        });
+    }
+
+    private void initializeViewModel() {
         appViewModel = AppViewModel.instance;
-        // temporary sign out
-        appViewModel.signOut();
+    }
 
+    private void initializeNavController() {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_nav_host_container);
         navController = navHostFragment.getNavController();
-
         appViewModel.setNavController(navController);
+    }
 
-        MaterialToolbar topAppBar = findViewById(R.id.topAppBar);
-        topAppBar.setNavigationOnClickListener(new View.OnClickListener() {
+    private void setUpTopAppBarClickListener() {
+        binding.topAppBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navController.navigateUp();
-                // navController.popBackStack();
+                onClickNavigateUp();
+                /*
+                DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
+                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                } else {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+                 */
             }
         });
+    }
 
-
-/*
-        emailText = findViewById(R.id.user_email_edit_text);
-        passwordText = findViewById(R.id.user_password_edit_text);
-
-        mAuth = FirebaseAuth.getInstance();
-
-        signUpButton = findViewById(R.id.btn_sign_up);
-        signUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signUp();
-            }
-        });
-
-        signInButton = findViewById(R.id.btn_sign_in);
-        signInButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
-
-        FirebaseUser user = mAuth.getCurrentUser();
-        if(user != null) {
-            System.out.println("User is logged in");
-            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-            startActivity(intent);
-        } else {
-            System.out.println("User is not logged in");
-        }
-*/
-
+    private void onClickNavigateUp() {
+        navController.navigateUp();
+        // navController.popBackStack();
     }
 }

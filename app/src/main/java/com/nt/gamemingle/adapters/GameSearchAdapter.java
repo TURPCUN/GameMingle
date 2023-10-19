@@ -30,7 +30,7 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.small_game_lay_search, parent, false);
+        View view = inflater.inflate(R.layout.game_card_rectangle, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
@@ -38,7 +38,14 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // TODO. Img should come with url
-        ((ViewHolder)holder).imgSmall.setImageResource(R.drawable.icon);
+        String gameName = boardGameList.get(position).getGameName();
+        int imageResource = holder.itemView.getContext().getResources()
+                .getIdentifier(gameName.toLowerCase(), "drawable", holder.itemView.getContext().getPackageName());
+        if (imageResource != 0) {
+            ((ViewHolder)holder).imgSmall.setImageResource(imageResource);
+        } else {
+            ((ViewHolder)holder).imgSmall.setImageResource(R.drawable.icon);
+        }
         ((ViewHolder)holder).tvTitle.setText(boardGameList.get(position).getGameName());
         ((ViewHolder)holder).tvDescription.setText(boardGameList.get(position).getGameDescription());
     }
@@ -66,9 +73,9 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             // TODO
-            imgSmall = itemView.findViewById(R.id.imgSmallGame);
-            tvTitle = itemView.findViewById(R.id.textViewGameTitleSearch);
-            tvDescription = itemView.findViewById(R.id.textViewGameDescSearch);
+            imgSmall = itemView.findViewById(R.id.cardImgGameDetail);
+            tvTitle = itemView.findViewById(R.id.cardTitleGameDetail);
+            tvDescription = itemView.findViewById(R.id.cardDescriptionGameDetail);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

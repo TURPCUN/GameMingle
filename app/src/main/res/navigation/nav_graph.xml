@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_signInFragment_to_searchGamesFragment"
             app:destination="@id/searchGamesFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_myGamesFragment"
+            app:destination="@id/myGamesFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -55,4 +58,18 @@
             android:name="imageUrl"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/myGamesFragment"
+        android:name="com.nt.gamemingle.ui.mygames.MyGamesFragment"
+        android:label="fragment_my_games"
+        tools:layout="@layout/fragment_my_games" >
+        <action
+            android:id="@+id/action_myGamesFragment_to_allFavouriteGamesFragment"
+            app:destination="@id/allFavoriteGamesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allFavoriteGamesFragment"
+        android:name="com.nt.gamemingle.ui.favoritegames.AllFavouriteGamesFragment"
+        android:label="fragment_all_favorite_games"
+        tools:layout="@layout/fragment_all_favorite_games" />
 </navigation>

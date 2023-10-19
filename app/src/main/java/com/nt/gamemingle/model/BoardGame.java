@@ -1,6 +1,7 @@
 package com.nt.gamemingle.model;
-
-public class BoardGame {
+import android.os.Parcel;
+import android.os.Parcelable;
+public class BoardGame implements Parcelable {
 
     String boardGameId;
     String gameName;
@@ -23,6 +24,44 @@ public class BoardGame {
     public BoardGame() {
     }
 
+    protected BoardGame(Parcel in) {
+        boardGameId = in.readString();
+        gameName = in.readString();
+        gameDescription = in.readString();
+        gameImageUrl = in.readString();
+        gameMinPlayers = in.readString();
+        gameMaxPlayers = in.readString();
+        gameCategory = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(boardGameId);
+        dest.writeString(gameName);
+        dest.writeString(gameDescription);
+        dest.writeString(gameImageUrl);
+        dest.writeString(gameMinPlayers);
+        dest.writeString(gameMaxPlayers);
+        dest.writeString(gameCategory);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<BoardGame> CREATOR = new Creator<BoardGame>() {
+        @Override
+        public BoardGame createFromParcel(Parcel in) {
+            return new BoardGame(in);
+        }
+
+        @Override
+        public BoardGame[] newArray(int size) {
+            return new BoardGame[size];
+        }
+    };
+
     public String getGameName() {
         return gameName;
     }
@@ -41,6 +80,10 @@ public class BoardGame {
 
     public String getGameImageUrl() {
         return gameImageUrl;
+    }
+
+    public Integer getGameImageSource() {
+        return Integer.parseInt(gameImageUrl);
     }
 
     public void setGameImageUrl(String gameImageUrl) {
