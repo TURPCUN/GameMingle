@@ -25,7 +25,7 @@ import java.util.List;
 public class SearchGamesFragment extends BaseFragment implements GameSearchAdapter.ItemClickListener {
 
     private SearchGamesViewModel mViewModel;
-    private List<BoardGame> boardGameList;
+    private List<BoardGame> boardGameList = new ArrayList<>();
     private GameSearchAdapter gameSearchAdapter;
     private SearchView searchView;
     RecyclerView recyclerSearchGames;
@@ -41,7 +41,7 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
         recyclerSearchGames.setAdapter(gameSearchAdapter);
         searchView.setQuery("", false);
         searchView.clearFocus();
-        //boardGameList.clear();
+        boardGameList.clear();
         mViewModel.getBoardGames(requireContext());
     }
 
@@ -52,7 +52,6 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -61,7 +60,6 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
 
         navController = appViewModel.getNavController().getValue();
 
-        searchView = getActivity().findViewById(R.id.searchView);
         mViewModel = new SearchGamesViewModel(appViewModel);
 
         mViewModel.getBoardGames(requireContext());
@@ -70,6 +68,20 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
         gameSearchAdapter = new GameSearchAdapter(getActivity(), boardGameList, this);
         recyclerSearchGames.setAdapter(gameSearchAdapter);
 
+        searchView = getActivity().findViewById(R.id.searchView);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return true;
+            }
+        });
 
         final Observer<List<BoardGame>> isBoardGameLoaded = new Observer<List<BoardGame>>() {
 
@@ -83,6 +95,22 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
             }
         };
         mViewModel.boardGamesLiveData.observe(getViewLifecycleOwner(), isBoardGameLoaded);
+    }
+
+    private void filterList(String text) {
+        filteredList.clear();
+        if(text.equals("")){
+            gameSearchAdapter.setFilteredList(boardGameList);
+        } else {
+            for(BoardGame game : boardGameList){
+                if(game.getGameName().toLowerCase().contains(text.toLowerCase())){
+                    filteredList.add(game);
+                }
+            }
+            if(!filteredList.isEmpty()){
+                gameSearchAdapter.setFilteredList(filteredList);
+            }
+        }
     }
 
     @Override
