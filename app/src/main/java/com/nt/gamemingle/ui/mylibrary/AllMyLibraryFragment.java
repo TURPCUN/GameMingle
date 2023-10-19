@@ -1,6 +1,10 @@
-package com.nt.gamemingle.ui.favoritegames;
+package com.nt.gamemingle.ui.mylibrary;
 
 import android.os.Bundle;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,49 +14,48 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.nt.gamemingle.R;
-import com.nt.gamemingle.adapters.FavouriteGamesSeeAllAdapter;
+import com.nt.gamemingle.adapters.MyGamesLibrarySeeAllAdapter;
 import com.nt.gamemingle.model.BoardGame;
 import com.nt.gamemingle.ui.common.BaseFragment;
 
 import java.util.ArrayList;
 
-public class AllFavouriteGamesFragment extends BaseFragment {
 
-    private AllFavouriteGamesViewModel mViewModel;
-    ArrayList<BoardGame> favBoardGameList2;
-    private FavouriteGamesSeeAllAdapter favouriteGamesSeeAllAdapter;
-    RecyclerView recyclerFavGames2;
+public class AllMyLibraryFragment extends BaseFragment {
+
+    private AllMyLibraryViewModel mViewModel;
+    ArrayList<BoardGame> myLibraryBoardGameList;
+    private MyGamesLibrarySeeAllAdapter myLibrarySeeAllAdapter;
+    RecyclerView recyclerMyLibrary;
     NavController navController;
 
+    ExtendedFloatingActionButton fabCreateEvent;
 
     @Override
     public void onResume() {
         super.onResume();
-        favBoardGameList2 = getArguments().getParcelableArrayList("favBoardGameList");
-        favouriteGamesSeeAllAdapter = new FavouriteGamesSeeAllAdapter(requireContext(), favBoardGameList2);
-        recyclerFavGames2.setAdapter(favouriteGamesSeeAllAdapter);
+        myLibraryBoardGameList = getArguments().getParcelableArrayList("myLibraryBoardGameList");
+        myLibrarySeeAllAdapter = new MyGamesLibrarySeeAllAdapter(requireContext(), myLibraryBoardGameList);
+        recyclerMyLibrary.setAdapter(myLibrarySeeAllAdapter);
     }
 
-    public AllFavouriteGamesFragment() {
+    public AllMyLibraryFragment() {
         // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        favBoardGameList2 = getArguments().getParcelableArrayList("favBoardGameList");
+        myLibraryBoardGameList = getArguments().getParcelableArrayList("myLibraryBoardGameList");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_favorite_games, container, false);
+        return inflater.inflate(R.layout.fragment_all_my_library, container, false);
     }
 
     @Override
@@ -62,13 +65,13 @@ public class AllFavouriteGamesFragment extends BaseFragment {
         setToolBarVisibility(true);
 
         navController = appViewModel.getNavController().getValue();
-        mViewModel = new AllFavouriteGamesViewModel(appViewModel);
+        mViewModel = new AllMyLibraryViewModel(appViewModel);
 
-        recyclerFavGames2 = getActivity().findViewById(R.id.recycler_all_fav_games);
-        recyclerFavGames2.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false  ));
-        favouriteGamesSeeAllAdapter = new FavouriteGamesSeeAllAdapter(requireContext(), favBoardGameList2);
-        recyclerFavGames2.setAdapter(favouriteGamesSeeAllAdapter);
-        favouriteGamesSeeAllAdapter.notifyDataSetChanged();
+        recyclerMyLibrary = getActivity().findViewById(R.id.recycler_all_my_lib);
+        recyclerMyLibrary.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false  ));
+        myLibrarySeeAllAdapter = new MyGamesLibrarySeeAllAdapter(requireContext(), myLibraryBoardGameList);
+        recyclerMyLibrary.setAdapter(myLibrarySeeAllAdapter);
+        myLibrarySeeAllAdapter.notifyDataSetChanged();
 
         ItemTouchHelper.SimpleCallback callback =
                 new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT) {
@@ -86,17 +89,17 @@ public class AllFavouriteGamesFragment extends BaseFragment {
                     @Override
                     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                         int position = viewHolder.getAdapterPosition();
-                        if ( direction == ItemTouchHelper.LEFT ) {
+                        if (direction == ItemTouchHelper.LEFT) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setTitle("Remove from Favourites");
-                            builder.setMessage("Are you sure you want to remove this game from your favourites?");
+                            builder.setTitle("Remove from My Library");
+                            builder.setMessage("Are you sure you want to remove this game from your library, it will stay as your favourite game?");
                             builder.setPositiveButton("Yes", (dialog, which) -> {
-                                mViewModel.removeFavouriteGame(favBoardGameList2.get(position));
-                                favBoardGameList2.remove(position);
-                                favouriteGamesSeeAllAdapter.setFavouriteGamesList(favBoardGameList2);
+                                mViewModel.removeMyLibraryGame(myLibraryBoardGameList.get(position));
+                                myLibraryBoardGameList.remove(position);
+                                myLibrarySeeAllAdapter.setMyLibraryBoardGameList(myLibraryBoardGameList);
                             });
                             builder.setNegativeButton("No", (dialog, which) -> {
-                                favouriteGamesSeeAllAdapter.setFavouriteGamesList(favBoardGameList2);
+                                myLibrarySeeAllAdapter.setMyLibraryBoardGameList(myLibraryBoardGameList);
                                 dialog.dismiss();
                             });
                             builder.show();
@@ -104,6 +107,12 @@ public class AllFavouriteGamesFragment extends BaseFragment {
                     }
                 };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(recyclerFavGames2);
+        itemTouchHelper.attachToRecyclerView(recyclerMyLibrary);
+
+        fabCreateEvent = getActivity().findViewById(R.id.fab_create_event);
+        fabCreateEvent.setOnClickListener(v -> {
+           // navController.navigate(R.id.action_allMyLibraryFragment_to_createEventFragment);
+        });
     }
+
 }

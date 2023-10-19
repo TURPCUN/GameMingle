@@ -22,4 +22,11 @@
     <string name="add_to_my_collection">Add to my collection</string>
     <string name="submit">Submit</string>
     <string name="board_game_title">Board Game Title</string>
+    <string name="create_event">Create Event</string>
+    <string name="event_name">Event Name</string>
+    <string name="location">Location</string>
+    <string name="select_a_board_game">Select a board game</string>
+    <string name="date_time">Date - Time</string>
+    <string name="select_a_date_and_time">Select a date and time</string>
+    <string name="description">Description</string>
 </resources>

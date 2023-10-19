@@ -83,5 +83,14 @@ public class MyGamesMyLibraryFragments extends BaseFragment {
 
         mViewModel.previewMyLibraryBoardGames.observe(getViewLifecycleOwner(), isLibraryBoardGamesLoaded);
 
+        btnSeeAllMyGames = getActivity().findViewById(R.id.btnSeeAllLib);
+        btnSeeAllMyGames.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("myLibraryBoardGameList", myBoardGamesList);
+                navController.navigate(R.id.action_myGamesFragment_to_allMyLibraryFragment, bundle);
+            }
+        });
     }
 }
