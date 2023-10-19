@@ -8,13 +8,16 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.navigation.NavController;
 
 import com.nt.gamemingle.R;
+import com.nt.gamemingle.databinding.FragmentMyGamesBinding;
 import com.nt.gamemingle.ui.common.BaseFragment;
 
 
 public class MyGamesFragment extends BaseFragment {
 
+    FragmentMyGamesBinding binding;
     public MyGamesFragment() {
         // Required empty public constructor
     }
@@ -27,8 +30,8 @@ public class MyGamesFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_games, container, false);
+        binding = FragmentMyGamesBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -44,5 +47,19 @@ public class MyGamesFragment extends BaseFragment {
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.card_view_library, myGamesMyLibraryFragments)
                 .commit();
+
+        binding.btnExploreGamesMyGames.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToSearchGames();
+            }
+        });
+    }
+
+    private void navigateToSearchGames() {
+        NavController navController = appViewModel.getNavController().getValue();
+        if (navController != null) {
+           // navController.navigate(R.id.action_myGamesFragment_to_searchGamesFragment);
+        }
     }
 }

@@ -83,7 +83,7 @@ public class SignInFragment extends BaseFragment {
                 @Override
                 public void onChanged(Boolean isSignedIn) {
                     if (isSignedIn) {
-                        navigateToMyGamesFragment(navController);
+                        navigateToSearchGames();
                     }
                 }
             });
@@ -105,5 +105,12 @@ public class SignInFragment extends BaseFragment {
 
     private void navigateToMyGamesFragment(NavController navController) {
         navController.navigate(R.id.action_signInFragment_to_myGamesFragment);
+    }
+
+    private void navigateToSearchGames() {
+        NavController navController = appViewModel.getNavController().getValue();
+        if (navController != null) {
+            navController.navigate(R.id.action_signInFragment_to_searchGamesFragment);
+        }
     }
 }

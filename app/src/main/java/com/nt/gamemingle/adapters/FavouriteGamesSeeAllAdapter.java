@@ -15,12 +15,12 @@ import com.nt.gamemingle.model.BoardGame;
 
 import java.util.ArrayList;
 
-public class FavouriteGamesDetailsAdapter extends RecyclerView.Adapter {
+public class FavouriteGamesSeeAllAdapter extends RecyclerView.Adapter {
 
     ArrayList<BoardGame> favouriteGamesList;
     LayoutInflater inflater;
 
-    public FavouriteGamesDetailsAdapter(Context context, ArrayList<BoardGame> favouriteGamesList){
+    public FavouriteGamesSeeAllAdapter(Context context, ArrayList<BoardGame> favouriteGamesList){
         this.favouriteGamesList = favouriteGamesList;
         inflater = LayoutInflater.from(context);
     }
@@ -41,8 +41,14 @@ public class FavouriteGamesDetailsAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-        ((ViewHolderGameDetails)holder).imgCard.setImageResource(R.drawable.icon);
+        String gameName = favouriteGamesList.get(position).getGameName();
+        int imageResource = holder.itemView.getContext().getResources()
+                .getIdentifier(gameName.toLowerCase(), "drawable", holder.itemView.getContext().getPackageName());
+        if (imageResource != 0) {
+            ((ViewHolderGameDetails)holder).imgCard.setImageResource(imageResource);
+        } else {
+            ((ViewHolderGameDetails)holder).imgCard.setImageResource(R.drawable.icon);
+        }
         ((ViewHolderGameDetails)holder).titleCard.setText(favouriteGamesList.get(position).getGameName());
         ((ViewHolderGameDetails)holder).descriptionCard.setText(favouriteGamesList.get(position).getGameDescription());
     }

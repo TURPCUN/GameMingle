@@ -36,8 +36,8 @@ public class MyGamesMyLibraryFragmentsViewModel {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot gameSnapshot : snapshot.getChildren()) {
                         String gameId = gameSnapshot.getKey();
-                        //String inLibrary = gameSnapshot.child("inLibrary").getValue(String.class);
-                        if (gameId != null){
+                        Boolean inLibrary = gameSnapshot.child("inLibrary").getValue(Boolean.class);
+                        if (gameId != null && inLibrary == true) {
                             DatabaseReference gamesReference = appViewModel.database.getReference("Games").child(gameId);
                             gamesReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override

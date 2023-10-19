@@ -67,7 +67,7 @@ public class MyGamesFavouritesFragment extends BaseFragment {
 
         mViewModel.getPreviewFavBoardGames(requireContext());
         recyclerFavGames = getActivity().findViewById(R.id.recycler_fav_games);
-        recyclerFavGames.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false  ));
+        recyclerFavGames.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false ));
         favouriteGamesAdapter = new FavouriteGamesAdapter(requireContext(), favBoardGameList);
         recyclerFavGames.setAdapter(favouriteGamesAdapter);
 

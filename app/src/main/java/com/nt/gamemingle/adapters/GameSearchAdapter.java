@@ -38,7 +38,14 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         // TODO. Img should come with url
-        ((ViewHolder)holder).imgSmall.setImageResource(R.drawable.icon);
+        String gameName = boardGameList.get(position).getGameName();
+        int imageResource = holder.itemView.getContext().getResources()
+                .getIdentifier(gameName.toLowerCase(), "drawable", holder.itemView.getContext().getPackageName());
+        if (imageResource != 0) {
+            ((ViewHolder)holder).imgSmall.setImageResource(imageResource);
+        } else {
+            ((ViewHolder)holder).imgSmall.setImageResource(R.drawable.icon);
+        }
         ((ViewHolder)holder).tvTitle.setText(boardGameList.get(position).getGameName());
         ((ViewHolder)holder).tvDescription.setText(boardGameList.get(position).getGameDescription());
     }
@@ -66,8 +73,9 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             // TODO
-            imgSmall = itemView.findViewById(R.id.cardImgGame);
-            tvTitle = itemView.findViewById(R.id.cardTitleGame);
+            imgSmall = itemView.findViewById(R.id.cardImgGameDetail);
+            tvTitle = itemView.findViewById(R.id.cardTitleGameDetail);
+            tvDescription = itemView.findViewById(R.id.cardDescriptionGameDetail);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

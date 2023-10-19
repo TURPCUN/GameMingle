@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="5dp"
     app:cardBackgroundColor="@color/white"
     app:cardCornerRadius="@dimen/card_corner_radius"
     app:cardElevation="4dp">
@@ -17,9 +16,9 @@
 
         <ImageView
             android:id="@+id/cardImgGameDetail"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="16dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_constraintStart_toEndOf="@id/cardImgGame"
+            app:layout_constraintStart_toEndOf="@id/cardImgGameDetail"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -38,8 +37,8 @@
                 android:id="@+id/cardTitleGameDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:layout_marginBottom="3dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
                 android:fontFamily="@font/nunito_sans_bold"
                 android:text="Game Title"
                 android:textColor="@color/black"
@@ -53,7 +52,7 @@
                 android:fontFamily="@font/nunito"
                 android:maxLines="3"
                 android:text="There will be a short description of the game here. Maybe 2 or 3 lines."
-                android:textSize="12sp" />
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
