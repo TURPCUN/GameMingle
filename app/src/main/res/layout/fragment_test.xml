@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.testfragments.TestFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <Button
+            android:id="@+id/testEmptyGamesButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="My Games Empty"
+            tools:layout_editor_absoluteX="87dp"
+            tools:layout_editor_absoluteY="354dp"
+            app:layout_constraintTop_toBottomOf="@id/testSearchGamesButton"
+            app:layout_constraintEnd_toStartOf="@id/testMyGamesScreenButton"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+
+        <Button
+            android:id="@+id/testSearchGamesButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Search Games"
+            tools:layout_editor_absoluteX="87dp"
+            tools:layout_editor_absoluteY="114dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/testAddFavGameButton"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <Button
+            android:id="@+id/testAddFavGameButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Add Fav Game"
+            tools:layout_editor_absoluteX="215dp"
+            tools:layout_editor_absoluteY="114dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/testSearchGamesButton"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/testMyGamesScreenButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="My Games Screen Widget"
+            tools:layout_editor_absoluteX="215dp"
+            tools:layout_editor_absoluteY="354dp"
+            app:layout_constraintTop_toBottomOf="@id/testAddFavGameButton"
+            app:layout_constraintStart_toEndOf="@id/testEmptyGamesButton"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <Button
+            android:id="@+id/testCreateEventButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Create Event"
+            tools:layout_editor_absoluteX="87dp"
+            tools:layout_editor_absoluteY="480dp"
+            app:layout_constraintTop_toBottomOf="@id/testEmptyGamesButton"
+            app:layout_constraintEnd_toStartOf="@id/testEventDetails"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+        <Button
+            android:id="@+id/testEventDetails"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Event Details"
+            tools:layout_editor_absoluteX="215dp"
+            tools:layout_editor_absoluteY="480dp"
+            app:layout_constraintTop_toBottomOf="@id/testMyGamesScreenButton"
+            app:layout_constraintStart_toEndOf="@id/testCreateEventButton"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <Button
+            android:id="@+id/testEventsButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:text="Events"
+            tools:layout_editor_absoluteX="155dp"
+            tools:layout_editor_absoluteY="601dp"
+            app:layout_constraintTop_toBottomOf="@id/testCreateEventButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

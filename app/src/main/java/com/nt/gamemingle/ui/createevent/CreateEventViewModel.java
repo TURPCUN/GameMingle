@@ -28,18 +28,21 @@ public class CreateEventViewModel {
         this.appViewModel = appViewModel;
     }
 
-    public void createEvent(String eventName, String eventLocation, String eventDescription, String selectedGame, String formattedDate, String formattedTime) {
+    public void createEvent(String eventName, String eventLocation, String eventDescription, String selectedGame,
+                            String formattedDate, String formattedTime) {
 
         // EVENT
         UUID uuid = UUID.randomUUID();
         String eventUuid = uuid.toString();
-        appViewModel.databaseReference.child("EVENT").child(eventUuid).child("ownerId").setValue(appViewModel.mAuth.getCurrentUser().getUid());
+        String userId = appViewModel.mAuth.getCurrentUser().getUid();
         appViewModel.databaseReference.child("EVENT").child(eventUuid).child("eventName").setValue(eventName);
         appViewModel.databaseReference.child("EVENT").child(eventUuid).child("location").setValue(eventLocation);
         appViewModel.databaseReference.child("EVENT").child(eventUuid).child("description").setValue(eventDescription);
         appViewModel.databaseReference.child("EVENT").child(eventUuid).child("gameId").setValue(selectedGame);
         appViewModel.databaseReference.child("EVENT").child(eventUuid).child("date").setValue(formattedDate);
         appViewModel.databaseReference.child("EVENT").child(eventUuid).child("time").setValue(formattedTime);
+
+        appViewModel.databaseReference.child("Users").child(userId).child("events").child(eventUuid).setValue(true);
 
     }
 

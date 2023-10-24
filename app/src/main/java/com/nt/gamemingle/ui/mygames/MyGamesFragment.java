@@ -38,6 +38,8 @@ public class MyGamesFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setToolBarVisibility(true);
+
         MyGamesFavouritesFragment myGamesFavouritesFragment = new MyGamesFavouritesFragment();
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.card_view_favorites, myGamesFavouritesFragment)

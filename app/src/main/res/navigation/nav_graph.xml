@@ -14,17 +14,8 @@
             android:id="@+id/action_signInFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
         <action
-            android:id="@+id/action_signInFragment_to_myGamesEmpty"
-            app:destination="@id/myGamesEmpty" />
-        <action
-            android:id="@+id/action_signInFragment_to_searchGamesFragment"
-            app:destination="@id/searchGamesFragment" />
-        <action
-            android:id="@+id/action_signInFragment_to_myGamesFragment"
-            app:destination="@id/myGamesFragment" />
-        <action
-            android:id="@+id/action_signInFragment_to_createEventFragment"
-            app:destination="@id/createEventFragment" />
+            android:id="@+id/action_signInFragment_to_testFragment"
+            app:destination="@id/testFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -32,14 +23,18 @@
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action
-            android:id="@+id/action_signUpFragment_to_myGamesEmpty"
-            app:destination="@id/myGamesEmpty" />
+            android:id="@+id/action_signUpFragment_to_testFragment2"
+            app:destination="@id/testFragment" />
     </fragment>
     <fragment
         android:id="@+id/myGamesEmpty"
         android:name="com.nt.gamemingle.ui.mygames.MyGamesEmpty"
         android:label="fragment_my_games_empty"
-        tools:layout="@layout/fragment_my_games_empty" />
+        tools:layout="@layout/fragment_my_games_empty" >
+        <action
+            android:id="@+id/action_myGamesEmpty_to_searchGamesFragment"
+            app:destination="@id/searchGamesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchGamesFragment"
         android:name="com.nt.gamemingle.ui.searchgames.SearchGamesFragment"
@@ -84,8 +79,45 @@
         android:label="fragment_all_my_library"
         tools:layout="@layout/fragment_all_my_library" />
     <fragment
+        android:id="@+id/eventsFragment"
+        android:name="com.nt.gamemingle.ui.events.EventsFragment"
+        android:label="fragment_events"
+        tools:layout="@layout/fragment_events" />
+    <fragment
+        android:id="@+id/testFragment"
+        android:name="com.nt.gamemingle.ui.testfragments.TestFragment"
+        android:label="fragment_test"
+        tools:layout="@layout/fragment_test" >
+        <action
+            android:id="@+id/action_testFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment" />
+        <action
+            android:id="@+id/action_testFragment_to_myGamesFragment"
+            app:destination="@id/myGamesFragment" />
+        <action
+            android:id="@+id/action_testFragment_to_searchGamesFragment"
+            app:destination="@id/searchGamesFragment" />
+        <action
+            android:id="@+id/action_testFragment_to_addFavGameFragment"
+            app:destination="@id/addFavGameFragment" />
+        <action
+            android:id="@+id/action_testFragment_to_myGamesEmpty"
+            app:destination="@id/myGamesEmpty" />
+        <action
+            android:id="@+id/action_testFragment_to_createEventFragment"
+            app:destination="@id/createEventFragment" />
+        <action
+            android:id="@+id/action_testFragment_to_eventDetailsFragment"
+            app:destination="@id/eventDetailsFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/createEventFragment"
         android:name="com.nt.gamemingle.ui.createevent.CreateEventFragment"
         android:label="fragment_create_event"
         tools:layout="@layout/fragment_create_event" />
+    <fragment
+        android:id="@+id/eventDetailsFragment"
+        android:name="com.nt.gamemingle.ui.eventdetails.EventDetailsFragment"
+        android:label="fragment_event_details"
+        tools:layout="@layout/fragment_event_details" />
 </navigation>

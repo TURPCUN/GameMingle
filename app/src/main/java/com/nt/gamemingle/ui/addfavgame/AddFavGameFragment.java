@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.checkbox.MaterialCheckBox;
@@ -25,6 +26,8 @@ public class AddFavGameFragment extends BaseFragment {
     private AddFavGameViewModel mViewModel;
     private TextView titleGame;
     private Button btnAddFavGame;
+
+    private ImageView imageView;
     NavController navController;
     public AddFavGameFragment() {
         // Required empty public constructor
@@ -54,6 +57,9 @@ public class AddFavGameFragment extends BaseFragment {
         titleGame = getActivity().findViewById(R.id.titleGame);
         titleGame.setText(getArguments().getString("title"));
         String gameId  = getArguments().getString("gameId");
+
+        imageView = getActivity().findViewById(R.id.ImgGame);
+        imageView.setImageResource(R.drawable.tickettoride);
 
         btnAddFavGame = getActivity().findViewById(R.id.btn_add_fav_game);
         btnAddFavGame.setOnClickListener(new View.OnClickListener() {
