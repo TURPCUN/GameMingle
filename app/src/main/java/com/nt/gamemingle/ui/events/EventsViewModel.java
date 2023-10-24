@@ -63,9 +63,28 @@ public class EventsViewModel {
                                         String eventGameId = eventSnapshot.child("gameId").getValue(String.class);
 
                                         Event event = new Event(eventId, eventName, eventDescription, eventDate, eventTime, eventLocation, userId, eventGameId);
-                                        myEventsTemp.add(event);
-                                        myEvents = myEventsTemp;
-                                        isEventsReceived.setValue(true);
+                                        DatabaseReference gameReference = appViewModel.database.getReference("Games").child(eventGameId);
+                                        gameReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot gameSnapshot) {
+                                                if (gameSnapshot.exists()){
+                                                    String gameName = gameSnapshot.child("gameName").getValue(String.class);
+                                                    String eventMaxPlayers = gameSnapshot.child("maxPlayer").getValue(String.class);
+                                                    String eventMinPlayers = gameSnapshot.child("minPlayer").getValue(String.class);
+                                                    event.setEventMaxPlayers(eventMaxPlayers);
+                                                    event.setEventMinPlayers(eventMinPlayers);
+                                                    event.setEventGameName(gameName);
+                                                    myEventsTemp.add(event);
+                                                    myEvents = myEventsTemp;
+                                                    isEventsReceived.setValue(true);
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                Toast.makeText(context, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
                                     }
 
                                 }

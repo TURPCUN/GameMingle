@@ -10,6 +10,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,7 +30,7 @@ import com.nt.gamemingle.ui.common.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventsFragment extends BaseFragment {
+public class EventsFragment extends BaseFragment implements EventsAdapter.ItemClickListener{
 
     FragmentEventsBinding binding;
     private int selectedTabNumber = 1;
@@ -44,7 +45,7 @@ public class EventsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        eventsAdapter = new EventsAdapter(requireContext(), new ArrayList<Event>());
+        eventsAdapter = new EventsAdapter(requireContext(), new ArrayList<Event>(), this);
         binding.recyclerEvents.setAdapter(eventsAdapter);
         mViewModel.getMyEventsFromFirebase(requireContext());
        // mViewModel.getMyEvents(requireContext());
@@ -77,7 +78,7 @@ public class EventsFragment extends BaseFragment {
 
         mViewModel.getMyEventsFromFirebase(requireContext());
         binding.recyclerEvents.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        eventsAdapter = new EventsAdapter(requireContext(), upcomingEventsList);
+        eventsAdapter = new EventsAdapter(requireContext(), upcomingEventsList, this);
         binding.recyclerEvents.setAdapter(eventsAdapter);
 
         mViewModel.isEventsReceived.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
@@ -171,5 +172,16 @@ public class EventsFragment extends BaseFragment {
             }
         });
         selectedTabNumber = tabNumber;
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        if(selectedTabNumber == 1){
+
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("event", MyEventsList.get(position));
+            navController.navigate(R.id.action_eventsFragment_to_eventDetailsFragment, bundle);
+        }
     }
 }

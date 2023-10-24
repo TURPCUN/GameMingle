@@ -82,7 +82,11 @@
         android:id="@+id/eventsFragment"
         android:name="com.nt.gamemingle.ui.events.EventsFragment"
         android:label="fragment_events"
-        tools:layout="@layout/fragment_events" />
+        tools:layout="@layout/fragment_events" >
+        <action
+            android:id="@+id/action_eventsFragment_to_eventDetailsFragment"
+            app:destination="@id/eventDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/testFragment"
         android:name="com.nt.gamemingle.ui.testfragments.TestFragment"

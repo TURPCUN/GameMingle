@@ -18,7 +18,8 @@ public class Event implements Parcelable {
     String eventMaxPlayers;
     String eventOwnerId;
     String eventGameId;
-
+    String eventGameName;
+    int eventAttendees;
     public Event(String eventId, String eventName, String eventDescription, String eventDate, String eventTime, String eventLocation, String eventImageUrl, String eventMinPlayers, String eventMaxPlayers, String eventOwnerId, String eventGameId) {
         this.eventId = eventId;
         this.eventName = eventName;
@@ -31,6 +32,7 @@ public class Event implements Parcelable {
         this.eventMaxPlayers = eventMaxPlayers;
         this.eventOwnerId = eventOwnerId;
         this.eventGameId = eventGameId;
+        this.eventAttendees = 1;
     }
 
     public Event(String eventId, String eventName, String eventDescription, String eventDate, String eventTime, String eventLocation, String eventOwnerId, String eventGameId){
@@ -42,9 +44,7 @@ public class Event implements Parcelable {
         this.eventLocation = eventLocation;
         this.eventOwnerId = eventOwnerId;
         this.eventGameId = eventGameId;
-    }
-
-    public Event() {
+        this.eventAttendees = 1;
     }
 
     protected Event(Parcel in) {
@@ -159,6 +159,22 @@ public class Event implements Parcelable {
 
     public void setEventGameId(String eventGameId) {
         this.eventGameId = eventGameId;
+    }
+
+    public String getEventGameName() {
+        return eventGameName;
+    }
+
+    public void setEventGameName(String eventGameName) {
+        this.eventGameName = eventGameName;
+    }
+
+    public int getEventAttendees() {
+        return eventAttendees;
+    }
+
+    public void increaseEventAttendees(){
+        this.eventAttendees++;
     }
     @Override
     public int describeContents() {

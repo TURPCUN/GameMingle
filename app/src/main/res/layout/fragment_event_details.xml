@@ -19,12 +19,12 @@
             >
 
             <TextView
-                android:id="@+id/titleGame"
+                android:id="@+id/titleEvent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
                 android:maxLines="2"
-                android:text="@string/board_game_title"
+                android:text="Event title"
                 android:textColor="@color/black"
                 android:textSize="23sp"
                 android:textStyle="bold"
@@ -40,17 +40,16 @@
                 android:id="@+id/cardView"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="31dp"
                 android:layout_marginHorizontal="40dp"
                 app:cardCornerRadius="18dp"
-                app:cardElevation="30dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/titleGame">
+                app:layout_constraintTop_toBottomOf="@id/titleEvent">
 
                 <ImageView
-                    android:id="@+id/ImgGame"
+                    android:id="@+id/imgEvent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
@@ -58,72 +57,98 @@
 
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/eventTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="14/11/2023 - 13:20"
-                android:fontFamily="@font/nunito"
-                android:textColor="@color/primary_blue"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"
-                android:layout_marginHorizontal="50dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardView"/>
-
             <LinearLayout
-                android:id="@+id/linearLayoutLocation"
+                android:id="@+id/linearLayoutInfo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="50dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/eventTime">
+                app:layout_constraintTop_toBottomOf="@id/cardView">
 
-                <ImageView
-                    android:id="@+id/locationIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/location"/>
-
-                <TextView
-                    android:id="@+id/eventLocation"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/linearLayoutDate"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_sans_bold"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_marginStart="3dp"
-                    android:text="Location" />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="50dp">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/txtDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Date:"
+                        android:textColor="@color/primary_blue"
+                        android:fontFamily="@font/nunito_sans_bold"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="3dp"/>
 
-            <LinearLayout
-                android:id="@+id/linearLayoutAttendees"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginHorizontal="50dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/linearLayoutLocation">
+                    <TextView
+                        android:id="@+id/eventTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="14/11/2023 - 13:20"
+                        android:fontFamily="@font/nunito"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="8dp"
+                        />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/attendeesCount"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/linearLayoutLocation"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito"
-                    android:textColor="@color/purple_700"
-                    android:textSize="14sp"
-                    android:text="+1 Going" />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginHorizontal="50dp"
+                    >
 
+                    <TextView
+                        android:id="@+id/txtLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Place:"
+                        android:textColor="@color/primary_blue"
+                        android:fontFamily="@font/nunito_sans_bold"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="3dp"/>
+
+                    <TextView
+                        android:id="@+id/eventLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="6dp"
+                        android:text="Location" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutAttendees"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginHorizontal="50dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/attendeesCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito"
+                        android:textColor="@color/purple_700"
+                        android:textSize="14sp"
+                        android:text="+1 Going" />
+
+                </LinearLayout>
             </LinearLayout>
-
             <TextView
                 android:id="@+id/eventDescription"
                 android:layout_width="match_parent"
@@ -136,7 +161,7 @@
                 android:textSize="17sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/linearLayoutAttendees" />
+                app:layout_constraintTop_toBottomOf="@id/linearLayoutInfo" />
 
             <LinearLayout
                 android:id="@+id/attendeesListLinearLayout"
