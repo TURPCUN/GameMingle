@@ -41,8 +41,6 @@ public class EventsAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ViewHolderEvent)holder).holderBinding.eventName.setText(upcomingOrMyEventList.get(position).getEventName());
-        // TODO: 2023-10-19 EVENT DATE AND Attendees
-
         int imageResource = ((ViewHolderEvent)holder).itemView.getContext().getResources()
                 .getIdentifier(upcomingOrMyEventList.get(position).getEventGameName().toLowerCase().replaceAll("\\s", ""), "drawable", ((ViewHolderEvent)holder).itemView.getContext().getPackageName());
         if (imageResource != 0) {
