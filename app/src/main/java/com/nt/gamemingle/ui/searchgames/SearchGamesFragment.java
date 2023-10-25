@@ -58,6 +58,8 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setToolBarVisibility(true);
+
         navController = appViewModel.getNavController().getValue();
 
         mViewModel = new SearchGamesViewModel(appViewModel);

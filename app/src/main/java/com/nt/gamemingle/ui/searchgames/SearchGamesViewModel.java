@@ -18,11 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class SearchGamesViewModel {
-
     private AppViewModel appViewModel;
-    public ArrayList<BoardGame> boardGameList;
-
-
     MutableLiveData<List<BoardGame>> boardGamesLiveData = new MutableLiveData<>();
 
     public SearchGamesViewModel(AppViewModel appViewModel) {
@@ -36,23 +32,20 @@ public class SearchGamesViewModel {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    //BoardGame boardGame = dataSnapshot.getValue(BoardGame.class);
-                    //boardGameList.add(boardGame);
                     HashMap<String, String> game = (HashMap<String, String>) dataSnapshot.getValue();
-
                     String gameId = dataSnapshot.getKey();
                     String gameName = game.get("gameName");
                     String gameDescription = game.get("gameDescription");
-                    String gameImageUrl = game.get("gameImageUrl"); // TODO, it should come from firebase storage
+                    String gameImageUrl = game.get("gameImageUrl");
                     String gameMinPlayers = game.get("minPlayer").toString();
                     String gameMaxPlayers = game.get("maxPlayer").toString();
                     String gameCategory = game.get("gameCategory");
-                    BoardGame boardGame = new BoardGame(gameId, gameName, gameDescription, gameImageUrl, gameMinPlayers, gameMaxPlayers, gameCategory);
+                    BoardGame boardGame = new BoardGame(gameId, gameName, gameDescription,
+                            gameImageUrl, gameMinPlayers, gameMaxPlayers, gameCategory);
                     tempBoardGameList.add(boardGame);
                 }
                 boardGamesLiveData.setValue(tempBoardGameList);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(context, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();

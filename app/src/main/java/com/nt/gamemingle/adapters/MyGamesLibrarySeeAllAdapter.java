@@ -42,7 +42,7 @@ public class MyGamesLibrarySeeAllAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         String gameName = myLibraryBoardGameList.get(position).getGameName();
         int imageResource = holder.itemView.getContext().getResources()
-                .getIdentifier(gameName.toLowerCase(), "drawable", holder.itemView.getContext().getPackageName());
+                .getIdentifier(gameName.toLowerCase().replaceAll("\\s", ""), "drawable", holder.itemView.getContext().getPackageName());
         if (imageResource != 0) {
             ((ViewHolderGameDetails)holder).imgCard.setImageResource(imageResource);
         } else {

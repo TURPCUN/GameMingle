@@ -73,7 +73,7 @@ public class SignUpFragment extends BaseFragment {
                 @Override
                 public void onChanged(Boolean isSignedUp) {
                     if (isSignedUp) {
-                        navController.navigate(R.id.action_signUpFragment_to_myGamesEmpty);
+                        navController.navigate(R.id.action_signUpFragment_to_testFragment2);
                     }
                 }
             });

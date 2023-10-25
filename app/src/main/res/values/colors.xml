@@ -26,6 +26,7 @@
     <color name="main_black">#120D26</color>
     <color name="dark_gray">#29253C</color>
     <color name="medium_gray">#888693</color>
+    <color name="background_gray2">#D6D4D4</color>
     <color name="light_gray">#B8B6BE</color>
     <color name="very_light_gray">#D0CFD4</color>
     <color name="extra_light_gray">#E7E7E9</color>

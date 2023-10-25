@@ -42,12 +42,11 @@ public class FavouriteGamesAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         String gameName = favouriteGamesList.get(position).getGameName();
         int imageResource = holder.itemView.getContext().getResources()
-                .getIdentifier(gameName.toLowerCase(), "drawable", holder.itemView.getContext().getPackageName());
-
+                .getIdentifier(gameName.toLowerCase().replaceAll("\\s", ""), "drawable", holder.itemView.getContext().getPackageName());
         if (imageResource != 0) {
             ((ViewHolder) holder).imgCard.setImageResource(imageResource);
         } else {
-            ((ViewHolder) holder).imgCard.setImageResource(R.drawable.catan);
+            ((ViewHolder) holder).imgCard.setImageResource(R.drawable.icon);
         }
 
         ((ViewHolder) holder).titleCard.setText(gameName);

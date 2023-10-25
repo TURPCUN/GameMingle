@@ -52,7 +52,8 @@ public class MyGamesFavouritesFragmentViewModel {
                                         String gameMaxPlayers = gameSnapshot.child("maxPlayer").getValue(String.class);
                                         String gameCategory = gameSnapshot.child("gameCategory").getValue(String.class);
 
-                                        BoardGame boardGame = new BoardGame(gameId, gameName, gameDescription, gameImageUrl, gameMinPlayers, gameMaxPlayers, gameCategory);
+                                        BoardGame boardGame = new BoardGame(gameId, gameName, gameDescription, gameImageUrl,
+                                                gameMinPlayers, gameMaxPlayers, gameCategory);
                                         favouriteGames.add(boardGame);
                                         previewFavBoardGames.setValue(favouriteGames);
                                     }

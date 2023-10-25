@@ -16,7 +16,6 @@ import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
-import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.FragmentCreateEventBinding;
 import com.nt.gamemingle.model.BoardGame;
 import com.nt.gamemingle.ui.common.BaseFragment;

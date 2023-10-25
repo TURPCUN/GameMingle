@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +35,18 @@ public class MyGamesEmpty extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setToolBarVisibility(false);
+        setToolBarVisibility(true);
+
+        Button button = view.findViewById(R.id.btn_explore_games);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToSearchGames();
+            }
+        });
+    }
+
+    private void navigateToSearchGames() {
+        appViewModel.getNavController().getValue().navigate(R.id.action_myGamesEmpty_to_searchGamesFragment);
     }
 }
