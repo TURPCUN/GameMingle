@@ -70,6 +70,9 @@ public class EventDetailsFragment extends BaseFragment {
         if (userId.equals(eventOwnerId)) {
             binding.btnCancelEvent.setVisibility(View.VISIBLE);
             binding.btnRegisterEvent.setVisibility(View.GONE);
+        } else {
+            binding.btnCancelEvent.setVisibility(View.GONE);
+            binding.btnRegisterEvent.setVisibility(View.VISIBLE);
         }
 
     }

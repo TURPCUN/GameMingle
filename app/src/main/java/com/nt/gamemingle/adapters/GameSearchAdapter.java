@@ -30,6 +30,7 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = inflater.inflate(R.layout.game_card_rectangle, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;

@@ -47,6 +47,7 @@ public class Event implements Parcelable {
         this.eventAttendees = 1;
     }
 
+
     protected Event(Parcel in) {
         eventId = in.readString();
         eventName = in.readString();

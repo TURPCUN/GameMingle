@@ -124,10 +124,10 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
 
     @Override
     public void onItemClick(View view, int position) {
-        if(boardGameList.size() >= position && boardGameList.size() != 0){
+        if(filteredList.size() >= position && filteredList.size() != 0){
             Bundle bundle = new Bundle();
-            bundle.putString("gameId",boardGameList.get(position).getBoardGameId());
-            bundle.putString("title",boardGameList.get(position).getGameName());
+            bundle.putString("gameId",filteredList.get(position).getBoardGameId());
+            bundle.putString("title",filteredList.get(position).getGameName());
             bundle.putString("imageUrl", "test");
             navController.navigate(R.id.action_searchGamesFragment_to_addFavGameFragment, bundle);
         }
