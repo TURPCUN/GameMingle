@@ -41,6 +41,7 @@ public class CreateEventViewModel {
         appViewModel.databaseReference.child("EVENT").child(eventUuid).child("gameId").setValue(selectedGame);
         appViewModel.databaseReference.child("EVENT").child(eventUuid).child("date").setValue(formattedDate);
         appViewModel.databaseReference.child("EVENT").child(eventUuid).child("time").setValue(formattedTime);
+        appViewModel.databaseReference.child("EVENT").child(eventUuid).child("ownerId").setValue(userId);
 
         appViewModel.databaseReference.child("Users").child(userId).child("events").child(eventUuid).setValue(true);
 

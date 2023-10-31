@@ -113,6 +113,12 @@
         <action
             android:id="@+id/action_testFragment_to_eventDetailsFragment"
             app:destination="@id/eventDetailsFragment" />
+        <action
+            android:id="@+id/action_testFragment_to_searchEventsFragment"
+            app:destination="@id/searchEventsFragment" />
+        <action
+            android:id="@+id/action_testFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/createEventFragment"
@@ -124,4 +130,13 @@
         android:name="com.nt.gamemingle.ui.eventdetails.EventDetailsFragment"
         android:label="fragment_event_details"
         tools:layout="@layout/fragment_event_details" />
+    <fragment
+        android:id="@+id/searchEventsFragment"
+        android:name="com.nt.gamemingle.ui.searchevents.SearchEventsFragment"
+        android:label="fragment_search_events"
+        tools:layout="@layout/fragment_search_events" >
+        <action
+            android:id="@+id/action_searchEventsFragment_to_eventDetailsFragment"
+            app:destination="@id/eventDetailsFragment" />
+    </fragment>
 </navigation>

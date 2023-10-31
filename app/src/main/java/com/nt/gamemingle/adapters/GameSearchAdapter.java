@@ -30,6 +30,7 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = inflater.inflate(R.layout.game_card_rectangle, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
@@ -40,7 +41,7 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
         // TODO. Img should come with url
         String gameName = boardGameList.get(position).getGameName();
         int imageResource = holder.itemView.getContext().getResources()
-                .getIdentifier(gameName.toLowerCase(), "drawable", holder.itemView.getContext().getPackageName());
+                .getIdentifier(gameName.toLowerCase().replaceAll("\\s", ""), "drawable", holder.itemView.getContext().getPackageName());
         if (imageResource != 0) {
             ((ViewHolder)holder).imgSmall.setImageResource(imageResource);
         } else {
@@ -85,5 +86,4 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
 
         }
     }
-
 }

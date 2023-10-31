@@ -113,6 +113,25 @@ public class TestFragment extends BaseFragment {
             }
         });
 
+        //10
+        binding.testSearchEventsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (navController != null) {
+                    navController.navigate(R.id.action_testFragment_to_searchEventsFragment);
+                }
+            }
+        });
 
+        //11
+        binding.testLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (navController != null) {
+                    appViewModel.signOut();
+                    navController.navigate(R.id.action_testFragment_to_signInFragment);
+                }
+            }
+        });
     }
 }
