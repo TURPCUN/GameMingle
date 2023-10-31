@@ -91,6 +91,7 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
             public void onChanged(List<BoardGame> boardGamesLiveData) {
                 if (boardGamesLiveData != null) {
                     boardGameList = mViewModel.boardGamesLiveData.getValue();
+                    filteredList = boardGameList;
                     gameSearchAdapter.setFilteredList(boardGameList);
                     gameSearchAdapter.notifyDataSetChanged();
                 }
@@ -126,9 +127,7 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
     public void onItemClick(View view, int position) {
         if(filteredList.size() >= position && filteredList.size() != 0){
             Bundle bundle = new Bundle();
-            bundle.putString("gameId",filteredList.get(position).getBoardGameId());
-            bundle.putString("title",filteredList.get(position).getGameName());
-            bundle.putString("imageUrl", "test");
+            bundle.putParcelable("game", filteredList.get(position));
             navController.navigate(R.id.action_searchGamesFragment_to_addFavGameFragment, bundle);
         }
     }
