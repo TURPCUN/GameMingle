@@ -124,12 +124,20 @@
         android:id="@+id/createEventFragment"
         android:name="com.nt.gamemingle.ui.createevent.CreateEventFragment"
         android:label="fragment_create_event"
-        tools:layout="@layout/fragment_create_event" />
+        tools:layout="@layout/fragment_create_event" >
+        <action
+            android:id="@+id/action_createEventFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/eventDetailsFragment"
         android:name="com.nt.gamemingle.ui.eventdetails.EventDetailsFragment"
         android:label="fragment_event_details"
-        tools:layout="@layout/fragment_event_details" />
+        tools:layout="@layout/fragment_event_details" >
+        <action
+            android:id="@+id/action_eventDetailsFragment_to_eventsFragment"
+            app:destination="@id/eventsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/searchEventsFragment"
         android:name="com.nt.gamemingle.ui.searchevents.SearchEventsFragment"

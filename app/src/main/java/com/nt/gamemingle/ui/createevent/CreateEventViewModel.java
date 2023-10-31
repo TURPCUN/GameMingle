@@ -29,7 +29,7 @@ public class CreateEventViewModel {
     }
 
     public void createEvent(String eventName, String eventLocation, String eventDescription, String selectedGame,
-                            String formattedDate, String formattedTime) {
+                            String formattedDate, String formattedTime, Context context) {
 
         // EVENT
         UUID uuid = UUID.randomUUID();
@@ -45,6 +45,7 @@ public class CreateEventViewModel {
 
         appViewModel.databaseReference.child("Users").child(userId).child("events").child(eventUuid).setValue(true);
 
+        Toast.makeText(context, "Event created successfully", Toast.LENGTH_SHORT).show();
     }
 
     public void getBoardGamess(Context context) {

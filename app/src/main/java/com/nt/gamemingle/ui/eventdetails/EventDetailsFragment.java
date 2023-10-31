@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,6 +52,9 @@ public class EventDetailsFragment extends BaseFragment {
 
         setToolBarVisibility(true);
 
+        navController = appViewModel.getNavController().getValue();
+        mViewModel = new EventDetailsViewModel(appViewModel);
+
         binding.titleEvent.setText(event.getEventName());
         binding.eventDescription.setText(event.getEventDescription());
         binding.eventLocation.setText(event.getEventLocation());
@@ -75,5 +79,29 @@ public class EventDetailsFragment extends BaseFragment {
             binding.btnRegisterEvent.setVisibility(View.VISIBLE);
         }
 
+        binding.btnRegisterEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.registerForEvent(event.getEventId());
+                Toast.makeText(getContext(), "Registered for event", Toast.LENGTH_SHORT).show();
+                binding.btnRegisterEvent.setVisibility(View.GONE);
+                binding.btnCancelEvent.setVisibility(View.VISIBLE);
+            }
+        });
+
+        binding.btnCancelEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mViewModel.cancelEvent(event.getEventId(), eventOwnerId);
+                Toast.makeText(getContext(), "Cancelled event", Toast.LENGTH_SHORT).show();
+                if ((appViewModel.mAuth.getCurrentUser().getUid()).equals(eventOwnerId)) {
+                    navController.navigate(R.id.action_eventDetailsFragment_to_eventsFragment);
+                }
+                else {
+                    binding.btnRegisterEvent.setVisibility(View.VISIBLE);
+                    binding.btnCancelEvent.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 }
