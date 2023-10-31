@@ -24,7 +24,7 @@ import java.util.List;
 
 public class SearchEventsFragment extends BaseFragment implements EventSearchAdapter.ItemClickListener{
 
-    private SearchEventsViewModel mViewModel;
+    private SearchEventsViewModel mViewModel = new SearchEventsViewModel(appViewModel);
     private List<Event> eventList = new ArrayList<>();
     private EventSearchAdapter eventSearchAdapter;
     private SearchView searchView;
@@ -65,8 +65,6 @@ public class SearchEventsFragment extends BaseFragment implements EventSearchAda
         setToolBarVisibility(true);
 
         navController = appViewModel.getNavController().getValue();
-
-        mViewModel = new SearchEventsViewModel(appViewModel);
 
         mViewModel.getEvents(requireContext());
         recyclerSearchEvents = getActivity().findViewById(R.id.recyclerSearchEvents);

@@ -18,6 +18,7 @@ public class EventDetailsViewModel {
 
     public void cancelEvent(String eventId, String eventOwnerId) {
         if (appViewModel.mAuth.getCurrentUser().getUid().equals(eventOwnerId)) {
+            appViewModel.databaseReference.child("Users").child(eventOwnerId).child("events").child(eventId).removeValue();
             appViewModel.databaseReference.child("EVENT").child(eventId).removeValue();
             appViewModel.databaseReference.child("USER_ATTEND_EVENT").child(eventId).removeValue();
         } else {
