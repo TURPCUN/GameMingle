@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 
 import com.nt.gamemingle.R;
@@ -31,6 +32,7 @@ public class EventDetailsFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         event = getArguments().getParcelable("event");
+        mViewModel.userEventStatus(event.getEventId());
     }
 
     @Override
@@ -74,18 +76,48 @@ public class EventDetailsFragment extends BaseFragment {
         if (userId.equals(eventOwnerId)) {
             binding.btnCancelEvent.setVisibility(View.VISIBLE);
             binding.btnRegisterEvent.setVisibility(View.GONE);
+            binding.fab.setVisibility(View.VISIBLE);
         } else {
             binding.btnCancelEvent.setVisibility(View.GONE);
             binding.btnRegisterEvent.setVisibility(View.VISIBLE);
         }
 
+        mViewModel.userEventStatus(event.getEventId());
+
+
+        mViewModel.user_EventStatus.observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if (!s.isEmpty() && !s.equals("")){
+                    if (s.equals("not registered")){
+                        binding.btnRegisterEvent.setVisibility(View.VISIBLE);
+                        binding.btnCancelEvent.setVisibility(View.GONE);
+                        binding.txtStatus.setVisibility(View.GONE);
+                        binding.fab.setVisibility(View.GONE);
+                    } else if (s.equals("pending")){
+                        binding.btnRegisterEvent.setVisibility(View.GONE);
+                        binding.btnCancelEvent.setVisibility(View.VISIBLE);
+                        binding.txtStatus.setVisibility(View.VISIBLE);
+                        binding.fab.setVisibility(View.GONE);
+                    } else if (s.equals("approved")){
+                        binding.btnRegisterEvent.setVisibility(View.GONE);
+                        binding.btnCancelEvent.setVisibility(View.VISIBLE);
+                        binding.txtStatus.setVisibility(View.GONE);
+                        binding.fab.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+
         binding.btnRegisterEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mViewModel.registerForEvent(event.getEventId());
+                mViewModel.userEventStatus(event.getEventId());
                 Toast.makeText(getContext(), "Registered for event", Toast.LENGTH_SHORT).show();
-                binding.btnRegisterEvent.setVisibility(View.GONE);
-                binding.btnCancelEvent.setVisibility(View.VISIBLE);
+               // binding.btnRegisterEvent.setVisibility(View.GONE);
+               // binding.btnCancelEvent.setVisibility(View.VISIBLE);
+               // binding.txtStatus.setVisibility(View.VISIBLE);
             }
         });
 
@@ -93,13 +125,10 @@ public class EventDetailsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 mViewModel.cancelEvent(event.getEventId(), eventOwnerId);
+                mViewModel.userEventStatus(event.getEventId());
                 Toast.makeText(getContext(), "Cancelled event", Toast.LENGTH_SHORT).show();
                 if ((appViewModel.mAuth.getCurrentUser().getUid()).equals(eventOwnerId)) {
                     navController.navigate(R.id.action_eventDetailsFragment_to_eventsFragment);
-                }
-                else {
-                    binding.btnRegisterEvent.setVisibility(View.VISIBLE);
-                    binding.btnCancelEvent.setVisibility(View.GONE);
                 }
             }
         });
