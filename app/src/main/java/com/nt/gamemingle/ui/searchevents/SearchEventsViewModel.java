@@ -1,6 +1,7 @@
 package com.nt.gamemingle.ui.searchevents;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,8 +38,15 @@ public class SearchEventsViewModel {
                         for(DataSnapshot eventS : eventSnapshot.getChildren()) {
                             HashMap<String, String> event = (HashMap<String, String>) eventS.getValue();
                             String ownerId = event.get("ownerId");
-                            if(ownerId.equals(userId))
+                            if(ownerId == null || userId == null) {
+                                Log.d("SearchEventsViewModel", "ownerId or userId is null");
+                                return;
+                            }
+                            if(ownerId.equals(userId)) {
+                                System.out.println("Event Owner Id: " + ownerId);
+                                System.out.println("User Id: " + userId);
                                 continue;
+                            }
                             String eventId = eventS.getKey();
                             String eventName = event.get("eventName");
                             String eventDescription = event.get("description");

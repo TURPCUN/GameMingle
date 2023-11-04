@@ -28,7 +28,6 @@ import com.nt.gamemingle.model.Event;
 import com.nt.gamemingle.ui.common.BaseFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class EventsFragment extends BaseFragment implements EventsAdapter.ItemClickListener{
 
@@ -39,7 +38,6 @@ public class EventsFragment extends BaseFragment implements EventsAdapter.ItemCl
     private EventsAdapter eventsAdapter;
     ArrayList<Event> upcomingEventsList;
     ArrayList<Event> MyEventsList;
-
     NavController navController;
 
     @Override

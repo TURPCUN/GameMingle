@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
+import androidx.navigation.NavController;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
+import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.FragmentCreateEventBinding;
 import com.nt.gamemingle.model.BoardGame;
 import com.nt.gamemingle.ui.common.BaseFragment;
@@ -34,6 +36,8 @@ public class CreateEventFragment extends BaseFragment {
 
     String formattedDate = "", formattedTime = "";
     private List<BoardGame> boardGameList = new ArrayList<>();
+
+    NavController navController;
 
 
     public CreateEventFragment() {
@@ -58,6 +62,7 @@ public class CreateEventFragment extends BaseFragment {
 
         setToolBarVisibility(true);
 
+        navController = appViewModel.getNavController().getValue();
         mViewModel = new CreateEventViewModel(appViewModel);
 
         binding.linearLayoutAddTime.setOnClickListener(new View.OnClickListener() {
@@ -197,7 +202,8 @@ public class CreateEventFragment extends BaseFragment {
                 gameId = boardGameList.get(i).getBoardGameId();
             }
         }
-        mViewModel.createEvent(eventName, eventLocation, eventDescription, gameId, formattedDate, formattedTime);
+        mViewModel.createEvent(eventName, eventLocation, eventDescription, gameId, formattedDate, formattedTime, requireContext());
+        navController.navigate(R.id.action_createEventFragment_to_eventsFragment);
     }
 
 }
