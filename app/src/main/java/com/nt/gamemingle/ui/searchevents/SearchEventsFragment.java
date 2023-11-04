@@ -42,7 +42,7 @@ public class SearchEventsFragment extends BaseFragment implements EventSearchAda
         recyclerSearchEvents.setAdapter(eventSearchAdapter);
         searchView.setQuery("", false);
         searchView.clearFocus();
-        eventList.clear();
+       // eventList.clear();
         mViewModel.getEvents(requireContext());
     }
 
@@ -92,9 +92,8 @@ public class SearchEventsFragment extends BaseFragment implements EventSearchAda
             public void onChanged(Boolean aBoolean) {
                 if(aBoolean){
                     eventList = mViewModel.allEvents;
-                    filteredList = eventList;
+                    filteredList.addAll(eventList);
                     eventSearchAdapter.setFilteredList(eventList);
-                    eventSearchAdapter.notifyDataSetChanged();
                 }
             }
         });

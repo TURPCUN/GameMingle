@@ -117,7 +117,7 @@ public class EventSearchAdapter extends RecyclerView.Adapter{
         public ViewHolderEvent(@NonNull View itemView, EventSmallBinding holderBinding) {
             super(itemView);
             this.holderBinding = holderBinding;
-            this.holderBinding.getRoot().setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     itemClickListener.onItemClick(v, getAdapterPosition());
