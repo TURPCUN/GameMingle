@@ -41,7 +41,7 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
         recyclerSearchGames.setAdapter(gameSearchAdapter);
         searchView.setQuery("", false);
         searchView.clearFocus();
-        boardGameList.clear();
+       // boardGameList.clear();
         mViewModel.getBoardGames(requireContext());
     }
 
@@ -91,9 +91,9 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
             public void onChanged(List<BoardGame> boardGamesLiveData) {
                 if (boardGamesLiveData != null) {
                     boardGameList = mViewModel.boardGamesLiveData.getValue();
-                    filteredList = boardGameList;
+                    filteredList.addAll(boardGameList);
                     gameSearchAdapter.setFilteredList(boardGameList);
-                    gameSearchAdapter.notifyDataSetChanged();
+                    //gameSearchAdapter.notifyDataSetChanged();
                 }
             }
         };
