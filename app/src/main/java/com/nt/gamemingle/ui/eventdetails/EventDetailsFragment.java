@@ -11,18 +11,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.nt.gamemingle.R;
+import com.nt.gamemingle.adapters.EventAttendeesAdapter;
 import com.nt.gamemingle.databinding.FragmentEventDetailsBinding;
 import com.nt.gamemingle.model.Event;
+import com.nt.gamemingle.model.User;
 import com.nt.gamemingle.ui.common.BaseFragment;
+import java.util.ArrayList;
 
-public class EventDetailsFragment extends BaseFragment {
+public class EventDetailsFragment extends BaseFragment implements EventAttendeesAdapter.ItemClickListener {
 
     private EventDetailsViewModel mViewModel;
     Event event;
     FragmentEventDetailsBinding binding;
     NavController navController;
+    EventAttendeesAdapter eventAttendeesAdapter;
+    ArrayList<User> attendeesList = new ArrayList<>();
 
     public EventDetailsFragment() {
         // Required empty public constructor
@@ -31,8 +37,11 @@ public class EventDetailsFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        eventAttendeesAdapter = new EventAttendeesAdapter(requireContext(), new ArrayList<User>(), this);
+        binding.recyclerViewAttendees.setAdapter(eventAttendeesAdapter);
         event = getArguments().getParcelable("event");
-        mViewModel.userEventStatus(event.getEventId());
+        mViewModel.userEventStatus(event.getEventId(), event.getEventOwnerId());
+        mViewModel.getEventAttendees(event.getEventId());
     }
 
     @Override
@@ -82,7 +91,7 @@ public class EventDetailsFragment extends BaseFragment {
             binding.btnRegisterEvent.setVisibility(View.VISIBLE);
         }
 
-        mViewModel.userEventStatus(event.getEventId());
+        mViewModel.userEventStatus(event.getEventId(), eventOwnerId);
 
 
         mViewModel.user_EventStatus.observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -94,30 +103,51 @@ public class EventDetailsFragment extends BaseFragment {
                         binding.btnCancelEvent.setVisibility(View.GONE);
                         binding.txtStatus.setVisibility(View.GONE);
                         binding.fab.setVisibility(View.GONE);
+                        binding.attendeesListLinearLayout.setVisibility(View.GONE);
                     } else if (s.equals("pending")){
                         binding.btnRegisterEvent.setVisibility(View.GONE);
                         binding.btnCancelEvent.setVisibility(View.VISIBLE);
                         binding.txtStatus.setVisibility(View.VISIBLE);
                         binding.fab.setVisibility(View.GONE);
+                        binding.attendeesListLinearLayout.setVisibility(View.GONE);
                     } else if (s.equals("approved")){
                         binding.btnRegisterEvent.setVisibility(View.GONE);
                         binding.btnCancelEvent.setVisibility(View.VISIBLE);
                         binding.txtStatus.setVisibility(View.GONE);
                         binding.fab.setVisibility(View.VISIBLE);
+                        binding.attendeesListLinearLayout.setVisibility(View.GONE);
+                    } else if (s.equals("owner")){
+                        binding.btnRegisterEvent.setVisibility(View.GONE);
+                        binding.btnCancelEvent.setVisibility(View.VISIBLE);
+                        binding.txtStatus.setVisibility(View.GONE);
+                        binding.fab.setVisibility(View.VISIBLE);
+                        binding.attendeesListLinearLayout.setVisibility(View.VISIBLE);
                     }
                 }
             }
         });
 
+        mViewModel.getEventAttendees(event.getEventId());
+        binding.recyclerViewAttendees.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        eventAttendeesAdapter = new EventAttendeesAdapter(getContext(), attendeesList, this);
+        binding.recyclerViewAttendees.setAdapter(eventAttendeesAdapter);
+
+        mViewModel.isAttendeesReceived.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean){
+                    attendeesList = mViewModel.attendeesList;
+                    eventAttendeesAdapter.setAttendeesList(attendeesList);
+                }
+            }
+
+        });
         binding.btnRegisterEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mViewModel.registerForEvent(event.getEventId());
-                mViewModel.userEventStatus(event.getEventId());
+                mViewModel.userEventStatus(event.getEventId(), event.getEventOwnerId());
                 Toast.makeText(getContext(), "Registered for event", Toast.LENGTH_SHORT).show();
-               // binding.btnRegisterEvent.setVisibility(View.GONE);
-               // binding.btnCancelEvent.setVisibility(View.VISIBLE);
-               // binding.txtStatus.setVisibility(View.VISIBLE);
             }
         });
 
@@ -125,12 +155,22 @@ public class EventDetailsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 mViewModel.cancelEvent(event.getEventId(), eventOwnerId);
-                mViewModel.userEventStatus(event.getEventId());
+                mViewModel.userEventStatus(event.getEventId(), eventOwnerId);
                 Toast.makeText(getContext(), "Cancelled event", Toast.LENGTH_SHORT).show();
                 if ((appViewModel.mAuth.getCurrentUser().getUid()).equals(eventOwnerId)) {
                     navController.navigate(R.id.action_eventDetailsFragment_to_eventsFragment);
                 }
             }
         });
+    }
+
+    @Override
+    public void onApproveClick(View view, int position) {
+        mViewModel.approveUser(event.getEventId(), attendeesList.get(position).getUserId());
+    }
+
+    @Override
+    public void onDenyClick(View view, int position) {
+        mViewModel.denyUser(event.getEventId(), attendeesList.get(position).getUserId());
     }
 }

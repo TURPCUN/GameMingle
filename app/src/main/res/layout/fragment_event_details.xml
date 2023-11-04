@@ -155,6 +155,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="50dp"
+                android:background="@color/icy_blue"
                 android:visibility="gone"
                 android:orientation="vertical">
 
@@ -171,7 +172,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_attendees"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
                     android:paddingStart="10dp"
                     />
@@ -189,8 +190,6 @@
                 android:text="Cancel Event"
                 android:textSize="20sp"
                 />
-
-
 
             <Button
                 android:id="@+id/btn_register_event"

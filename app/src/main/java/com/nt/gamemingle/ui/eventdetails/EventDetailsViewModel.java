@@ -10,12 +10,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.nt.gamemingle.app.AppViewModel;
+import com.nt.gamemingle.model.User;
+
+import java.util.ArrayList;
 
 public class EventDetailsViewModel {
 
     private AppViewModel appViewModel;
-    MutableLiveData<Boolean> isUserApprovedForEvent = new MutableLiveData<>(false);
 
+    public ArrayList<User> attendeesList = new ArrayList<>();
+    MutableLiveData<Boolean> isAttendeesReceived = new MutableLiveData<>(false);
     MutableLiveData<String> user_EventStatus = new MutableLiveData<>("");
     public EventDetailsViewModel(AppViewModel appViewModel) {
         super();
@@ -34,35 +38,17 @@ public class EventDetailsViewModel {
             appViewModel.databaseReference.child("USER_ATTEND_EVENT").child(eventId).removeValue();
         } else {
             appViewModel.databaseReference.child("USER_ATTEND_EVENT").child(eventId).child("participants").child(appViewModel.mAuth.getCurrentUser().getUid()).removeValue();
-            userEventStatus(eventId);
+            userEventStatus(eventId, eventOwnerId);
         }
     }
 
-    public void isUserSendRequestForEvent(String eventId){
+    public void userEventStatus(String eventId, String eventOwnerId) {
         String userId = appViewModel.mAuth.getCurrentUser().getUid();
         if (userId != null) {
-            DatabaseReference userEventsReference = appViewModel.database.getReference("USER_ATTEND_EVENT").child(eventId).child("participants").child(userId);
-            userEventsReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()){
-                        Boolean isApproved = snapshot.child("isApproved").getValue(Boolean.class);
-                        if (isApproved != null) {
-                            isUserApprovedForEvent.setValue(isApproved);
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Log.d("EventDetailsViewModel : userEventStatus ", "Error: " + error.getMessage());
-                }
-            });
-        }
-    }
-    public void userEventStatus(String eventId) {
-        String userId = appViewModel.mAuth.getCurrentUser().getUid();
-        if (userId != null) {
+            if (userId.equals(eventOwnerId)) {
+                user_EventStatus.setValue("owner");
+                return;
+            }
             DatabaseReference userEventsReference = appViewModel.database.getReference("USER_ATTEND_EVENT").child(eventId).child("participants").child(userId);
             userEventsReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -89,4 +75,64 @@ public class EventDetailsViewModel {
             });
         }
     }
+
+    public void getEventAttendees(String eventId){
+        DatabaseReference eventAttendeesReference = appViewModel.database.getReference("USER_ATTEND_EVENT").child(eventId).child("participants");
+        eventAttendeesReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    ArrayList<User> attendeesTemp = new ArrayList<>();
+                    for(DataSnapshot attendeeS : snapshot.getChildren()) {
+                        String attendeeId = attendeeS.getKey();
+                        DatabaseReference userReference = appViewModel.database.getReference("Users").child(attendeeId);
+                        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot userSnapshot) {
+                                if (userSnapshot.exists()){
+                                    String fullName = userSnapshot.child("userFullName").getValue(String.class);
+                                    Boolean isApproved = attendeeS.child("isApproved").getValue(Boolean.class);
+                                    if(isApproved== null){
+                                        isApproved = false;
+                                    }
+                                    User attendee = new User(attendeeId, fullName, isApproved.toString());
+                                    attendeesTemp.add(attendee);
+                                    attendeesList = attendeesTemp;
+                                    isAttendeesReceived.setValue(true);
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Log.d("EventDetailsViewModel", "Error: " + error.getMessage());
+                            }
+                        });
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("EventDetailsViewModel", "Error: " + error.getMessage());
+            }
+        });
+    }
+
+
+
+    public void denyUser(String eventId, String userId) {
+        appViewModel.databaseReference.child("USER_ATTEND_EVENT").child(eventId).child("participants").child(userId).removeValue()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        attendeesList.removeIf(user -> user.getUserId().equals(userId));
+                        isAttendeesReceived.setValue(true);
+                    } else {
+                        Log.e("EventDetailsViewModel", "Error: " + task.getException().getMessage());
+                    }
+                });
+    }
+
+    public void approveUser(String eventId, String userId) {
+        appViewModel.databaseReference.child("USER_ATTEND_EVENT").child(eventId).child("participants").child(userId).child("isApproved").setValue(true);
+    }
+
+
 }

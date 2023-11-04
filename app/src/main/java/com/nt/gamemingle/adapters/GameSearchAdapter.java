@@ -73,7 +73,6 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            // TODO
             imgSmall = itemView.findViewById(R.id.cardImgGameDetail);
             tvTitle = itemView.findViewById(R.id.cardTitleGameDetail);
             tvDescription = itemView.findViewById(R.id.cardDescriptionGameDetail);
