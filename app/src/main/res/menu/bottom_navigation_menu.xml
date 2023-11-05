@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuGames"
+        android:enabled="true"
+        android:icon="@drawable/games_24"
+        android:title="Games"/>
+    <item
+        android:id="@+id/menuEvents"
+        android:enabled="true"
+        android:icon="@drawable/cards_24"
+        android:title="Events"/>
+    <item
+        android:id="@+id/menuCreateEvent"
+        android:enabled="true"
+        android:icon="@drawable/calendar_add_24"
+        android:title="New Event"/>
+    <item
+        android:id="@+id/menuProfile"
+        android:enabled="true"
+        android:icon="@drawable/account_24"
+        android:title="Profile"/>
+    <item
+        android:id="@+id/menuNotification"
+        android:enabled="true"
+        android:icon="@drawable/notifications_24"
+        android:title="Notifications"/>
+</menu>

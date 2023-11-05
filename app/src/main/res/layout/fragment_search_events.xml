@@ -31,7 +31,7 @@
                     android:background="@drawable/btn_back"
                     android:textColor="@color/primary_blue"
                     app:iconifiedByDefault="false"
-                    app:queryHint="Search..." />
+                    app:queryHint="Search by game..." />
 
 
                 <androidx.recyclerview.widget.RecyclerView
