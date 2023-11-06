@@ -19,7 +19,7 @@
     <string name="no_game_desc">Looks like there are no games here yet. Let\'s explore the games!</string>
     <string name="no_game">No Game</string>
     <string name="explore_games">Explore Games</string>
-    <string name="add_to_my_collection">Add to my collection</string>
+    <string name="add_to_my_library">I have this game in my library.</string>
     <string name="submit">Submit</string>
     <string name="board_game_title">Board Game Title</string>
     <string name="create_event">Create Event</string>

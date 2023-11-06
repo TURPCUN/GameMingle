@@ -37,24 +37,8 @@ public class MainActivity extends AppCompatActivity {
         initializeViewModel();
         initializeNavController();
         setUpTopAppBarClickListener();
-        binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                // Tıklanan öğenin ID'sini alabilir ve işleyebilirsiniz
-                int id = item.getItemId();
-                switch (id) {
-                    case R.id.inbox_item:
-                        // İlk öğe tıklandığında yapılacak işlemler
-                        break;
-                    case R.id.outbox_item:
-                        // İkinci öğe tıklandığında yapılacak işlemler
-                        break;
-                    // Diğer öğeleri burada işleyin
-                }
-                // True döndürmek öğenin seçili olduğunu gösterir
-                return true;
-            }
-        });
+        setUpBottomNavigationBarClickListener();
+
     }
 
     private void initializeViewModel() {
@@ -72,14 +56,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onClickNavigateUp();
-                /*
-                DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
-                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                } else {
-                    drawerLayout.openDrawer(GravityCompat.START);
-                }
-                 */
             }
         });
     }
@@ -87,5 +63,29 @@ public class MainActivity extends AppCompatActivity {
     private void onClickNavigateUp() {
         navController.navigateUp();
         // navController.popBackStack();
+    }
+
+    private void setUpBottomNavigationBarClickListener() {
+        binding.bottomNavigation.setOnItemSelectedListener( item -> {
+            switch (item.getItemId()) {
+                case R.id.menuGames:
+                    navController.navigate(R.id.myGamesFragment);
+                    break;
+                case R.id.menuEvents:
+                    navController.navigate(R.id.eventsFragment);
+                    break;
+                case R.id.menuCreateEvent:
+                    navController.navigate(R.id.createEventFragment);
+                    break;
+                case R.id.menuProfile:
+                    navController.navigate(R.id.eventsFragment);
+                    break;
+                case R.id.menuNotification:
+                    navController.navigate(R.id.eventsFragment);
+                    break;
+
+            }
+            return true;
+        });
     }
 }

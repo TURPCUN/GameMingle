@@ -1,6 +1,7 @@
 package com.nt.gamemingle.ui.events;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -61,7 +62,6 @@ public class EventsViewModel {
                                         String eventTime = eventSnapshot.child("time").getValue(String.class);
                                         String eventLocation = eventSnapshot.child("location").getValue(String.class);
                                         String eventGameId = eventSnapshot.child("gameId").getValue(String.class);
-
                                         Event event = new Event(eventId, eventName, eventDescription, eventDate, eventTime, eventLocation, userId, eventGameId);
                                         DatabaseReference gameReference = appViewModel.database.getReference("Games").child(eventGameId);
                                         gameReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -74,9 +74,22 @@ public class EventsViewModel {
                                                     event.setEventMaxPlayers(eventMaxPlayers);
                                                     event.setEventMinPlayers(eventMinPlayers);
                                                     event.setEventGameName(gameName);
-                                                    myEventsTemp.add(event);
-                                                    myEvents = myEventsTemp;
-                                                    isEventsReceived.setValue(true);
+
+                                                    DatabaseReference eventOwnerReference = appViewModel.database.getReference("Users").child(userId);
+                                                    eventOwnerReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            String ownerName = snapshot.child("userFullName").getValue(String.class);
+                                                            event.setEventOwnerName(ownerName);
+                                                            myEventsTemp.add(event);
+                                                            myEvents = myEventsTemp;
+                                                            isEventsReceived.setValue(true);
+                                                        }
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+                                                            Log.d("SearchEventsViewModel", "Error: " + error.getMessage());
+                                                        }
+                                                    });
                                                 }
                                             }
 

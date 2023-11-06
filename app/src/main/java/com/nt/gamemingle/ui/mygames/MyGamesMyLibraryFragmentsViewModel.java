@@ -19,6 +19,7 @@ public class MyGamesMyLibraryFragmentsViewModel {
 
     private AppViewModel appViewModel;
 
+    public MutableLiveData<Boolean> isAnyLibraryGame = new MutableLiveData<>(false);
     public MutableLiveData<ArrayList<BoardGame>> previewMyLibraryBoardGames = new MutableLiveData<>();
 
     public MyGamesMyLibraryFragmentsViewModel(AppViewModel appViewModel) {
@@ -38,6 +39,7 @@ public class MyGamesMyLibraryFragmentsViewModel {
                         String gameId = gameSnapshot.getKey();
                         Boolean inLibrary = gameSnapshot.child("inLibrary").getValue(Boolean.class);
                         if (gameId != null && inLibrary == true) {
+                            isAnyLibraryGame.setValue(true);
                             DatabaseReference gamesReference = appViewModel.database.getReference("Games").child(gameId);
                             gamesReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override

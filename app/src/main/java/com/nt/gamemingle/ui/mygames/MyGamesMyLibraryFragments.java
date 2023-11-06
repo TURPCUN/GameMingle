@@ -33,6 +33,8 @@ public class MyGamesMyLibraryFragments extends BaseFragment {
     NavController navController;
     Button btnSeeAllMyGames;
     FragmentMyGamesMyLibraryFragmentsBinding binding;
+    ArrayList<BoardGame> emptyList = new ArrayList<>();
+
 
     @Override
     public void onResume() {
@@ -71,10 +73,21 @@ public class MyGamesMyLibraryFragments extends BaseFragment {
         gamesAdapter = new MyGamesLibraryAdapter(requireContext(), myBoardGamesList);
         recyclerMyGames.setAdapter(gamesAdapter);
 
+        mViewModel.isAnyLibraryGame.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (!aBoolean) {
+                    btnSeeAllMyGames.setVisibility(View.GONE);
+                    getActivity().findViewById(R.id.txtMyLibrary).setVisibility(View.GONE);
+                }
+            }
+        });
         final Observer<List<BoardGame>> isLibraryBoardGamesLoaded = new Observer<List<BoardGame>>() {
             @Override
             public void onChanged(List<BoardGame> boardGames) {
                 if (boardGames != null) {
+                    btnSeeAllMyGames.setVisibility(View.VISIBLE);
+                    getActivity().findViewById(R.id.txtMyLibrary).setVisibility(View.VISIBLE);
                     myBoardGamesList = mViewModel.previewMyLibraryBoardGames.getValue();
                     gamesAdapter.setLibraryGamesList(myBoardGamesList);
                 }

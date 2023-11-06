@@ -71,6 +71,7 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
         binding.eventLocation.setText(event.getEventLocation());
         String date = event.getEventDate() + " - " + event.getEventTime();
         binding.eventTime.setText(date);
+        binding.eventOwner.setText(event.getEventOwnerName());
         String gameName = event.getEventGameName();
         int imageResource = binding.getRoot().getContext().getResources()
                 .getIdentifier(gameName.toLowerCase().replaceAll("\\s", ""), "drawable", binding.getRoot().getContext().getPackageName());

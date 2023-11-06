@@ -111,7 +111,7 @@ public class AllMyLibraryFragment extends BaseFragment {
 
         fabCreateEvent = getActivity().findViewById(R.id.fab_create_event);
         fabCreateEvent.setOnClickListener(v -> {
-           // navController.navigate(R.id.action_allMyLibraryFragment_to_createEventFragment);
+            navController.navigate(R.id.action_allMyLibraryFragment_to_createEventFragment);
         });
     }
 
