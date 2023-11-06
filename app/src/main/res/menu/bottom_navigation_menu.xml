@@ -4,7 +4,7 @@
         android:id="@+id/menuGames"
         android:enabled="true"
         android:icon="@drawable/games_24"
-        android:title="Games"/>
+        android:title="Home"/>
     <item
         android:id="@+id/menuEvents"
         android:enabled="true"

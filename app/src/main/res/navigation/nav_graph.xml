@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_signInFragment_to_testFragment"
             app:destination="@id/testFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_myGamesFragment"
+            app:destination="@id/myGamesFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -25,16 +28,15 @@
         <action
             android:id="@+id/action_signUpFragment_to_testFragment2"
             app:destination="@id/testFragment" />
+        <action
+            android:id="@+id/action_signUpFragment_to_myGamesFragment"
+            app:destination="@id/myGamesFragment" />
     </fragment>
     <fragment
         android:id="@+id/myGamesEmpty"
         android:name="com.nt.gamemingle.ui.mygames.MyGamesEmpty"
         android:label="fragment_my_games_empty"
-        tools:layout="@layout/fragment_my_games_empty" >
-        <action
-            android:id="@+id/action_myGamesEmpty_to_searchGamesFragment"
-            app:destination="@id/searchGamesFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_my_games_empty" />
     <fragment
         android:id="@+id/searchGamesFragment"
         android:name="com.nt.gamemingle.ui.searchgames.SearchGamesFragment"
@@ -67,6 +69,15 @@
         <action
             android:id="@+id/action_myGamesFragment_to_allMyLibraryFragment"
             app:destination="@id/allMyLibraryFragment" />
+        <action
+            android:id="@+id/action_myGamesFragment_to_searchEventsFragment"
+            app:destination="@id/searchEventsFragment" />
+        <action
+            android:id="@+id/action_myGamesFragment_to_searchGamesFragment"
+            app:destination="@id/searchGamesFragment" />
+        <action
+            android:id="@+id/action_myGamesFragment_to_eventDetailsFragment"
+            app:destination="@id/eventDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/allFavoriteGamesFragment"
@@ -77,7 +88,11 @@
         android:id="@+id/allMyLibraryFragment"
         android:name="com.nt.gamemingle.ui.mylibrary.AllMyLibraryFragment"
         android:label="fragment_all_my_library"
-        tools:layout="@layout/fragment_all_my_library" />
+        tools:layout="@layout/fragment_all_my_library" >
+        <action
+            android:id="@+id/action_allMyLibraryFragment_to_createEventFragment"
+            app:destination="@id/createEventFragment" />
+    </fragment>
     <fragment
         android:id="@+id/eventsFragment"
         android:name="com.nt.gamemingle.ui.events.EventsFragment"

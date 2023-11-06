@@ -24,24 +24,23 @@
         android:id="@+id/attendeeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Neslihan Turpcu"
         android:layout_marginStart="9dp"
         android:fontFamily="@font/nunito"
+        android:text="Neslihan Turpcu"
         android:textColor="@color/purple_700"
-        android:textSize="20sp"/>
+        android:textSize="18sp" />
 
     <Button
         android:id="@+id/btnDeny"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="9dp"
-        android:background="@drawable/cancel_24"
-        />
+        android:background="@drawable/cancel_24" />
 
     <Button
         android:id="@+id/btnApprove"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="9dp"
         android:background="@drawable/check_24"
 

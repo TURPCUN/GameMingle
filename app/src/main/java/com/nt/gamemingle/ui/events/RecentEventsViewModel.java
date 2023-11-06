@@ -1,8 +1,6 @@
-package com.nt.gamemingle.ui.searchevents;
+package com.nt.gamemingle.ui.events;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -16,22 +14,52 @@ import com.nt.gamemingle.model.Event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-public class SearchEventsViewModel {
+public class RecentEventsViewModel {
+
     private AppViewModel appViewModel;
-    public ArrayList<Event> allEvents = new ArrayList<>();
-    MutableLiveData<Boolean> isEventsReceived = new MutableLiveData<>(false);
-    public SearchEventsViewModel(AppViewModel appViewModel) {
+
+    ArrayList<Event> recentEvents = new ArrayList<>();
+    ArrayList<String> userFavoriteGames = new ArrayList<>();
+    public MutableLiveData<Boolean> isRecentEventsReceived = new MutableLiveData<>(false);
+
+    public RecentEventsViewModel(AppViewModel appViewModel) {
+        super();
         this.appViewModel = appViewModel;
     }
 
-    public void getEvents(Context context) {
+    public void getRecommendedRecentEvents() {
+        // Get user favorite games
         String userId = appViewModel.mAuth.getCurrentUser().getUid();
         if (userId != null) {
-            ArrayList<Event> myEventsTemp = new ArrayList<>();
-            DatabaseReference eventReference = appViewModel.database.getReference("EVENT");
-            eventReference.addValueEventListener(new ValueEventListener() {
+            DatabaseReference userGamesReference = appViewModel.database.getReference("USER_GAME").child(userId);
+            userGamesReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot gameSnapshot : snapshot.getChildren()) {
+                        String gameId = gameSnapshot.getKey();
+                        if (gameId != null) {
+                            userFavoriteGames.add(gameId);
+                        }
+                    }
+                    // then get recent events which match user favorite games
+                    getRecentEvents();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("RecentEventsViewModel", "Error getting user favorite games");
+                }
+            });
+        }
+    }
+
+    private void getRecentEvents() {
+        String userId = appViewModel.mAuth.getCurrentUser().getUid();
+        if (userId != null) {
+            ArrayList<Event> recentEventsTemp = new ArrayList<>();
+            DatabaseReference eventsReference = appViewModel.database.getReference("EVENT");
+            eventsReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot eventSnapshot) {
                     if (eventSnapshot.exists()){
@@ -39,12 +67,13 @@ public class SearchEventsViewModel {
                             HashMap<String, String> event = (HashMap<String, String>) eventS.getValue();
                             String ownerId = event.get("ownerId");
                             if(ownerId == null || userId == null) {
-                                Log.d("SearchEventsViewModel", "ownerId or userId is null");
                                 return;
                             }
                             if(ownerId.equals(userId)) {
-                                System.out.println("Event Owner Id: " + ownerId);
-                                System.out.println("User Id: " + userId);
+                                continue;
+                            }
+                            String eventGameId = event.get("gameId");
+                            if(!userFavoriteGames.contains(eventGameId)) {
                                 continue;
                             }
                             String eventId = eventS.getKey();
@@ -53,32 +82,32 @@ public class SearchEventsViewModel {
                             String eventDate = event.get("date");
                             String eventTime = event.get("time");
                             String eventLocation = event.get("location");
-                            String eventGameId = event.get("gameId");
                             Event eventObj = new Event(eventId, eventName, eventDescription, eventDate, eventTime, eventLocation, ownerId, eventGameId);
                             DatabaseReference gameReference = appViewModel.database.getReference("Games").child(eventGameId);
                             gameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot gameSnapshot) {
-                                    if (gameSnapshot.exists()){
+                                    if (gameSnapshot.exists()) {
                                         String gameName = gameSnapshot.child("gameName").getValue(String.class);
                                         String eventMaxPlayers = gameSnapshot.child("maxPlayer").getValue(String.class);
                                         String eventMinPlayers = gameSnapshot.child("minPlayer").getValue(String.class);
+                                        eventObj.setEventGameName(gameName);
                                         eventObj.setEventMaxPlayers(eventMaxPlayers);
                                         eventObj.setEventMinPlayers(eventMinPlayers);
-                                        eventObj.setEventGameName(gameName);
+
                                         DatabaseReference eventOwnerReference = appViewModel.database.getReference("Users").child(ownerId);
                                         eventOwnerReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                 String ownerName = snapshot.child("userFullName").getValue(String.class);
                                                 eventObj.setEventOwnerName(ownerName);
-                                                myEventsTemp.add(eventObj);
-                                                allEvents = myEventsTemp;
-                                                isEventsReceived.setValue(true);
+                                                recentEventsTemp.add(eventObj);
+                                                recentEvents = recentEventsTemp;
+                                                isRecentEventsReceived.setValue(true);
                                             }
                                             @Override
                                             public void onCancelled(@NonNull DatabaseError error) {
-                                                Log.d("SearchEventsViewModel", "Error: " + error.getMessage());
+                                                Log.d("RecentEventsViewModel", "Error: " + error.getMessage());
                                             }
                                         });
                                     }
@@ -86,22 +115,21 @@ public class SearchEventsViewModel {
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError error) {
-                                    Toast.makeText(context, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Log.d("RecentEventsViewModel", "Error getting recent events game details");
                                 }
                             });
-
                         }
-
                     }
+
                 }
 
                 @Override
-                public void onCancelled(@androidx.annotation.NonNull DatabaseError error) {
-                    Toast.makeText(context, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("RecentEventsViewModel", "Error getting recent events");
                 }
             });
-
         }
-
     }
+
+
 }

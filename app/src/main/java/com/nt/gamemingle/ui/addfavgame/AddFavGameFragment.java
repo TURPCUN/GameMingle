@@ -60,28 +60,40 @@ public class AddFavGameFragment extends BaseFragment {
         mViewModel = new AddFavGameViewModel(appViewModel);
         navController = appViewModel.getNavController().getValue();
 
-        titleGame = getActivity().findViewById(R.id.titleGame);
-        titleGame.setText(boardGame.getGameName());
+        if(boardGame != null){
+            titleGame = getActivity().findViewById(R.id.titleGame);
+            titleGame.setText(boardGame.getGameName());
 
-        // TODO refactor this
-        int imageResource = getActivity().getResources()
-                .getIdentifier(boardGame.getGameName().toLowerCase().replaceAll("\\s", ""), "drawable", getActivity().getPackageName());
+            int imageResource = getActivity().getResources()
+                    .getIdentifier(boardGame.getGameName().toLowerCase().replaceAll("\\s", ""), "drawable", getActivity().getPackageName());
 
-        imageView = getActivity().findViewById(R.id.ImgGame);
-        if (imageResource != 0) {
-            imageView.setImageResource(imageResource);
-        } else{
-            imageView.setImageResource(R.drawable.icon);
+            imageView = getActivity().findViewById(R.id.ImgGame);
+            if (imageResource != 0) {
+                imageView.setImageResource(imageResource);
+            } else{
+                imageView.setImageResource(R.drawable.icon);
+            }
+
+            TextView gamePlayers = getActivity().findViewById(R.id.gamePlayers);
+            String gamePlayersText = boardGame.getGameMinPlayers() + "-" + boardGame.getGameMaxPlayers();
+            gamePlayers.setText(gamePlayersText);
+
+            TextView gameCategory = getActivity().findViewById(R.id.gameCategory);
+            gameCategory.setText(boardGame.getGameCategory());
+
+            TextView gameDescription = getActivity().findViewById(R.id.gameDescription);
+            gameDescription.setText(boardGame.getGameDescription());
+
+            btnAddFavGame = getActivity().findViewById(R.id.btn_add_fav_game);
+            btnAddFavGame.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MaterialCheckBox checkBox = getActivity().findViewById(R.id.checkBoxAddFavGame);
+                    addFavGameForUser(boardGame.getBoardGameId(), appViewModel.mAuth.getCurrentUser().getUid(), checkBox.isChecked());
+                }
+            });
         }
 
-        btnAddFavGame = getActivity().findViewById(R.id.btn_add_fav_game);
-        btnAddFavGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MaterialCheckBox checkBox = getActivity().findViewById(R.id.checkBoxAddFavGame);
-                addFavGameForUser(boardGame.getBoardGameId(), appViewModel.mAuth.getCurrentUser().getUid(), checkBox.isChecked());
-            }
-        });
     }
 
     private void addFavGameForUser(String gameID, String userID, boolean inLibrary){

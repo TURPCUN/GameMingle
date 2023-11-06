@@ -35,7 +35,7 @@ public class MyGamesEmpty extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setToolBarVisibility(true);
+        setToolBarVisibility(false);
 
         Button button = view.findViewById(R.id.btn_explore_games);
         button.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +47,6 @@ public class MyGamesEmpty extends BaseFragment {
     }
 
     private void navigateToSearchGames() {
-        appViewModel.getNavController().getValue().navigate(R.id.action_myGamesEmpty_to_searchGamesFragment);
+        appViewModel.getNavController().getValue().navigate(R.id.action_myGamesFragment_to_searchGamesFragment);
     }
 }

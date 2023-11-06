@@ -69,7 +69,7 @@ public class EventsFragment extends BaseFragment implements EventsAdapter.ItemCl
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setToolBarVisibility(true);
+        setToolBarVisibility(false);
 
         navController = appViewModel.getNavController().getValue();
         mViewModel = new EventsViewModel(appViewModel);

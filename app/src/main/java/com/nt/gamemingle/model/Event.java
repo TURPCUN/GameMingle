@@ -20,6 +20,8 @@ public class Event implements Parcelable {
     String eventGameId;
     String eventGameName;
     int eventAttendees;
+
+    String eventOwnerName;
     public Event(String eventId, String eventName, String eventDescription, String eventDate, String eventTime, String eventLocation, String eventImageUrl, String eventMinPlayers, String eventMaxPlayers, String eventOwnerId, String eventGameId) {
         this.eventId = eventId;
         this.eventName = eventName;
@@ -177,6 +179,21 @@ public class Event implements Parcelable {
     public void increaseEventAttendees(){
         this.eventAttendees++;
     }
+
+    public void decreaseEventAttendees(){
+        this.eventAttendees--;
+    }
+    public void setEventAttendees(int eventAttendees) {
+        this.eventAttendees = eventAttendees;
+    }
+
+    public String getEventOwnerName() {
+        return eventOwnerName;
+    }
+
+    public void setEventOwnerName(String eventOwnerName) {
+        this.eventOwnerName = eventOwnerName;
+    }
     @Override
     public int describeContents() {
         return 0;
@@ -195,5 +212,8 @@ public class Event implements Parcelable {
         dest.writeString(eventMaxPlayers);
         dest.writeString(eventOwnerId);
         dest.writeString(eventGameId);
+        dest.writeString(eventGameName);
+        dest.writeInt(eventAttendees);
+        dest.writeString(eventOwnerName);
     }
 }
