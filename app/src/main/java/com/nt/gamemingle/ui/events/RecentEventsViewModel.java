@@ -12,7 +12,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.nt.gamemingle.app.AppViewModel;
 import com.nt.gamemingle.model.Event;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class RecentEventsViewModel {
@@ -81,6 +84,9 @@ public class RecentEventsViewModel {
                             String eventDescription = event.get("description");
                             String eventDate = event.get("date");
                             String eventTime = event.get("time");
+                            if(isEventPassed(eventDate, eventTime)) {
+                                continue;
+                            }
                             String eventLocation = event.get("location");
                             Event eventObj = new Event(eventId, eventName, eventDescription, eventDate, eventTime, eventLocation, ownerId, eventGameId);
                             DatabaseReference gameReference = appViewModel.database.getReference("Games").child(eventGameId);
@@ -103,6 +109,11 @@ public class RecentEventsViewModel {
                                                 eventObj.setEventOwnerName(ownerName);
                                                 recentEventsTemp.add(eventObj);
                                                 recentEvents = recentEventsTemp;
+                                                try {
+                                                    orderByEventDate(recentEvents);
+                                                } catch (ParseException e) {
+                                                    throw new RuntimeException(e);
+                                                }
                                                 isRecentEventsReceived.setValue(true);
                                             }
                                             @Override
@@ -121,6 +132,44 @@ public class RecentEventsViewModel {
                         }
                     }
 
+                }
+
+                private void orderByEventDate(ArrayList<Event> events) throws ParseException {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    if (events.size() == 0 || events.size() == 1)
+                        return;
+                    for (int i = 0; i<events.size(); i++){
+                        for (int j = i+1; j<events.size(); j++){
+                            Date prevEventDate = dateFormat.parse(events.get(i).getEventDate() + " " + events.get(i).getEventTime());
+                            Date eventDateTime = dateFormat.parse(events.get(j).getEventDate() + " " + events.get(j).getEventTime());
+                            if (eventDateTime.before(prevEventDate)) {
+                                Event tempEvent = events.get(i);
+                                events.set(i, events.get(j));
+                                events.set(j, tempEvent);
+                            }
+                        }
+                    }
+                }
+
+                private boolean isEventPassed(String eventDate, String eventTime){
+                    // eventDate format is "dd/MM/yyyy"
+                    // eventTime format is "HH:mm"
+                    // compare it today and return true if eventDate is previous than today else false
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                    try {
+                        Date eventDateTime = dateFormat.parse(eventDate + " " + eventTime);
+                        Date currentDateTime = new Date(); // Current date and time
+
+                        if (eventDateTime.before(currentDateTime)) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
                 }
 
                 @Override
