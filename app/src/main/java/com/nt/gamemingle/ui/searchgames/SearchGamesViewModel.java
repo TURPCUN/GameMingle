@@ -44,6 +44,7 @@ public class SearchGamesViewModel {
                             gameImageUrl, gameMinPlayers, gameMaxPlayers, gameCategory);
                     tempBoardGameList.add(boardGame);
                 }
+                tempBoardGameList.sort((o1, o2) -> o1.getGameName().compareTo(o2.getGameName()));
                 boardGamesLiveData.setValue(tempBoardGameList);
             }
             @Override
