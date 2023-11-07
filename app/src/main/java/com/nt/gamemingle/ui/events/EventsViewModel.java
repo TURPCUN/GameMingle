@@ -68,7 +68,9 @@ public class EventsViewModel {
                                         if(!isEventPassed(eventDate, eventTime)){
                                             String eventLocation = eventSnapshot.child("location").getValue(String.class);
                                             String eventGameId = eventSnapshot.child("gameId").getValue(String.class);
+                                            int eventAttendeesCount = eventSnapshot.child("approvedAttendeesCount").getValue(Integer.class);
                                             Event event = new Event(eventId, eventName, eventDescription, eventDate, eventTime, eventLocation, userId, eventGameId);
+                                            event.setEventAttendees(eventAttendeesCount);
                                             DatabaseReference gameReference = appViewModel.database.getReference("Games").child(eventGameId);
                                             gameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
