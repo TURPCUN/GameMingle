@@ -94,6 +94,12 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
 
         mViewModel.userEventStatus(event.getEventId(), eventOwnerId);
 
+        mViewModel.approvedEventAttendeesCount.observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                binding.attendeesCount.setText("+" + integer + " Going");
+            }
+        });
 
         mViewModel.user_EventStatus.observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override

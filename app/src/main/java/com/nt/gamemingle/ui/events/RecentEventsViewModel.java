@@ -25,6 +25,7 @@ public class RecentEventsViewModel {
     ArrayList<Event> recentEvents = new ArrayList<>();
     ArrayList<String> userFavoriteGames = new ArrayList<>();
     public MutableLiveData<Boolean> isRecentEventsReceived = new MutableLiveData<>(false);
+    MutableLiveData<Integer> approvedEventAttendeesCount = new MutableLiveData<>(0);
 
     public RecentEventsViewModel(AppViewModel appViewModel) {
         super();
