@@ -30,4 +30,21 @@
     <string name="select_a_date_and_time">Select a date and time</string>
     <string name="description">Description</string>
     <string name="_10_njune">10\nJUNE</string>
+    <string name="terms_and_conditions">
+    <![CDATA[
+    <br /><b>1. Account Registration:</b> You must create an account to access GameMingle. You agree to provide accurate and complete information during the registration process. You are responsible for maintaining the confidentiality of your account and password. Any activities that occur under your account are your responsibility.<br />
+    <br /><b>2. User Conduct:</b><br />
+    - Respect other users. Do not engage in harmful, harassing, or abusive behavior.<br />
+    - Do not upload or share content that is illegal, offensive, or violates copyright or trademark rights.<br />
+    - Do not impersonate others or provide false information about yourself.<br />
+    <br /><b>3. Content Policy:</b> You retain ownership of the content you post on GameMingle. However, by uploading content, you grant us a non-exclusive, royalty-free, worldwide license to use, display, and distribute your content within the app and for promotional purposes.<br />
+    <br /><b>4. Privacy:</b> We respect your privacy. Please visit www.gamemingle.com to understand how we collect, use, and disclose your personal information.<br />
+    <br /><b>5. Termination:</b> We reserve the right to terminate or suspend your account if you violate these terms or for any other reason without notice. You may also terminate your account at any time by contacting us.<br />
+    <br /><b>6. Changes to Terms:</b> We may modify these terms at any time. We will notify you of any changes, and the updated terms will be effective upon posting. Continued use of GameMingle after any changes indicate your acceptance of the modified terms.<br />
+    <br /><b>7. Disclaimer of Warranties:</b> GameMingle is provided "as is" and "as available" without any warranties of any kind, either expressed or implied. We do not guarantee the accuracy, reliability, or availability of the app.<br />
+    <br /><b>8. Limitation of Liability:</b> GameMingle, its affiliates, and partners shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from your use of the app.<br />
+    <br />Thank you for being a part of <b>GameMingle</b>! Enjoy connecting with fellow board game enthusiasts and have fun playing and sharing your passion for games in our community. If you have any questions or concerns, please contact us at contact@gamemingle.com .<br />
+    ]]>
+</string>
+
 </resources>

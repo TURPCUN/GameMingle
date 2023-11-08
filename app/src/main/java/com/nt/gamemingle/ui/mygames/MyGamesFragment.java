@@ -48,6 +48,7 @@ public class MyGamesFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         setToolBarVisibility(true);
+        setBottomBarVisibility(true);
 
         mViewModel = new MyGamesViewModel(appViewModel);
         mViewModel.checkFavouriteGame(requireContext());
