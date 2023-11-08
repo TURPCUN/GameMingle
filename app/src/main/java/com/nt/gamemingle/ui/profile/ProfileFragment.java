@@ -34,6 +34,7 @@ public class ProfileFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         profileViewModel.getUserInformation();
+        setToolBarVisibility(false);
     }
 
     @Override
