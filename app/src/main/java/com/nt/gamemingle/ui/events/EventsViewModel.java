@@ -40,8 +40,117 @@ public class EventsViewModel {
     }
 
     public void getUpcomingEventsFromFirebase(Context context) {
+        String userId = appViewModel.mAuth.getCurrentUser().getUid();
+        if (userId != null) {
+            ArrayList<Event> upcomingEventsTemp = new ArrayList<>();
+            ArrayList<String> upcomingEventsId = new ArrayList<>();
+            DatabaseReference userAttendEventRef = appViewModel.database.getReference("USER_ATTEND_EVENT");
+            userAttendEventRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        if (dataSnapshot.exists()) {
+                            String eventId = dataSnapshot.getKey();
+                            DatabaseReference eventParticipantsRef = appViewModel.database.getReference("USER_ATTEND_EVENT").child(eventId).child("participants").child(userId);
+                            eventParticipantsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    if (snapshot.exists()) {
+                                        Boolean isApproved = snapshot.child("isApproved").getValue(Boolean.class);
+                                        if (isApproved != null) {
+                                            if (isApproved) {
+                                                upcomingEventsId.add(eventId);
+                                                    DatabaseReference eventReference = appViewModel.database.getReference("EVENT").child(eventId);
+                                                    eventReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                            if (snapshot.exists()) {
+                                                                String eventName = snapshot.child("eventName").getValue(String.class);
+                                                                String eventDescription = snapshot.child("description").getValue(String.class);
+                                                                String eventDate = snapshot.child("date").getValue(String.class);
+                                                                String eventTime = snapshot.child("time").getValue(String.class);
+                                                                String eventLocation = snapshot.child("location").getValue(String.class);
+                                                                String eventGameId = snapshot.child("gameId").getValue(String.class);
+                                                                String eventOwnerId = snapshot.child("ownerId").getValue(String.class);
+                                                                //   int eventAttendeesCount = snapshot.child("approvedAttendeesCount").getValue(Integer.class);
+                                                                Event event = new Event(eventId, eventName, eventDescription, eventDate, eventTime, eventLocation, eventOwnerId, eventGameId);
+                                                                //  event.setEventAttendees(eventAttendeesCount);
+                                                                DatabaseReference gameReference = appViewModel.database.getReference("Games").child(eventGameId);
+                                                                gameReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                    @Override
+                                                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                        if (snapshot.exists()) {
+                                                                            String gameName = snapshot.child("gameName").getValue(String.class);
+                                                                            String eventMaxPlayers = snapshot.child("maxPlayer").getValue(String.class);
+                                                                            String eventMinPlayers = snapshot.child("minPlayer").getValue(String.class);
+                                                                            event.setEventMaxPlayers(eventMaxPlayers);
+                                                                            event.setEventMinPlayers(eventMinPlayers);
+                                                                            event.setEventGameName(gameName);
 
+                                                                            DatabaseReference eventOwnerReference = appViewModel.database.getReference("Users").child(eventOwnerId);
+                                                                            eventOwnerReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                                @Override
+                                                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                                                    String ownerName = snapshot.child("userFullName").getValue(String.class);
+                                                                                    event.setEventOwnerName(ownerName);
+                                                                                    upcomingEventsTemp.add(event);
+                                                                                    upcomingEvents = upcomingEventsTemp;
+                                                                                    try {
+                                                                                        orderByEventDate(upcomingEvents);
+                                                                                    } catch (ParseException e) {
+                                                                                        e.printStackTrace();
+                                                                                    }
+                                                                                    // isEventsReceived.setValue(true);
+                                                                                    checkEventsReceived();
+                                                                                }
 
+                                                                                @Override
+                                                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                                                    Log.d("SearchEventsViewModel", "Error: " + error.getMessage());
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onCancelled(@NonNull DatabaseError error) {
+                                                                        Log.d("EventsViewModel", "Error: " + error.getMessage());
+                                                                    }
+                                                                });
+                                                            }
+                                                        }
+                                                        @Override
+                                                        public void onCancelled(@NonNull DatabaseError error) {
+                                                            Log.d("EventsViewModel", "Error: " + error.getMessage());
+                                                        }
+                                                    });
+
+                                            }
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+                                    Log.d("EventsViewModel", "Error: " + error.getMessage());
+                                }
+                            });
+                        }
+                    }
+
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("EventsViewModel", "Error: " + error.getMessage());
+                }
+            });
+        }
+    }
+
+    private void checkEventsReceived(){
+        if(upcomingEvents.size() > 0 && myEvents.size() > 0){
+            isEventsReceived.setValue(true);
+        }
     }
 
     public void getMyEventsFromFirebase(Context context) {
@@ -96,7 +205,8 @@ public class EventsViewModel {
                                                                 } catch (ParseException e) {
                                                                     e.printStackTrace();
                                                                 }
-                                                                isEventsReceived.setValue(true);
+                                                                //isEventsReceived.setValue(true);
+                                                                checkEventsReceived();
                                                             }
                                                             @Override
                                                             public void onCancelled(@NonNull DatabaseError error) {
