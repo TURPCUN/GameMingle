@@ -43,9 +43,11 @@ public class EventsFragment extends BaseFragment implements EventsAdapter.ItemCl
     @Override
     public void onResume() {
         super.onResume();
+        selectedTabNumber = 1;
         eventsAdapter = new EventsAdapter(requireContext(), new ArrayList<Event>(), this);
         binding.recyclerEvents.setAdapter(eventsAdapter);
         mViewModel.getMyEventsFromFirebase(requireContext());
+        mViewModel.getUpcomingEventsFromFirebase(requireContext());
        // mViewModel.getMyEvents(requireContext());
     }
 
@@ -75,6 +77,7 @@ public class EventsFragment extends BaseFragment implements EventsAdapter.ItemCl
         mViewModel = new EventsViewModel(appViewModel);
 
         mViewModel.getMyEventsFromFirebase(requireContext());
+        mViewModel.getUpcomingEventsFromFirebase(requireContext());
         binding.recyclerEvents.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         eventsAdapter = new EventsAdapter(requireContext(), upcomingEventsList, this);
         binding.recyclerEvents.setAdapter(eventsAdapter);
@@ -175,7 +178,9 @@ public class EventsFragment extends BaseFragment implements EventsAdapter.ItemCl
     @Override
     public void onItemClick(View view, int position) {
         if(selectedTabNumber == 1){
-
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("event", upcomingEventsList.get(position));
+            navController.navigate(R.id.action_eventsFragment_to_eventDetailsFragment, bundle);
         } else {
             Bundle bundle = new Bundle();
             bundle.putParcelable("event", MyEventsList.get(position));
