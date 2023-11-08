@@ -40,6 +40,7 @@ public class SignUpFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         setToolBarVisibility(true);
+        setBottomBarVisibility(false);
 
         mViewModel = new SignUpViewModel(appViewModel);
         navController = appViewModel.getNavController().getValue();
@@ -102,6 +103,4 @@ public class SignUpFragment extends BaseFragment {
             mViewModel.signUp(fullName, email, password, getContext(), binding.autoCompleteTextView.getText().toString());
         }
     }
-
-
 }

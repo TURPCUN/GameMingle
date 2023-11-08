@@ -41,6 +41,7 @@ public class SignInFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setToolBarVisibility(false);
+        setBottomBarVisibility(false);
         signInViewModel = new SignInViewModel(appViewModel);
         setupClickListeners();
         observeSignInStatus();

@@ -1,21 +1,12 @@
 package com.nt.gamemingle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
-
-import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.navigation.NavigationView;
 import com.nt.gamemingle.app.AppViewModel;
 import com.nt.gamemingle.databinding.ActivityMainBinding;
 
@@ -78,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.createEventFragment);
                     break;
                 case R.id.menuProfile:
-                    navController.navigate(R.id.testFragment);
+                    navController.navigate(R.id.profileFragment);
                     break;
                 case R.id.menuNotification:
                     navController.navigate(R.id.eventsFragment);
@@ -88,4 +79,5 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
     }
+
 }
