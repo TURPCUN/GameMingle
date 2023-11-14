@@ -68,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
                 android:text="+1 Going"
+                android:visibility="invisible"
                 android:textColor="@color/purple_700"
                 android:textSize="14sp" />
         </LinearLayout>
