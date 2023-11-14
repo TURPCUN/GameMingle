@@ -49,6 +49,7 @@ public class EventsFragment extends BaseFragment implements EventsAdapter.ItemCl
         mViewModel.getMyEventsFromFirebase(requireContext());
         mViewModel.getUpcomingEventsFromFirebase(requireContext());
        // mViewModel.getMyEvents(requireContext());
+        setBottomBarVisibility(true);
     }
 
     public EventsFragment() {
@@ -58,6 +59,7 @@ public class EventsFragment extends BaseFragment implements EventsAdapter.ItemCl
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setBottomBarVisibility(true);
     }
 
     @Override

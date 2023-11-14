@@ -45,8 +45,15 @@ public class CreateEventFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        setToolBarVisibility(false);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setToolBarVisibility(false);
     }
 
     @Override

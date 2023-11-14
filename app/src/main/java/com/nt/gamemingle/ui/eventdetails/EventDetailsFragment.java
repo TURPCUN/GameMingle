@@ -42,12 +42,14 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
         event = getArguments().getParcelable("event");
         mViewModel.userEventStatus(event.getEventId(), event.getEventOwnerId());
         mViewModel.getEventAttendees(event.getEventId());
+        setBottomBarVisibility(false);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         event = getArguments().getParcelable("event");
+        setBottomBarVisibility(false);
     }
 
     @Override
@@ -167,6 +169,15 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
                 if ((appViewModel.mAuth.getCurrentUser().getUid()).equals(eventOwnerId)) {
                     navController.navigate(R.id.action_eventDetailsFragment_to_eventsFragment);
                 }
+            }
+        });
+
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("event", event);
+                navController.navigate(R.id.action_eventDetailsFragment_to_chatFragment, bundle);
             }
         });
     }
