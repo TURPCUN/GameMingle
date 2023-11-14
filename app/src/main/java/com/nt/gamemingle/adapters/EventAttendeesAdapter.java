@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.AttendeesLayoutBinding;
 import com.nt.gamemingle.model.User;
 
@@ -43,6 +44,15 @@ public class EventAttendeesAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ViewHolderAttendees)holder).holderBinding.attendeeName.setText(attendeesList.get(position).getFullName());
+        String firstName = attendeesList.get(position).getFullName().split(" ")[0];
+        int profileImgResource = ((ViewHolderAttendees)holder).holderBinding.getRoot().getContext().getResources()
+                .getIdentifier(firstName.toLowerCase(), "drawable", ((ViewHolderAttendees)holder).holderBinding.getRoot().getContext().getPackageName());
+        if (profileImgResource != 0) {
+            ((ViewHolderAttendees)holder).holderBinding.attendeeImg.setImageResource(profileImgResource);
+        } else {
+            ((ViewHolderAttendees)holder).holderBinding.attendeeImg.setImageResource(R.drawable.icon);
+        }
+
         if(attendeesList.get(position).getUserEventStatus().equals("true")){
             ((ViewHolderAttendees)holder).holderBinding.btnApprove.setVisibility(View.GONE);
             ((ViewHolderAttendees)holder).holderBinding.btnDeny.setVisibility(View.GONE);

@@ -50,7 +50,7 @@ public class EventsAdapter extends RecyclerView.Adapter{
         }
         ((ViewHolderEvent)holder).holderBinding.eventLocation.setText(upcomingOrMyEventList.get(position).getEventLocation());
         String eventDate = upcomingOrMyEventList.get(position).getEventDate();
-        String[] eventDateSplit = eventDate.split("/");
+        String[] eventDateSplit = eventDate.split("/"); // day/ month/ year
         String dateDay = eventDateSplit[0];
         String dateMonth = dateFormat(eventDateSplit[1]);
         String dateFormat = dateDay + "\n" + dateMonth;

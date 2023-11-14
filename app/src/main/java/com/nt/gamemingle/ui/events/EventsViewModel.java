@@ -29,6 +29,9 @@ public class EventsViewModel {
     public ArrayList<Event> myEvents = new ArrayList<>();
     MutableLiveData<Boolean> isEventsReceived = new MutableLiveData<>(false);
 
+    private boolean upcomingEventsChecked = false;
+    private boolean myEventsChecked = false;
+
     public EventsViewModel(AppViewModel appViewModel) {
         super();
         this.appViewModel = appViewModel;
@@ -101,6 +104,7 @@ public class EventsViewModel {
                                                                                         e.printStackTrace();
                                                                                     }
                                                                                     // isEventsReceived.setValue(true);
+                                                                                    upcomingEventsChecked = true;
                                                                                     checkEventsReceived();
                                                                                 }
 
@@ -136,6 +140,10 @@ public class EventsViewModel {
                                 }
                             });
                         }
+                        else {
+                            upcomingEventsChecked = true;
+                            checkEventsReceived();
+                        }
                     }
 
                 }
@@ -148,7 +156,7 @@ public class EventsViewModel {
     }
 
     private void checkEventsReceived(){
-        if(upcomingEvents.size() > 0 && myEvents.size() > 0){
+        if (upcomingEventsChecked && myEventsChecked) {
             isEventsReceived.setValue(true);
         }
     }
@@ -206,6 +214,7 @@ public class EventsViewModel {
                                                                     e.printStackTrace();
                                                                 }
                                                                 //isEventsReceived.setValue(true);
+                                                                myEventsChecked = true;
                                                                 checkEventsReceived();
                                                             }
                                                             @Override

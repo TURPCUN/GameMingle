@@ -72,6 +72,7 @@ public class MyGamesFragment extends BaseFragment {
             }
         });
 
+
         RecentEventsFragment recentEventsFragment = new RecentEventsFragment();
         getChildFragmentManager().beginTransaction()
                 .replace(R.id.recent_events_fragment_container_view, recentEventsFragment)
