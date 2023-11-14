@@ -1,0 +1,64 @@
+<!-- chat_item.xml -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:layout_marginStart="4dp">
+
+    <ImageView
+        android:id="@+id/img_sender_profile_chat"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="bottom|start"
+        android:src="@drawable/alice"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="vertical"
+        android:background="@drawable/bubble_background">
+
+        <TextView
+            android:id="@+id/text_sender_name_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="John Doe"
+            android:textStyle="bold"
+            android:textColor="@color/accent_orange"
+            android:paddingTop="3dp"
+            android:paddingStart="8dp"/>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/recycler_view_text_view_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hi, how are you?"
+                android:textColor="@android:color/white"
+                android:paddingHorizontal="8dp"
+                android:paddingBottom="3dp"
+                android:layout_marginEnd="35dp"/>
+            <TextView
+                android:id="@+id/text_sent_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12:34"
+                android:textSize="12sp"
+                android:textColor="@android:color/darker_gray"
+                android:layout_gravity="bottom|end"
+                android:layout_marginHorizontal="4dp"
+                android:layout_marginBottom="2dp"
+                android:paddingTop="8dp"
+                />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

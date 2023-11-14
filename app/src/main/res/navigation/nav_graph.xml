@@ -152,6 +152,9 @@
         <action
             android:id="@+id/action_eventDetailsFragment_to_eventsFragment"
             app:destination="@id/eventsFragment" />
+        <action
+            android:id="@+id/action_eventDetailsFragment_to_chatFragment"
+            app:destination="@id/chatFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchEventsFragment"
@@ -179,4 +182,9 @@
         android:name="com.nt.gamemingle.ui.profile.ChangePasswordFragment"
         android:label="fragment_change_password"
         tools:layout="@layout/fragment_change_password" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.nt.gamemingle.ui.chat.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
 </navigation>

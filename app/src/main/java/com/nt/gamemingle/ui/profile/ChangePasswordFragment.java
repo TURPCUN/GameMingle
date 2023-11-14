@@ -26,8 +26,16 @@ public class ChangePasswordFragment extends BaseFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        setBottomBarVisibility(false);
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setBottomBarVisibility(false);
     }
 
     @Override
