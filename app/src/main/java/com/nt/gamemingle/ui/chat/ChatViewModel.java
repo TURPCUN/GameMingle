@@ -63,12 +63,14 @@ public class ChatViewModel {
                 ArrayList<ChatMessage> chatMessages = new ArrayList<>();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     HashMap<String, String> chatMessage = (HashMap<String, String>) dataSnapshot.getValue();
+                    String chatMessageId = dataSnapshot.getKey();
                     String message = chatMessage.get("message");
                     String userId = chatMessage.get("userId");
                     String time = chatMessage.get("messageTime");
                     String date = chatMessage.get("messageDate");
                     String username = chatMessage.get("userName");
                     ChatMessage chatMessage1 = new ChatMessage(message, userId, time, date, username);
+                    chatMessage1.setChatMessageId(chatMessageId);
                     chatMessages.add(chatMessage1);
                 }
                 try {
@@ -101,5 +103,15 @@ public class ChatViewModel {
                 }
             }
         }
+    }
+
+    public void reportSpamMessage(String eventId, String messageId, String reportReason) {
+        UUID uuid = UUID.randomUUID();
+        String reportUuid = uuid.toString();
+        String userId = appViewModel.mAuth.getCurrentUser().getUid();
+        appViewModel.databaseReference.child("REPORTING").child(reportUuid).child("eventId").setValue(eventId);
+        appViewModel.databaseReference.child("REPORTING").child(reportUuid).child("messageId").setValue(messageId);
+        appViewModel.databaseReference.child("REPORTING").child(reportUuid).child("reportReason").setValue(reportReason);
+        appViewModel.databaseReference.child("REPORTING").child(reportUuid).child("reporter").setValue(userId);
     }
 }
