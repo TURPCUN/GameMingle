@@ -4,8 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,8 +33,6 @@ public class RecentEventsFragment extends BaseFragment implements RecentEventsAd
     NavController navController;
 
     Button btnExploreEvents;
-
-    CardView cardViewNoEvent;
 
 
     public RecentEventsFragment() {
@@ -78,34 +74,20 @@ public class RecentEventsFragment extends BaseFragment implements RecentEventsAd
         recentEventsAdapter = new RecentEventsAdapter(requireContext(), recentEvents, this);
         recyclerRecentEvents.setAdapter(recentEventsAdapter);
 
-        cardViewNoEvent = view.findViewById(R.id.cardViewNoEvent);
-
         mViewModel.isRecentEventsReceived.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if(aBoolean){
                     recentEvents = mViewModel.recentEvents;
                     if(recentEvents.size() > 0){
-                        cardViewNoEvent.setVisibility(View.GONE);
                         recentEventsAdapter.setRecentEventsList(recentEvents);
-                    } else {
-                        cardViewNoEvent.setVisibility(View.VISIBLE);
                     }
-                }else {
-                    cardViewNoEvent.setVisibility(View.VISIBLE);
                 }
             }
         });
 
         btnExploreEvents = getActivity().findViewById(R.id.btnExploreAll);
         btnExploreEvents.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navController.navigate(R.id.action_myGamesFragment_to_searchEventsFragment);
-            }
-        });
-
-        cardViewNoEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 navController.navigate(R.id.action_myGamesFragment_to_searchEventsFragment);

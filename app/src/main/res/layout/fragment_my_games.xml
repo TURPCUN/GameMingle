@@ -16,23 +16,29 @@
             android:id="@+id/recent_events_fragment_container_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/card_view_favorites"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/card_view_library"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
+
             />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/my_games_empty_fragment_container_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
             />
         <Button
             android:id="@+id/btn_explore_games_my_games"
@@ -46,6 +52,7 @@
             android:layout_gravity="center"
             android:text="@string/explore_games"
             android:textSize="20sp"
+            android:visibility="invisible"
             />
     </LinearLayout>
 </ScrollView>
