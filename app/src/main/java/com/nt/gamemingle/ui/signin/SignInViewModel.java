@@ -37,7 +37,6 @@ public class SignInViewModel {
 
     private void handleSignInResult(Task<AuthResult> task, Context context) {
         if (task.isSuccessful()) {
-            showToast(context, "Login successful!");
             isSignedIn.setValue(true);
         } else {
             showToast(context, "Login ERROR!");
@@ -52,10 +51,8 @@ public class SignInViewModel {
         FirebaseUser currentUser = appViewModel.mAuth.getCurrentUser();
         if (currentUser != null ) {
             if(rememberMeChecked) {
-                showToast(context, "User is logged in");
                 isSignedIn.setValue(true);
             } else {
-                showToast(context, "User is not logged in");
                 appViewModel.mAuth.signOut();
                 isSignedIn.setValue(false);
             }

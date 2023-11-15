@@ -63,10 +63,6 @@ public class MyGamesFragment extends BaseFragment {
                     binding.recentEventsFragmentContainerView.setVisibility(View.VISIBLE);
                     binding.myGamesEmptyFragmentContainerView.setVisibility(View.GONE);
                 } else {
-                    binding.cardViewFavorites.setVisibility(View.GONE);
-                    binding.cardViewLibrary.setVisibility(View.GONE);
-                    binding.btnExploreGamesMyGames.setVisibility(View.GONE);
-                    binding.recentEventsFragmentContainerView.setVisibility(View.GONE);
                     binding.myGamesEmptyFragmentContainerView.setVisibility(View.VISIBLE);
                 }
             }
