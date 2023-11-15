@@ -9,6 +9,8 @@ public class ChatMessage {
     String messageTime;
     String messageDate;
 
+    String chatMessageId;
+
     public ChatMessage() {
     }
 
@@ -58,5 +60,13 @@ public class ChatMessage {
 
     public void setUserFullName(String userFullName) {
         this.userFullName = userFullName;
+    }
+
+    public void setChatMessageId(String chatMessageId) {
+        this.chatMessageId = chatMessageId;
+    }
+
+    public String getChatMessageId() {
+        return chatMessageId;
     }
 }

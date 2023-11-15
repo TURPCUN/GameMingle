@@ -7,12 +7,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.adapters.ChatAdapter;
@@ -32,7 +34,7 @@ public class ChatFragment extends BaseFragment {
     private FragmentChatBinding binding;
 
     private ChatAdapter chatAdapter;
-    private ArrayList<ChatMessage> chatMessages = new ArrayList<>();
+    private ArrayList<ChatMessage> chatMessagesLocal = new ArrayList<>();
     public ChatFragment() {
         // Required empty public constructor
     }
@@ -69,11 +71,48 @@ public class ChatFragment extends BaseFragment {
 
         chatViewModel.getMessages(event.getEventId());
 
-        chatAdapter = new ChatAdapter(chatMessages);
+        chatAdapter = new ChatAdapter(chatMessagesLocal);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireContext());
         binding.recyclerViewChat.setLayoutManager(layoutManager);
         binding.recyclerViewChat.setAdapter(chatAdapter);
 
+        ItemTouchHelper.SimpleCallback callback =
+                new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+                    @Override
+                    public float getSwipeThreshold(@NonNull RecyclerView.ViewHolder viewHolder) {
+                        return 0.1f;
+                    }
+
+                    @Override
+                    public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                        return false;
+                    }
+
+                    @Override
+                    public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                        int position = viewHolder.getAdapterPosition();
+                        if (direction == ItemTouchHelper.LEFT) {
+                            String eventId = event.getEventId();
+                            String messageId = chatMessagesLocal.get(position).getChatMessageId();
+                            String message = chatMessagesLocal.get(position).getMessage();
+                            String messageTime = chatMessagesLocal.get(position).getMessageTime();
+                            String messageSender = chatMessagesLocal.get(position).getUserFullName();
+                            String currentUserId = appViewModel.mAuth.getCurrentUser().getUid();
+                            if(chatMessagesLocal.get(position).getUserId().equals(currentUserId)){
+                                Toast.makeText(requireContext(), "You can't report your own message", Toast.LENGTH_SHORT).show();
+                                chatAdapter.notifyDataSetChanged();
+                                return;
+                            }
+                            ReportDialogFragment reportDialogFragment = new ReportDialogFragment(eventId, messageId, message, messageTime, messageSender, appViewModel);
+                            reportDialogFragment.show(getParentFragmentManager(), "reportDialog");
+                            chatAdapter.notifyDataSetChanged();
+                        }
+                    }
+                };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(binding.recyclerViewChat);
         binding.buttonSendChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,6 +140,7 @@ public class ChatFragment extends BaseFragment {
             @Override
             public void onChanged(ArrayList<ChatMessage> chatMessages) {
                 chatAdapter.setChatMessages(chatMessages);
+                chatMessagesLocal = chatMessages;
                 chatAdapter.notifyDataSetChanged();
             }
         });

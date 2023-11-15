@@ -16,6 +16,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.FragmentProfileBinding;
 import com.nt.gamemingle.model.User;
+import com.nt.gamemingle.ui.chat.ReportDialogFragment;
 import com.nt.gamemingle.ui.common.BaseFragment;
 
 public class ProfileFragment extends BaseFragment {
