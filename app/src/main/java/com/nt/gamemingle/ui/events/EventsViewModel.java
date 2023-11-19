@@ -76,9 +76,9 @@ public class EventsViewModel {
                                                                     String eventLocation = snapshot.child("location").getValue(String.class);
                                                                     String eventGameId = snapshot.child("gameId").getValue(String.class);
                                                                     String eventOwnerId = snapshot.child("ownerId").getValue(String.class);
-                                                                    //   int eventAttendeesCount = snapshot.child("approvedAttendeesCount").getValue(Integer.class);
+                                                                    int eventAttendeesCount = snapshot.child("approvedAttendeesCount").getValue(Integer.class);
                                                                     Event event = new Event(eventId, eventName, eventDescription, eventDate, eventTime, eventLocation, eventOwnerId, eventGameId);
-                                                                    //  event.setEventAttendees(eventAttendeesCount);
+                                                                    event.setEventAttendees(eventAttendeesCount);
                                                                     DatabaseReference gameReference = appViewModel.database.getReference("Games").child(eventGameId);
                                                                     gameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                                                         @Override

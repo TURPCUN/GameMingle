@@ -55,7 +55,7 @@ public class EventsAdapter extends RecyclerView.Adapter{
         String dateMonth = dateFormat(eventDateSplit[1]);
         String dateFormat = dateDay + "\n" + dateMonth;
         ((ViewHolderEvent)holder).holderBinding.eventDate.setText(dateFormat);
-        ((ViewHolderEvent)holder).holderBinding.attendeesCount.setText("+" + String.valueOf(upcomingOrMyEventList.get(position).getEventAttendees()) + " Going");
+        ((ViewHolderEvent)holder).holderBinding.attendeesCount.setText(String.valueOf(upcomingOrMyEventList.get(position).getEventAttendees()) + " Going");
     }
 
 

@@ -99,7 +99,7 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
         mViewModel.approvedEventAttendeesCount.observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                binding.attendeesCount.setText("+" + integer + " Going");
+                binding.attendeesCount.setText(integer + " Going");
             }
         });
 
