@@ -49,7 +49,7 @@ public class MyGamesFragment extends BaseFragment {
 
         setToolBarVisibility(true);
         setBottomBarVisibility(true);
-
+        appViewModel.upcomingEventsNotification();
         mViewModel = new MyGamesViewModel(appViewModel);
         mViewModel.checkFavouriteGame(requireContext());
 

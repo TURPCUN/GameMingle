@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context=".ui.notification.NotificationFragment">
+
+
+    <TextView
+        android:id="@+id/txtNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Notifications"
+        android:textSize="32sp"
+        android:textColor="@color/dark_gray"
+        android:fontFamily="@font/nunito"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:id="@+id/txtMarkAllAsRead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mark all as read"
+        android:textSize="20sp"
+        android:textColor="@color/medium_gray"
+        android:textStyle="bold"
+        android:fontFamily="@font/nunito"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_notification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>
