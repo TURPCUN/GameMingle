@@ -15,7 +15,7 @@ import com.nt.gamemingle.model.BoardGame;
 
 import java.util.ArrayList;
 
-public class FavouriteGamesSeeAllAdapter extends RecyclerView.Adapter {
+public class FavouriteGamesSeeAllAdapter extends RecyclerView.Adapter<FavouriteGamesSeeAllAdapter.ViewHolderGameDetails> {
 
     ArrayList<BoardGame> favouriteGamesList;
     LayoutInflater inflater;
@@ -32,7 +32,7 @@ public class FavouriteGamesSeeAllAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolderGameDetails onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = inflater.inflate(R.layout.game_card_rectangle, parent, false);
         ViewHolderGameDetails viewHolderGameDetails = new ViewHolderGameDetails(view);
@@ -40,17 +40,17 @@ public class FavouriteGamesSeeAllAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolderGameDetails holder, int position) {
         String gameName = favouriteGamesList.get(position).getGameName();
         int imageResource = holder.itemView.getContext().getResources()
                 .getIdentifier(gameName.toLowerCase().replaceAll("\\s", ""), "drawable", holder.itemView.getContext().getPackageName());
         if (imageResource != 0) {
-            ((ViewHolderGameDetails)holder).imgCard.setImageResource(imageResource);
+            holder.imgCard.setImageResource(imageResource);
         } else {
-            ((ViewHolderGameDetails)holder).imgCard.setImageResource(R.drawable.icon);
+            holder.imgCard.setImageResource(R.drawable.icon);
         }
-        ((ViewHolderGameDetails)holder).titleCard.setText(favouriteGamesList.get(position).getGameName());
-        ((ViewHolderGameDetails)holder).descriptionCard.setText(favouriteGamesList.get(position).getGameDescription());
+        holder.titleCard.setText(favouriteGamesList.get(position).getGameName());
+        holder.descriptionCard.setText(favouriteGamesList.get(position).getGameDescription());
     }
 
     @Override
