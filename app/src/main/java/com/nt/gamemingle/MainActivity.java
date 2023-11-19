@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     navController.navigate(R.id.profileFragment);
                     break;
                 case R.id.menuNotification:
-                    navController.navigate(R.id.eventsFragment);
+                    navController.navigate(R.id.notificationFragment);
                     break;
 
             }

@@ -13,6 +13,9 @@ import com.nt.gamemingle.app.AppViewModel;
 import com.nt.gamemingle.model.User;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.UUID;
 
 public class EventDetailsViewModel {
 
@@ -27,9 +30,31 @@ public class EventDetailsViewModel {
         this.appViewModel = appViewModel;
     }
 
-    public void registerForEvent(String eventId) {
+    public void registerForEvent(String eventId, String eventName) {
         appViewModel.databaseReference.child("USER_ATTEND_EVENT").child(eventId).child("participants").child(appViewModel.mAuth.getCurrentUser().getUid()).setValue(true);
         appViewModel.databaseReference.child("USER_ATTEND_EVENT").child(eventId).child("participants").child(appViewModel.mAuth.getCurrentUser().getUid()).child("isApproved").setValue(false);
+
+        // Prepare a notification for the user
+        UUID uuid = UUID.randomUUID();
+        String notificationUuid = uuid.toString();
+        String userId = appViewModel.mAuth.getCurrentUser().getUid();
+        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("eventId").setValue(eventId);
+        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("message").setValue("You registered for the " + eventName + " event!");
+        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("isRead").setValue(false);
+
+        Calendar calendar = Calendar.getInstance();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
+
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int year = calendar.get(Calendar.YEAR);
+        String formattedDate = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year);
+
+        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("time").setValue(formattedTime);
+        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("date").setValue(formattedDate);
+
     }
 
     private boolean isUserApproved(String eventId, String userId) {
@@ -59,7 +84,7 @@ public class EventDetailsViewModel {
         return isUserApproved.size() > 0;
     }
 
-    private void cancelEventForUser(String eventId, String userId, String eventOwnerId) {
+    private void cancelEventForUser(String eventId, String userId, String eventOwnerId, String eventName) {
         DatabaseReference userEventsReference = appViewModel.database.getReference("USER_ATTEND_EVENT").child(eventId).child("participants").child(userId);
         userEventsReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -78,6 +103,28 @@ public class EventDetailsViewModel {
                                             approvedAttendeesCount--;
                                             appViewModel.databaseReference.child("EVENT").child(eventId).child("approvedAttendeesCount").setValue(approvedAttendeesCount);
                                             appViewModel.databaseReference.child("USER_ATTEND_EVENT").child(eventId).child("participants").child(appViewModel.mAuth.getCurrentUser().getUid()).removeValue();
+
+                                            // Prepare a notification for the user
+                                            UUID uuid = UUID.randomUUID();
+                                            String notificationUuid = uuid.toString();
+                                            appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("eventId").setValue(eventId);
+                                            appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("message").setValue("You cancelled your registration of the  " + eventName + " event.");
+                                            appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("isRead").setValue(false);
+
+                                            Calendar calendar = Calendar.getInstance();
+                                            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                                            int minute = calendar.get(Calendar.MINUTE);
+                                            String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
+
+                                            int day = calendar.get(Calendar.DAY_OF_MONTH);
+                                            int month = calendar.get(Calendar.MONTH) + 1;
+                                            int year = calendar.get(Calendar.YEAR);
+                                            String formattedDate = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year);
+
+                                            appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("time").setValue(formattedTime);
+                                            appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("date").setValue(formattedDate);
+
+
                                             approvedEventAttendeesCount.setValue(approvedAttendeesCount);
                                             userEventStatus(eventId, eventOwnerId);
                                         }
@@ -107,14 +154,36 @@ public class EventDetailsViewModel {
             }
         });    }
 
-    public void cancelEvent(String eventId, String eventOwnerId) {
+    public void cancelEvent(String eventId, String eventOwnerId, String eventName) {
         // owner cancels event
         if (appViewModel.mAuth.getCurrentUser().getUid().equals(eventOwnerId)) {
             appViewModel.databaseReference.child("Users").child(eventOwnerId).child("events").child(eventId).removeValue();
             appViewModel.databaseReference.child("EVENT").child(eventId).removeValue();
             appViewModel.databaseReference.child("USER_ATTEND_EVENT").child(eventId).removeValue();
+
+            // Prepare a notification for the user
+            UUID uuid = UUID.randomUUID();
+            String notificationUuid = uuid.toString();
+            appViewModel.databaseReference.child("NOTIFICATION").child(eventOwnerId).child(notificationUuid).child("eventId").setValue(eventId);
+            appViewModel.databaseReference.child("NOTIFICATION").child(eventOwnerId).child(notificationUuid).child("message").setValue("You cancelled the " + eventName + " event.");
+            appViewModel.databaseReference.child("NOTIFICATION").child(eventOwnerId).child(notificationUuid).child("isRead").setValue(false);
+
+            Calendar calendar = Calendar.getInstance();
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
+            String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
+
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            int month = calendar.get(Calendar.MONTH) + 1;
+            int year = calendar.get(Calendar.YEAR);
+            String formattedDate = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year);
+
+            appViewModel.databaseReference.child("NOTIFICATION").child(eventOwnerId).child(notificationUuid).child("time").setValue(formattedTime);
+            appViewModel.databaseReference.child("NOTIFICATION").child(eventOwnerId).child(notificationUuid).child("date").setValue(formattedDate);
+
+
         } else { // user cancels event registration
-            cancelEventForUser(eventId, appViewModel.mAuth.getCurrentUser().getUid(), eventOwnerId);
+            cancelEventForUser(eventId, appViewModel.mAuth.getCurrentUser().getUid(), eventOwnerId, eventName);
         }
     }
 
@@ -209,7 +278,7 @@ public class EventDetailsViewModel {
                 });
     }
 
-    public void approveUser(String eventId, String userId) {
+    public void approveUser(String eventId, String userId, String eventName) {
         appViewModel.databaseReference.child("USER_ATTEND_EVENT").child(eventId).child("participants").child(userId).child("isApproved").setValue(true);
 
         DatabaseReference eventReference = appViewModel.database.getReference("EVENT").child(eventId).child("approvedAttendeesCount");
@@ -221,6 +290,27 @@ public class EventDetailsViewModel {
                     if (approvedAttendeesCount != null) {
                         approvedAttendeesCount = approvedAttendeesCount + 1;
                         appViewModel.databaseReference.child("EVENT").child(eventId).child("approvedAttendeesCount").setValue(approvedAttendeesCount);
+                        approvedEventAttendeesCount.setValue(approvedAttendeesCount);
+
+                        // Prepare a notification for the user
+                        UUID uuid = UUID.randomUUID();
+                        String notificationUuid = uuid.toString();
+                        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("eventId").setValue(eventId);
+                        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("message").setValue("You have been approved for the " + eventName + " event! Let's check the event details.");
+                        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("isRead").setValue(false);
+
+                        Calendar calendar = Calendar.getInstance();
+                        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                        int minute = calendar.get(Calendar.MINUTE);
+                        String formattedTime = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
+
+                        int day = calendar.get(Calendar.DAY_OF_MONTH);
+                        int month = calendar.get(Calendar.MONTH) + 1;
+                        int year = calendar.get(Calendar.YEAR);
+                        String formattedDate = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month, year);
+
+                        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("time").setValue(formattedTime);
+                        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("date").setValue(formattedDate);
                     }
                 }
             }

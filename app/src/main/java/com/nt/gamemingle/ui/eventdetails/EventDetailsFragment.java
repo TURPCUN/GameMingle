@@ -154,7 +154,7 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
         binding.btnRegisterEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mViewModel.registerForEvent(event.getEventId());
+                mViewModel.registerForEvent(event.getEventId(), event.getEventName());
                 mViewModel.userEventStatus(event.getEventId(), event.getEventOwnerId());
                 Toast.makeText(getContext(), "Registered for event", Toast.LENGTH_SHORT).show();
             }
@@ -163,7 +163,7 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
         binding.btnCancelEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mViewModel.cancelEvent(event.getEventId(), eventOwnerId);
+                mViewModel.cancelEvent(event.getEventId(), eventOwnerId, event.getEventName());
                 mViewModel.userEventStatus(event.getEventId(), eventOwnerId);
                 Toast.makeText(getContext(), "Cancelled event", Toast.LENGTH_SHORT).show();
                 if ((appViewModel.mAuth.getCurrentUser().getUid()).equals(eventOwnerId)) {
@@ -184,7 +184,7 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
 
     @Override
     public void onApproveClick(View view, int position) {
-        mViewModel.approveUser(event.getEventId(), attendeesList.get(position).getUserId());
+        mViewModel.approveUser(event.getEventId(), attendeesList.get(position).getUserId(), event.getEventName());
     }
 
     @Override

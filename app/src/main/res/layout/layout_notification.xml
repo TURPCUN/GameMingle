@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="5dp"
+    android:layout_margin="5dp"
+    android:orientation="horizontal">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewNotificationImg"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginVertical="5dp"
+        app:cardCornerRadius="50dp">
+        <ImageView
+            android:id="@+id/imgNotification"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/icon"/>
+    </androidx.cardview.widget.CardView>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/txtNotificationMsg"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="2dp"
+            android:maxLines="4"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:text="You have one new notification!" />
+
+        <TextView
+            android:id="@+id/txtNotificationTime"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="bottom|start"
+            android:maxLines="1"
+            android:textSize="14sp"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginVertical="2dp"
+            android:text="14 November 2023 - 12:34" />
+    </LinearLayout>
+
+</LinearLayout>
