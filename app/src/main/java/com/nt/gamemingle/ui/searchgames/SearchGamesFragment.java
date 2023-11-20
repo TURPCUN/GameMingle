@@ -42,7 +42,7 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
         searchView.setQuery("", false);
         searchView.clearFocus();
        // boardGameList.clear();
-        mViewModel.getBoardGames(requireContext());
+        mViewModel.getUserFavoriteGames(requireContext());
     }
 
     public SearchGamesFragment() {
@@ -64,7 +64,7 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
 
         mViewModel = new SearchGamesViewModel(appViewModel);
 
-        mViewModel.getBoardGames(requireContext());
+        mViewModel.getUserFavoriteGames(requireContext());
         recyclerSearchGames = getActivity().findViewById(R.id.recyclerSearchGames);
         recyclerSearchGames.setLayoutManager(new LinearLayoutManager(getActivity()));
         gameSearchAdapter = new GameSearchAdapter(getActivity(), boardGameList, this);

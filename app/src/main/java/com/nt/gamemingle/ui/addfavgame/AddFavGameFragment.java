@@ -74,6 +74,16 @@ public class AddFavGameFragment extends BaseFragment {
                 imageView.setImageResource(R.drawable.icon);
             }
 
+            if (boardGame.getUserFavorite() != null && boardGame.getUserFavorite()) {
+                ImageView imgFav = getActivity().findViewById(R.id.imgStarFav);
+                imgFav.setVisibility(View.VISIBLE);
+            }
+
+            if (boardGame.getInLibrary() != null && boardGame.getInLibrary()) {
+                MaterialCheckBox checkBox = getActivity().findViewById(R.id.checkBoxAddFavGame);
+                checkBox.setVisibility(View.INVISIBLE);
+            }
+
             TextView gamePlayers = getActivity().findViewById(R.id.gamePlayers);
             String gamePlayersText = boardGame.getGameMinPlayers() + "-" + boardGame.getGameMaxPlayers();
             gamePlayers.setText(gamePlayersText);
