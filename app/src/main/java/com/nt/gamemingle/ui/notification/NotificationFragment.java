@@ -82,5 +82,8 @@ public class NotificationFragment extends BaseFragment implements NotificationAd
     public void makeItemReadClick(int position) {
         notifications.get(position).setRead(true);
         mViewModel.readNotification(notifications.get(position).getNotificationId());
+        Bundle bundle = new Bundle();
+        bundle.putString("eventId", notifications.get(position).getEventId());
+        navController.navigate(R.id.action_notificationFragment_to_eventDetailsFragment, bundle);
     }
 }
