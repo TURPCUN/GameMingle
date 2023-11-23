@@ -15,12 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.adapters.EventsAdapter;
 import com.nt.gamemingle.databinding.FragmentEventsBinding;
@@ -33,7 +35,6 @@ public class EventsFragment extends BaseFragment implements EventsAdapter.ItemCl
 
     FragmentEventsBinding binding;
     private int selectedTabNumber = 1;
-
     private EventsViewModel mViewModel;
     private EventsAdapter eventsAdapter;
     ArrayList<Event> upcomingEventsList;
@@ -48,7 +49,6 @@ public class EventsFragment extends BaseFragment implements EventsAdapter.ItemCl
         binding.recyclerEvents.setAdapter(eventsAdapter);
         mViewModel.getMyEventsFromFirebase(requireContext());
         mViewModel.getUpcomingEventsFromFirebase(requireContext());
-       // mViewModel.getMyEvents(requireContext());
         setBottomBarVisibility(true);
     }
 
@@ -60,6 +60,10 @@ public class EventsFragment extends BaseFragment implements EventsAdapter.ItemCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setBottomBarVisibility(true);
+        // Reset after coming back
+        BottomNavigationView navigationView = requireActivity().findViewById(R.id.bottom_navigation);
+        Menu menu = navigationView.getMenu();
+        menu.findItem(R.id.menuEvents).setChecked(true);
     }
 
     @Override

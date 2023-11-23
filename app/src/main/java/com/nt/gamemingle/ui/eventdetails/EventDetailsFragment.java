@@ -25,6 +25,8 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
 
     private EventDetailsViewModel mViewModel;
     Event event;
+
+    String eventIdFromNotification;
     FragmentEventDetailsBinding binding;
     NavController navController;
     EventAttendeesAdapter eventAttendeesAdapter;
@@ -40,8 +42,15 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
         eventAttendeesAdapter = new EventAttendeesAdapter(requireContext(), new ArrayList<User>(), this);
         binding.recyclerViewAttendees.setAdapter(eventAttendeesAdapter);
         event = getArguments().getParcelable("event");
-        mViewModel.userEventStatus(event.getEventId(), event.getEventOwnerId());
-        mViewModel.getEventAttendees(event.getEventId());
+        if(event != null) {
+            mViewModel.userEventStatus(event.getEventId(), event.getEventOwnerId());
+            mViewModel.getEventAttendees(event.getEventId());
+        }
+        eventIdFromNotification = getArguments().getString("eventId");
+        if (eventIdFromNotification != null) {
+            mViewModel.getEvent(eventIdFromNotification);
+        }
+
         setBottomBarVisibility(false);
     }
 
@@ -50,6 +59,12 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
         super.onCreate(savedInstanceState);
         event = getArguments().getParcelable("event");
         setBottomBarVisibility(false);
+        navController = appViewModel.getNavController().getValue();
+        mViewModel = new EventDetailsViewModel(appViewModel);
+        eventIdFromNotification = getArguments().getString("eventId");
+        if (eventIdFromNotification != null) {
+            mViewModel.getEvent(eventIdFromNotification);
+        }
     }
 
     @Override
@@ -59,47 +74,90 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
         return binding.getRoot();
     }
 
+    public void configurationWithEvent() {
+        if(event != null) {
+            binding.titleEvent.setText(event.getEventName());
+            binding.eventDescription.setText(event.getEventDescription());
+            binding.eventLocation.setText(event.getEventLocation());
+            String date = event.getEventDate() + " - " + event.getEventTime();
+            binding.eventTime.setText(date);
+            binding.eventOwner.setText(event.getEventOwnerName());
+            String gameName = event.getEventGameName();
+            int imageResource = binding.getRoot().getContext().getResources()
+                    .getIdentifier(gameName.toLowerCase().replaceAll("\\s", ""), "drawable", binding.getRoot().getContext().getPackageName());
+            if (imageResource != 0) {
+                binding.imgEvent.setImageResource(imageResource);
+            } else {
+                binding.imgEvent.setImageResource(R.drawable.icon);
+            }
+
+            String userId = appViewModel.mAuth.getCurrentUser().getUid();
+            String eventOwnerId = event.getEventOwnerId();
+            if (userId.equals(eventOwnerId)) {
+                binding.btnCancelEvent.setVisibility(View.VISIBLE);
+                binding.btnRegisterEvent.setVisibility(View.GONE);
+                binding.fab.setVisibility(View.VISIBLE);
+            } else {
+                binding.btnCancelEvent.setVisibility(View.GONE);
+                binding.btnRegisterEvent.setVisibility(View.VISIBLE);
+            }
+
+            mViewModel.userEventStatus(event.getEventId(), eventOwnerId);
+
+            mViewModel.getEventAttendees(event.getEventId());
+            binding.recyclerViewAttendees.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+            eventAttendeesAdapter = new EventAttendeesAdapter(getContext(), attendeesList, this);
+            binding.recyclerViewAttendees.setAdapter(eventAttendeesAdapter);
+
+            binding.btnCancelEvent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mViewModel.cancelEvent(event.getEventId(), eventOwnerId, event.getEventName());
+                    mViewModel.userEventStatus(event.getEventId(), eventOwnerId);
+                    Toast.makeText(getContext(), "Cancelled event", Toast.LENGTH_SHORT).show();
+                    if ((appViewModel.mAuth.getCurrentUser().getUid()).equals(eventOwnerId)) {
+                        navController.navigate(R.id.action_eventDetailsFragment_to_eventsFragment);
+                    }
+                }
+            });
+
+            binding.btnRegisterEvent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mViewModel.registerForEvent(event.getEventId(), event.getEventName());
+                    mViewModel.userEventStatus(event.getEventId(), event.getEventOwnerId());
+                    Toast.makeText(getContext(), "Registered for event", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+
+            binding.fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("event", event);
+                    navController.navigate(R.id.action_eventDetailsFragment_to_chatFragment, bundle);
+                }
+            });
+        }
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         setToolBarVisibility(true);
 
-        navController = appViewModel.getNavController().getValue();
-        mViewModel = new EventDetailsViewModel(appViewModel);
 
-        binding.titleEvent.setText(event.getEventName());
-        binding.eventDescription.setText(event.getEventDescription());
-        binding.eventLocation.setText(event.getEventLocation());
-        String date = event.getEventDate() + " - " + event.getEventTime();
-        binding.eventTime.setText(date);
-        binding.eventOwner.setText(event.getEventOwnerName());
-        String gameName = event.getEventGameName();
-        int imageResource = binding.getRoot().getContext().getResources()
-                .getIdentifier(gameName.toLowerCase().replaceAll("\\s", ""), "drawable", binding.getRoot().getContext().getPackageName());
-        if (imageResource != 0) {
-            binding.imgEvent.setImageResource(imageResource);
-        } else {
-            binding.imgEvent.setImageResource(R.drawable.icon);
-        }
+// TODO event check null
 
-        String userId = appViewModel.mAuth.getCurrentUser().getUid();
-        String eventOwnerId = event.getEventOwnerId();
-        if (userId.equals(eventOwnerId)) {
-            binding.btnCancelEvent.setVisibility(View.VISIBLE);
-            binding.btnRegisterEvent.setVisibility(View.GONE);
-            binding.fab.setVisibility(View.VISIBLE);
-        } else {
-            binding.btnCancelEvent.setVisibility(View.GONE);
-            binding.btnRegisterEvent.setVisibility(View.VISIBLE);
-        }
-
-        mViewModel.userEventStatus(event.getEventId(), eventOwnerId);
+        configurationWithEvent();
 
         mViewModel.approvedEventAttendeesCount.observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
-                binding.attendeesCount.setText("+" + integer + " Going");
+                binding.attendeesCount.setText(integer + " Going");
             }
         });
 
@@ -136,10 +194,13 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
             }
         });
 
-        mViewModel.getEventAttendees(event.getEventId());
-        binding.recyclerViewAttendees.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        eventAttendeesAdapter = new EventAttendeesAdapter(getContext(), attendeesList, this);
-        binding.recyclerViewAttendees.setAdapter(eventAttendeesAdapter);
+        mViewModel.mutableEvent.observe(getViewLifecycleOwner(), new Observer<Event>() {
+            @Override
+            public void onChanged(Event e) {
+                event = e;
+                configurationWithEvent();
+            }
+        });
 
         mViewModel.isAttendeesReceived.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
@@ -151,35 +212,7 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
             }
 
         });
-        binding.btnRegisterEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewModel.registerForEvent(event.getEventId(), event.getEventName());
-                mViewModel.userEventStatus(event.getEventId(), event.getEventOwnerId());
-                Toast.makeText(getContext(), "Registered for event", Toast.LENGTH_SHORT).show();
-            }
-        });
 
-        binding.btnCancelEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mViewModel.cancelEvent(event.getEventId(), eventOwnerId, event.getEventName());
-                mViewModel.userEventStatus(event.getEventId(), eventOwnerId);
-                Toast.makeText(getContext(), "Cancelled event", Toast.LENGTH_SHORT).show();
-                if ((appViewModel.mAuth.getCurrentUser().getUid()).equals(eventOwnerId)) {
-                    navController.navigate(R.id.action_eventDetailsFragment_to_eventsFragment);
-                }
-            }
-        });
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("event", event);
-                navController.navigate(R.id.action_eventDetailsFragment_to_chatFragment, bundle);
-            }
-        });
     }
 
     @Override

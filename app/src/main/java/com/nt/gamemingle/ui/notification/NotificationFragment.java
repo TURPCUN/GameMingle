@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.adapters.NotificationAdapter;
 import com.nt.gamemingle.model.Notification;
@@ -35,8 +37,23 @@ public class NotificationFragment extends BaseFragment implements NotificationAd
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        setToolBarVisibility(false);
+        setBottomBarVisibility(true);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Reset after coming back
+        BottomNavigationView navigationView = requireActivity().findViewById(R.id.bottom_navigation);
+        Menu menu = navigationView.getMenu();
+        menu.findItem(R.id.menuNotification).setChecked(true);
+
+        setToolBarVisibility(false);
+        setBottomBarVisibility(true);
     }
 
     @Override
@@ -82,5 +99,8 @@ public class NotificationFragment extends BaseFragment implements NotificationAd
     public void makeItemReadClick(int position) {
         notifications.get(position).setRead(true);
         mViewModel.readNotification(notifications.get(position).getNotificationId());
+        Bundle bundle = new Bundle();
+        bundle.putString("eventId", notifications.get(position).getEventId());
+        navController.navigate(R.id.action_notificationFragment_to_eventDetailsFragment, bundle);
     }
 }

@@ -78,6 +78,23 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+
+        binding.bottomNavigation.setOnItemReselectedListener( item -> {
+            switch (item.getItemId()) {
+                case R.id.menuGames:
+                    break;
+                case R.id.menuEvents:
+                    break;
+                case R.id.menuCreateEvent:
+                    break;
+                case R.id.menuProfile:
+                    break;
+                case R.id.menuNotification:
+                    break;
+
+            }
+        });
     }
+
 
 }

@@ -165,7 +165,7 @@
                         android:fontFamily="@font/nunito"
                         android:textColor="@color/purple_700"
                         android:textSize="14sp"
-                        android:text="+1 Going" />
+                        android:text="1 Going" />
 
                 </LinearLayout>
             </LinearLayout>

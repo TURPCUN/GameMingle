@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.nt.gamemingle.app.AppViewModel;
+import com.nt.gamemingle.model.Event;
 import com.nt.gamemingle.model.User;
 
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ import java.util.UUID;
 public class EventDetailsViewModel {
 
     private AppViewModel appViewModel;
+
+    MutableLiveData<Event> mutableEvent = new MutableLiveData<>();
 
     public ArrayList<User> attendeesList = new ArrayList<>();
     MutableLiveData<Boolean> isAttendeesReceived = new MutableLiveData<>(false);
@@ -296,7 +299,7 @@ public class EventDetailsViewModel {
                         UUID uuid = UUID.randomUUID();
                         String notificationUuid = uuid.toString();
                         appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("eventId").setValue(eventId);
-                        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("message").setValue("You have been approved for the " + eventName + " event! Let's check the event details.");
+                        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("message").setValue("You have been approved for the " + eventName + " event! Let's check the details.");
                         appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("isRead").setValue(false);
 
                         Calendar calendar = Calendar.getInstance();
@@ -324,4 +327,50 @@ public class EventDetailsViewModel {
     }
 
 
+    public void getEvent(String eventIdFromNotification) {
+        DatabaseReference eventReference = appViewModel.database.getReference("EVENT").child(eventIdFromNotification);
+        eventReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    String eventName = snapshot.child("eventName").getValue(String.class);
+                    String eventDescription = snapshot.child("description").getValue(String.class);
+                    String eventDate = snapshot.child("date").getValue(String.class);
+                    String eventTime = snapshot.child("time").getValue(String.class);
+                    String eventLocation = snapshot.child("location").getValue(String.class);
+                    String eventOwnerId = snapshot.child("ownerId").getValue(String.class);
+                    String eventGameId = snapshot.child("gameId").getValue(String.class);
+                    int eventAttendeesCount = snapshot.child("approvedAttendeesCount").getValue(Integer.class);
+                    Event event = new Event(eventIdFromNotification, eventName, eventDescription, eventDate, eventTime, eventLocation, eventOwnerId, eventGameId);
+                    event.setEventAttendees(eventAttendeesCount);
+                    DatabaseReference gameReference = appViewModel.database.getReference("Games").child(eventGameId);
+                    gameReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot gameSnapshot) {
+                            if (gameSnapshot.exists()){
+                                String gameName = gameSnapshot.child("gameName").getValue(String.class);
+                                String maxPlayers = gameSnapshot.child("maxPlayer").getValue(String.class);
+                                String minPlayers = gameSnapshot.child("minPlayer").getValue(String.class);
+                                event.setEventMaxPlayers(maxPlayers);
+                                event.setEventMinPlayers(minPlayers);
+                                event.setEventGameName(gameName);
+                                mutableEvent.setValue(event);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.d("EventDetailsViewModel", "Error: " + error.getMessage());
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("EventDetailsViewModel", "Error: " + error.getMessage());
+            }
+        });
+
+    }
 }

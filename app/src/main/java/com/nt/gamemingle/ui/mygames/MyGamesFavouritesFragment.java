@@ -97,7 +97,8 @@ public class MyGamesFavouritesFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("favBoardGameList", favBoardGameList);
+                ArrayList<BoardGame> myList = (ArrayList<BoardGame>) favBoardGameList.clone();
+                bundle.putParcelableArrayList("favBoardGameList", myList);
                 navController.navigate(R.id.action_myGamesFragment_to_allFavouriteGamesFragment, bundle);
             }
         });

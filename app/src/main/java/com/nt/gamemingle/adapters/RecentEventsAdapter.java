@@ -53,6 +53,7 @@ public class RecentEventsAdapter extends RecyclerView.Adapter {
         String dateMonth = dateFormat(eventDateSplit[1]);
         String dateFormat = dateDay + "\n" + dateMonth;
         ((ViewHolder)holder).holderBinding.eventDate.setText(dateFormat);
+        ((ViewHolder)holder).holderBinding.attendeesCount.setText(String.valueOf(recentEventsList.get(position).getEventAttendees()) + " Going");
     }
 
     @Override

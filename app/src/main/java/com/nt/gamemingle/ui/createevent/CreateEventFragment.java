@@ -8,10 +8,12 @@ import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -54,6 +56,10 @@ public class CreateEventFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setToolBarVisibility(false);
+        // Reset after coming back
+        BottomNavigationView navigationView = requireActivity().findViewById(R.id.bottom_navigation);
+        Menu menu = navigationView.getMenu();
+        menu.findItem(R.id.menuCreateEvent).setChecked(true);
     }
 
     @Override

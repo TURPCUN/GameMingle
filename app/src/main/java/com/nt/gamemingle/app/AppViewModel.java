@@ -113,7 +113,7 @@ public class AppViewModel extends ViewModel {
                                                                                     Date currentDate = new Date();
                                                                                     long timeDifference = eventDateTime.getTime() - currentDate.getTime();
                                                                                     long oneDayInMillis = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-                                                                                    if (timeDifference < oneDayInMillis) {
+                                                                                    if (timeDifference < oneDayInMillis && timeDifference > 0) {
                                                                                         // Less than one day left for the event
                                                                                         // Notification
                                                                                         // add a notification without a notification id, eventId will be used as notification id

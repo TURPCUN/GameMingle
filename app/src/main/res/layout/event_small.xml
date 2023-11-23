@@ -67,10 +67,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/nunito"
-                android:text="+1 Going"
-                android:visibility="invisible"
+                android:text="1 Going"
                 android:textColor="@color/purple_700"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:visibility="visible" />
         </LinearLayout>
 
         <LinearLayout

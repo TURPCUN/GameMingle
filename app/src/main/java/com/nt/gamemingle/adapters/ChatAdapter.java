@@ -39,6 +39,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         holder.chatSender.setText(chatSender);
 
         String chatTime = chatMessages.get(position).getMessageTime();
+        if(chatTime == null) {
+            chatTime = "00:00:00";
+        }
         String shortChatTime = chatTime.substring(0, 5);
         holder.chatTime.setText(shortChatTime);
 

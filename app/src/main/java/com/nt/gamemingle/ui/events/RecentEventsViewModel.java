@@ -89,7 +89,9 @@ public class RecentEventsViewModel {
                                 continue;
                             }
                             String eventLocation = event.get("location");
+                            int eventAttendeesCount = eventS.child("approvedAttendeesCount").getValue(Integer.class);
                             Event eventObj = new Event(eventId, eventName, eventDescription, eventDate, eventTime, eventLocation, ownerId, eventGameId);
+                            eventObj.setEventAttendees(eventAttendeesCount);
                             DatabaseReference gameReference = appViewModel.database.getReference("Games").child(eventGameId);
                             gameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override

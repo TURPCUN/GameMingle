@@ -14,9 +14,6 @@
             android:id="@+id/action_signInFragment_to_signUpFragment"
             app:destination="@id/signUpFragment" />
         <action
-            android:id="@+id/action_signInFragment_to_testFragment"
-            app:destination="@id/testFragment" />
-        <action
             android:id="@+id/action_signInFragment_to_myGamesFragment"
             app:destination="@id/myGamesFragment" />
     </fragment>
@@ -25,9 +22,6 @@
         android:name="com.nt.gamemingle.ui.signup.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
-        <action
-            android:id="@+id/action_signUpFragment_to_testFragment2"
-            app:destination="@id/testFragment" />
         <action
             android:id="@+id/action_signUpFragment_to_myGamesFragment"
             app:destination="@id/myGamesFragment" />
@@ -89,9 +83,6 @@
         android:name="com.nt.gamemingle.ui.mylibrary.AllMyLibraryFragment"
         android:label="fragment_all_my_library"
         tools:layout="@layout/fragment_all_my_library" >
-        <action
-            android:id="@+id/action_allMyLibraryFragment_to_createEventFragment"
-            app:destination="@id/createEventFragment" />
     </fragment>
     <fragment
         android:id="@+id/eventsFragment"
@@ -101,39 +92,6 @@
         <action
             android:id="@+id/action_eventsFragment_to_eventDetailsFragment"
             app:destination="@id/eventDetailsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/testFragment"
-        android:name="com.nt.gamemingle.ui.testfragments.TestFragment"
-        android:label="fragment_test"
-        tools:layout="@layout/fragment_test" >
-        <action
-            android:id="@+id/action_testFragment_to_eventsFragment"
-            app:destination="@id/eventsFragment" />
-        <action
-            android:id="@+id/action_testFragment_to_myGamesFragment"
-            app:destination="@id/myGamesFragment" />
-        <action
-            android:id="@+id/action_testFragment_to_searchGamesFragment"
-            app:destination="@id/searchGamesFragment" />
-        <action
-            android:id="@+id/action_testFragment_to_addFavGameFragment"
-            app:destination="@id/addFavGameFragment" />
-        <action
-            android:id="@+id/action_testFragment_to_myGamesEmpty"
-            app:destination="@id/myGamesEmpty" />
-        <action
-            android:id="@+id/action_testFragment_to_createEventFragment"
-            app:destination="@id/createEventFragment" />
-        <action
-            android:id="@+id/action_testFragment_to_eventDetailsFragment"
-            app:destination="@id/eventDetailsFragment" />
-        <action
-            android:id="@+id/action_testFragment_to_searchEventsFragment"
-            app:destination="@id/searchEventsFragment" />
-        <action
-            android:id="@+id/action_testFragment_to_signInFragment"
-            app:destination="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/createEventFragment"
@@ -191,5 +149,9 @@
         android:id="@+id/notificationFragment"
         android:name="com.nt.gamemingle.ui.notification.NotificationFragment"
         android:label="fragment_notification"
-        tools:layout="@layout/fragment_notification" />
+        tools:layout="@layout/fragment_notification" >
+        <action
+            android:id="@+id/action_notificationFragment_to_eventDetailsFragment"
+            app:destination="@id/eventDetailsFragment" />
+    </fragment>
 </navigation>

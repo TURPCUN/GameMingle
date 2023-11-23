@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.nt.gamemingle.app.AppViewModel;
 import com.nt.gamemingle.model.BoardGame;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +26,35 @@ public class SearchGamesViewModel {
         this.appViewModel = appViewModel;
     }
 
-    public void getBoardGames(Context context) {
+    public void getUserFavoriteGames(Context context){
+        String userId = appViewModel.mAuth.getCurrentUser().getUid();
+        if (userId != null) {
+            ArrayList<String> userFavoriteGamesIds = new ArrayList<>();
+            HashMap<String,Boolean> userFavoriteGames = new HashMap<>();
+            DatabaseReference userGamesReference = appViewModel.database.getReference("USER_GAME").child(userId);
+            userGamesReference.addListenerForSingleValueEvent(new ValueEventListener(){
+
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for (DataSnapshot gameSnapshot : snapshot.getChildren()) {
+                        String gameId = gameSnapshot.getKey();
+                        if (gameId != null) {
+                            Boolean inLibrary = (Boolean) gameSnapshot.child("inLibrary").getValue();
+                           // userFavoriteGamesIds.add(gameId);
+                            userFavoriteGames.put(gameId, inLibrary);
+                        }
+                    }
+                    getBoardGames(context, userFavoriteGames);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+    public void getBoardGames(Context context, HashMap<String, Boolean> userFavoriteGames) {
         ArrayList<BoardGame> tempBoardGameList = new ArrayList<>();
         DatabaseReference gamesReference = appViewModel.database.getReference("Games");
         gamesReference.addValueEventListener(new ValueEventListener() {
@@ -42,6 +71,12 @@ public class SearchGamesViewModel {
                     String gameCategory = game.get("gameCategory");
                     BoardGame boardGame = new BoardGame(gameId, gameName, gameDescription,
                             gameImageUrl, gameMinPlayers, gameMaxPlayers, gameCategory);
+                    if (userFavoriteGames != null && userFavoriteGames.containsKey(gameId)) {
+                        boardGame.setUserFavorite(true);
+                        if(userFavoriteGames.get(gameId)){
+                            boardGame.setInLibrary(true);
+                        }
+                    }
                     tempBoardGameList.add(boardGame);
                 }
                 tempBoardGameList.sort((o1, o2) -> o1.getGameName().compareTo(o2.getGameName()));

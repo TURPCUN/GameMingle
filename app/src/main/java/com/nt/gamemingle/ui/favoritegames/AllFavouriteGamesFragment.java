@@ -30,14 +30,6 @@ public class AllFavouriteGamesFragment extends BaseFragment {
     NavController navController;
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        favBoardGameList2 = getArguments().getParcelableArrayList("favBoardGameList");
-        favouriteGamesSeeAllAdapter = new FavouriteGamesSeeAllAdapter(requireContext(), favBoardGameList2);
-        recyclerFavGames2.setAdapter(favouriteGamesSeeAllAdapter);
-    }
-
     public AllFavouriteGamesFragment() {
         // Required empty public constructor
     }
@@ -68,7 +60,6 @@ public class AllFavouriteGamesFragment extends BaseFragment {
         recyclerFavGames2.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false  ));
         favouriteGamesSeeAllAdapter = new FavouriteGamesSeeAllAdapter(requireContext(), favBoardGameList2);
         recyclerFavGames2.setAdapter(favouriteGamesSeeAllAdapter);
-        favouriteGamesSeeAllAdapter.notifyDataSetChanged();
 
         ItemTouchHelper.SimpleCallback callback =
                 new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.LEFT) {

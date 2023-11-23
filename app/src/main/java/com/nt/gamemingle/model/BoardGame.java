@@ -11,6 +11,10 @@ public class BoardGame implements Parcelable {
     String gameMaxPlayers;
     String gameCategory;
 
+    Boolean isFavourite = false;
+
+    Boolean inLibrary = false;
+
     public BoardGame(String boardGameId, String gameName, String gameDescription, String gameImageUrl, String gameMinPlayers, String gameMaxPlayers, String gameCategory) {
         this.boardGameId = boardGameId;
         this.gameName = gameName;
@@ -120,5 +124,21 @@ public class BoardGame implements Parcelable {
 
     public void setBoardGameId(String boardGameId) {
         this.boardGameId = boardGameId;
+    }
+
+    public Boolean getUserFavorite() {
+        return isFavourite;
+    }
+
+    public void setUserFavorite(Boolean userFavorite) {
+        isFavourite = userFavorite;
+    }
+
+    public Boolean getInLibrary() {
+        return inLibrary;
+    }
+
+    public void setInLibrary(Boolean inLibrary) {
+        this.inLibrary = inLibrary;
     }
 }

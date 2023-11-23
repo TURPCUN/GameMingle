@@ -9,9 +9,11 @@ import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.FragmentProfileBinding;
@@ -43,10 +45,17 @@ public class ProfileFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Reset after coming back
+        BottomNavigationView navigationView = requireActivity().findViewById(R.id.bottom_navigation);
+        Menu menu = navigationView.getMenu();
+        menu.findItem(R.id.menuProfile).setChecked(true);
+
         setToolBarVisibility(false);
         setBottomBarVisibility(true);
         profileViewModel = new ProfileViewModel(appViewModel);
         profileViewModel.getUserInformation();
+
+
 
     }
 

@@ -1,175 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:scrollbars="none">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="4dp">
-
-        <ImageView
-            android:id="@+id/report_img_sender_profile_chat"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_gravity="bottom|start"
-            android:src="@drawable/alice"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="4dp"
-            android:orientation="vertical"
-            android:background="@drawable/bubble_background">
-
-            <TextView
-                android:id="@+id/report_text_sender_name_chat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="John Doe"
-                android:textStyle="bold"
-                android:textColor="@color/accent_orange"
-                android:paddingTop="3dp"
-                android:paddingStart="8dp"/>
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/report_chat_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hi, how are you?"
-                    android:textColor="@android:color/white"
-                    android:paddingHorizontal="8dp"
-                    android:paddingBottom="3dp"
-                    android:layout_marginEnd="35dp"/>
-                <TextView
-                    android:id="@+id/report_text_sent_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="12:34"
-                    android:textSize="12sp"
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginHorizontal="4dp"
-                    android:layout_marginBottom="2dp"
-                    android:paddingTop="8dp"
-                    />
-
-            </FrameLayout>
-
-        </LinearLayout>
-
-    </FrameLayout>
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/radioButtonOption1"
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Spam"
-            android:tag="Unwanted advertisements or repeated messages" />
+            android:layout_marginTop="4dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="4dp">
 
-        <TextView
-            android:id="@+id/textViewOption1Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Unwanted advertisements or repeated messages"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="-8dp"/>
+            <ImageView
+                android:id="@+id/report_img_sender_profile_chat"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|start"
+                android:src="@drawable/alice"/>
 
-        <RadioButton
-            android:id="@+id/radioButtonOption2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Threatening Language"
-            android:tag="Language that poses a threat or harm to other users" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="4dp"
+                android:orientation="vertical"
+                android:background="@drawable/bubble_background">
 
-        <TextView
-            android:id="@+id/textViewOption2Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Language that poses a threat or harm to other users"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="-8dp"/>
+                <TextView
+                    android:id="@+id/report_text_sender_name_chat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="John Doe"
+                    android:textStyle="bold"
+                    android:textColor="@color/accent_orange"
+                    android:paddingTop="3dp"
+                    android:paddingStart="8dp"/>
 
-        <RadioButton
-            android:id="@+id/radioButtonOption3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Inappropriate Content"
-            android:tag="Content that is sexual, violent, racist, or otherwise inappropriate" />
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textViewOption3Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Content that is sexual, violent, racist, or otherwise inappropriate"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="-8dp"/>
+                    <TextView
+                        android:id="@+id/report_chat_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hi, how are you?"
+                        android:textColor="@android:color/white"
+                        android:paddingHorizontal="8dp"
+                        android:paddingBottom="3dp"
+                        android:layout_marginEnd="35dp"/>
+                    <TextView
+                        android:id="@+id/report_text_sent_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="12:34"
+                        android:textSize="12sp"
+                        android:textColor="@android:color/darker_gray"
+                        android:layout_gravity="bottom|end"
+                        android:layout_marginHorizontal="4dp"
+                        android:layout_marginBottom="2dp"
+                        android:paddingTop="8dp"
+                        />
 
-        <RadioButton
-            android:id="@+id/radioButtonOption4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Personal Attacks"
-            android:tag="Personal attacks or insults directed at other users" />
+                </FrameLayout>
 
-        <TextView
-            android:id="@+id/textViewOption4Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Personal attacks or insults directed at other users"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="-8dp"/>
+            </LinearLayout>
 
-        <RadioButton
-            android:id="@+id/radioButtonOption5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Fake Account"
-            android:tag="Accounts created with false identities" />
+        </FrameLayout>
 
-        <TextView
-            android:id="@+id/textViewOption5Description"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Accounts created with false identities"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="-8dp"/>
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/radioButtonOption6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Other"
-            android:tag="Other situations that do not fit into the above categories" />
+            <RadioButton
+                android:id="@+id/radioButtonOption1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Spam"
+                android:tag="Unwanted advertisements or repeated messages" />
 
-        <TextView
-            android:id="@+id/textViewOption6Description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Other situations that do not fit into the above categories"
-            android:textColor="@android:color/darker_gray"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="-8dp"/>
-    </RadioGroup>
-</LinearLayout>
+            <TextView
+                android:id="@+id/textViewOption1Description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unwanted advertisements or repeated messages"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="-8dp"/>
+
+            <RadioButton
+                android:id="@+id/radioButtonOption2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Threatening Language"
+                android:tag="Language that poses a threat or harm to other users" />
+
+            <TextView
+                android:id="@+id/textViewOption2Description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Language that poses a threat or harm to other users"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="-8dp"/>
+
+            <RadioButton
+                android:id="@+id/radioButtonOption3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Inappropriate Content"
+                android:tag="Content that is sexual, violent, racist, or otherwise inappropriate" />
+
+            <TextView
+                android:id="@+id/textViewOption3Description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Content that is sexual, violent, racist, or otherwise inappropriate"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="-8dp"/>
+
+            <RadioButton
+                android:id="@+id/radioButtonOption4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Personal Attacks"
+                android:tag="Personal attacks or insults directed at other users" />
+
+            <TextView
+                android:id="@+id/textViewOption4Description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Personal attacks or insults directed at other users"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="-8dp"/>
+
+            <RadioButton
+                android:id="@+id/radioButtonOption5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fake Account"
+                android:tag="Accounts created with false identities" />
+
+            <TextView
+                android:id="@+id/textViewOption5Description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Accounts created with false identities"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="-8dp"/>
+
+            <RadioButton
+                android:id="@+id/radioButtonOption6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Other"
+                android:tag="Other situations that do not fit into the above categories" />
+
+            <TextView
+                android:id="@+id/textViewOption6Description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Other situations that do not fit into the above categories"
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="-8dp"/>
+        </RadioGroup>
+    </LinearLayout>
+</ScrollView>
