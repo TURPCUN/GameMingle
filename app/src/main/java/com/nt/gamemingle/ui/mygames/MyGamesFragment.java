@@ -3,6 +3,7 @@ package com.nt.gamemingle.ui.mygames;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.FragmentMyGamesBinding;
 import com.nt.gamemingle.ui.common.BaseFragment;
@@ -34,6 +36,11 @@ public class MyGamesFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Reset after coming back from logout
+        BottomNavigationView navigationView = requireActivity().findViewById(R.id.bottom_navigation);
+        Menu menu = navigationView.getMenu();
+        menu.findItem(R.id.menuGames).setChecked(true);
     }
 
     @Override
