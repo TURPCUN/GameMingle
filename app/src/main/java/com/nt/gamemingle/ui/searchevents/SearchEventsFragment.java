@@ -92,8 +92,9 @@ public class SearchEventsFragment extends BaseFragment implements EventSearchAda
             public void onChanged(Boolean aBoolean) {
                 if(aBoolean){
                     eventList = mViewModel.allEvents;
+                    filteredList.clear();
                     filteredList.addAll(eventList);
-                    eventSearchAdapter.setFilteredList(eventList);
+                    eventSearchAdapter.setFilteredList(filteredList);
                 }
             }
         });
