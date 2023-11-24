@@ -19,7 +19,11 @@ import com.nt.gamemingle.databinding.FragmentEventDetailsBinding;
 import com.nt.gamemingle.model.Event;
 import com.nt.gamemingle.model.User;
 import com.nt.gamemingle.ui.common.BaseFragment;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class EventDetailsFragment extends BaseFragment implements EventAttendeesAdapter.ItemClickListener {
 
@@ -190,6 +194,14 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
                         binding.fab.setVisibility(View.VISIBLE);
                         binding.attendeesListLinearLayout.setVisibility(View.VISIBLE);
                     }
+                    // if event is passed then hide all buttons and text, event history event details
+                    if(isEventPassed(event.getEventDate(), event.getEventTime())){
+                        binding.btnRegisterEvent.setVisibility(View.INVISIBLE);
+                        binding.btnCancelEvent.setVisibility(View.GONE);
+                        binding.txtStatus.setVisibility(View.GONE);
+                        binding.fab.setVisibility(View.VISIBLE);
+                        binding.attendeesListLinearLayout.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         });
@@ -223,5 +235,26 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
     @Override
     public void onDenyClick(View view, int position) {
         mViewModel.denyUser(event.getEventId(), attendeesList.get(position).getUserId());
+    }
+
+    private boolean isEventPassed(String eventDate, String eventTime){
+        // eventDate format is "dd/MM/yyyy"
+        // eventTime format is "HH:mm"
+        // compare it today and return true if eventDate is previous than today else false
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        try {
+            Date eventDateTime = dateFormat.parse(eventDate + " " + eventTime);
+            Date currentDateTime = new Date(); // Current date and time
+
+            if (eventDateTime.before(currentDateTime)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -134,5 +134,14 @@ public class ProfileFragment extends BaseFragment {
             }
         });
 
+        binding.txtEventHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (navController != null) {
+                    navController.navigate(R.id.action_profileFragment_to_eventHistoryFragment);
+                }
+            }
+        });
+
     }
 }
