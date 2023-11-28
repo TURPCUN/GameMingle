@@ -22,7 +22,7 @@ import com.nt.gamemingle.ui.common.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyGamesFavouritesFragment extends BaseFragment {
+public class MyGamesFavouritesFragment extends BaseFragment implements FavouriteGamesAdapter.ItemClickListener{
 
     private MyGamesFavouritesFragmentViewModel mViewModel;
 
@@ -36,7 +36,7 @@ public class MyGamesFavouritesFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        favouriteGamesAdapter = new FavouriteGamesAdapter(requireContext(), new ArrayList<BoardGame>());
+        favouriteGamesAdapter = new FavouriteGamesAdapter(requireContext(), new ArrayList<BoardGame>(), this);
         recyclerFavGames.setAdapter(favouriteGamesAdapter);
         mViewModel.getPreviewFavBoardGames(requireContext());
     }
@@ -68,7 +68,7 @@ public class MyGamesFavouritesFragment extends BaseFragment {
         mViewModel.getPreviewFavBoardGames(requireContext());
         recyclerFavGames = getActivity().findViewById(R.id.recycler_fav_games);
         recyclerFavGames.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false ));
-        favouriteGamesAdapter = new FavouriteGamesAdapter(requireContext(), favBoardGameList);
+        favouriteGamesAdapter = new FavouriteGamesAdapter(requireContext(), favBoardGameList, this);
         recyclerFavGames.setAdapter(favouriteGamesAdapter);
 
         final Observer<List<BoardGame>> isFavBoardGameLoaded = new Observer<List<BoardGame>>() {
@@ -102,5 +102,13 @@ public class MyGamesFavouritesFragment extends BaseFragment {
                 navController.navigate(R.id.action_myGamesFragment_to_allFavouriteGamesFragment, bundle);
             }
         });
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("game", favBoardGameList.get(position));
+        bundle.putBoolean("hideSomeFields", true);
+        navController.navigate(R.id.action_myGamesFragment_to_addFavGameFragment, bundle);
     }
 }

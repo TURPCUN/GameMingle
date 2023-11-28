@@ -20,10 +20,13 @@ public class FavouriteGamesSeeAllAdapter extends RecyclerView.Adapter<FavouriteG
 
     ArrayList<BoardGame> favouriteGamesList;
     LayoutInflater inflater;
+    ItemClickListener itemClickListener;
 
-    public FavouriteGamesSeeAllAdapter(Context context, ArrayList<BoardGame> favouriteGamesList){
+
+    public FavouriteGamesSeeAllAdapter(Context context, ArrayList<BoardGame> favouriteGamesList, ItemClickListener itemClickListener){
         this.favouriteGamesList = favouriteGamesList;
         inflater = LayoutInflater.from(context);
+        this.itemClickListener = itemClickListener;
     }
 
     public void setFavouriteGamesList(ArrayList<BoardGame> favouriteGamesList){
@@ -42,17 +45,15 @@ public class FavouriteGamesSeeAllAdapter extends RecyclerView.Adapter<FavouriteG
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderGameDetails holder, int position) {
-        if (favouriteGamesList.get(position).getGameImageUrl() == null) {
-            holder.imgCard.setImageResource(R.drawable.icon);
-        } else {
-            Glide.with(holder.imgCard.getContext())
-                    .load(favouriteGamesList.get(position).getGameImageUrl())
-                    .fitCenter()
-                    .centerCrop()
-                    .placeholder(R.drawable.loading_gif)
-                    .error(R.drawable.icon)
-                    .into(holder.imgCard);
-        }
+
+        Glide.with(holder.imgCard.getContext())
+                .load(favouriteGamesList.get(position).getGameImageUrl())
+                .fitCenter()
+                .centerCrop()
+                .placeholder(R.drawable.loading_gif)
+                .error(R.drawable.icon)
+                .into(holder.imgCard);
+
         holder.titleCard.setText(favouriteGamesList.get(position).getGameName());
         holder.descriptionCard.setText(favouriteGamesList.get(position).getGameDescription());
     }
@@ -60,6 +61,10 @@ public class FavouriteGamesSeeAllAdapter extends RecyclerView.Adapter<FavouriteG
     @Override
     public int getItemCount() {
         return favouriteGamesList.size();
+    }
+
+    public interface ItemClickListener{
+        void onItemClick(int position);
     }
 
     public class ViewHolderGameDetails extends RecyclerView.ViewHolder{
@@ -72,6 +77,15 @@ public class FavouriteGamesSeeAllAdapter extends RecyclerView.Adapter<FavouriteG
             imgCard = itemView.findViewById(R.id.cardImgGameDetail);
             titleCard = itemView.findViewById(R.id.cardTitleGameDetail);
             descriptionCard = itemView.findViewById(R.id.cardDescriptionGameDetail);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(itemClickListener != null){
+                        itemClickListener.onItemClick(getAdapterPosition());
+                    }
+                }
+            });
         }
     }
 }

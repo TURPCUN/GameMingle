@@ -29,6 +29,7 @@ public class AddFavGameFragment extends BaseFragment {
     private ImageView imageView;
     NavController navController;
     BoardGame boardGame;
+    Boolean isComingFromFavOrLibrary = false; // bundle : hideSomeFields
     public AddFavGameFragment() {
         // Required empty public constructor
     }
@@ -37,12 +38,18 @@ public class AddFavGameFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         boardGame = getArguments().getParcelable("game");
+        if (getArguments().getBoolean("hideSomeFields")){
+            isComingFromFavOrLibrary = getArguments().getBoolean("hideSomeFields");
+        }
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         boardGame = getArguments().getParcelable("game");
+        if (getArguments().getBoolean("hideSomeFields")){
+            isComingFromFavOrLibrary = getArguments().getBoolean("hideSomeFields");
+        }
     }
 
     @Override
@@ -82,6 +89,15 @@ public class AddFavGameFragment extends BaseFragment {
             if (boardGame.getInLibrary() != null && boardGame.getInLibrary()) {
                 MaterialCheckBox checkBox = getActivity().findViewById(R.id.checkBoxAddFavGame);
                 checkBox.setVisibility(View.INVISIBLE);
+            }
+
+            if (isComingFromFavOrLibrary){
+                MaterialCheckBox checkBox = getActivity().findViewById(R.id.checkBoxAddFavGame);
+                checkBox.setVisibility(View.INVISIBLE);
+                ImageView imgFav = getActivity().findViewById(R.id.imgStarFav);
+                imgFav.setVisibility(View.INVISIBLE);
+                Button btnAddFavGame = getActivity().findViewById(R.id.btn_add_fav_game);
+                btnAddFavGame.setVisibility(View.INVISIBLE);
             }
 
             TextView gamePlayers = getActivity().findViewById(R.id.gamePlayers);

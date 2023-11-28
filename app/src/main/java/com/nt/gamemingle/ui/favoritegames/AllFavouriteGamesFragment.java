@@ -21,7 +21,7 @@ import com.nt.gamemingle.ui.common.BaseFragment;
 
 import java.util.ArrayList;
 
-public class AllFavouriteGamesFragment extends BaseFragment {
+public class AllFavouriteGamesFragment extends BaseFragment implements FavouriteGamesSeeAllAdapter.ItemClickListener{
 
     private AllFavouriteGamesViewModel mViewModel;
     ArrayList<BoardGame> favBoardGameList2;
@@ -58,7 +58,7 @@ public class AllFavouriteGamesFragment extends BaseFragment {
 
         recyclerFavGames2 = getActivity().findViewById(R.id.recycler_all_fav_games);
         recyclerFavGames2.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false  ));
-        favouriteGamesSeeAllAdapter = new FavouriteGamesSeeAllAdapter(requireContext(), favBoardGameList2);
+        favouriteGamesSeeAllAdapter = new FavouriteGamesSeeAllAdapter(requireContext(), favBoardGameList2, this);
         recyclerFavGames2.setAdapter(favouriteGamesSeeAllAdapter);
 
         ItemTouchHelper.SimpleCallback callback =
@@ -96,5 +96,14 @@ public class AllFavouriteGamesFragment extends BaseFragment {
                 };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerFavGames2);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("game", favBoardGameList2.get(position));
+        bundle.putBoolean("hideSomeFields", true);
+        navController.navigate(R.id.action_allFavoriteGamesFragment_to_addFavGameFragment, bundle);
+
     }
 }

@@ -20,10 +20,12 @@ public class FavouriteGamesAdapter extends RecyclerView.Adapter {
 
     ArrayList<BoardGame> favouriteGamesList;
     LayoutInflater inflater;
+    ItemClickListener itemClickListener;
 
-    public FavouriteGamesAdapter(Context context, ArrayList<BoardGame> favoriteGamesList){
+    public FavouriteGamesAdapter(Context context, ArrayList<BoardGame> favoriteGamesList, ItemClickListener itemClickListener){
         this.favouriteGamesList = favoriteGamesList;
         inflater = LayoutInflater.from(context);
+        this.itemClickListener = itemClickListener;
     }
 
     public void setFavouriteGamesList(ArrayList<BoardGame> favouriteGamesList){
@@ -59,6 +61,9 @@ public class FavouriteGamesAdapter extends RecyclerView.Adapter {
         return favouriteGamesList.size();
     }
 
+    public interface ItemClickListener{
+        void onItemClick(int position);
+    }
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         ImageView imgCard;
@@ -67,6 +72,13 @@ public class FavouriteGamesAdapter extends RecyclerView.Adapter {
             super(itemView);
             imgCard = itemView.findViewById(R.id.cardImgGame);
             titleCard = itemView.findViewById(R.id.cardTitleGame);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClickListener.onItemClick(getAdapterPosition());
+                }
+            });
         }
     }
 }
