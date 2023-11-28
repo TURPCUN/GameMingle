@@ -5,6 +5,7 @@ public class User {
     String userId;
     String fullName;
     String userEventStatus;
+    private String profileImageUrl;
 
     public User(){
 
@@ -37,5 +38,13 @@ public class User {
 
     public void setUserEventStatus(String userEventStatus){
         this.userEventStatus = userEventStatus;
+    }
+
+    public void setUserProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+
+    public String getUserProfileImageUrl() {
+        return profileImageUrl;
     }
 }

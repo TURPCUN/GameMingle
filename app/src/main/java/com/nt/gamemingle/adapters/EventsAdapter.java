@@ -1,6 +1,10 @@
 package com.nt.gamemingle.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +12,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.EventSmallBinding;
 import com.nt.gamemingle.model.Event;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
@@ -41,13 +48,31 @@ public class EventsAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ViewHolderEvent)holder).holderBinding.eventName.setText(upcomingOrMyEventList.get(position).getEventName());
-        int imageResource = ((ViewHolderEvent)holder).itemView.getContext().getResources()
-                .getIdentifier(upcomingOrMyEventList.get(position).getEventGameName().toLowerCase().replaceAll("\\s", ""), "drawable", ((ViewHolderEvent)holder).itemView.getContext().getPackageName());
-        if (imageResource != 0) {
-            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(imageResource);
+
+        if (upcomingOrMyEventList.get(position).getEventImageUrl() == null) {
+            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(R.drawable.icon);
         } else {
-            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(com.nt.gamemingle.R.drawable.icon);
+            Picasso.with(((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.getContext())
+                    .load(upcomingOrMyEventList.get(position).getEventImageUrl())
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackground(new BitmapDrawable(((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.getContext().getResources(), bitmap));
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                            Log.d("TAG", "FAILED");
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                            Log.d("TAG", "Prepare Load");
+                        }
+                    });
         }
+
+
         ((ViewHolderEvent)holder).holderBinding.eventLocation.setText(upcomingOrMyEventList.get(position).getEventLocation());
         String eventDate = upcomingOrMyEventList.get(position).getEventDate();
         String[] eventDateSplit = eventDate.split("/"); // day/ month/ year

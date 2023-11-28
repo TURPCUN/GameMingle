@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.model.ChatMessage;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         String chatMessage = chatMessages.get(position).getMessage();
         holder.chatMessage.setText(chatMessage);
 
-        String chatSender = chatMessages.get(position).getUserFullName();
+        String chatSender = chatMessages.get(position).getSender().getFullName();
         holder.chatSender.setText(chatSender);
 
         String chatTime = chatMessages.get(position).getMessageTime();
@@ -45,17 +46,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         String shortChatTime = chatTime.substring(0, 5);
         holder.chatTime.setText(shortChatTime);
 
-        String userFullName = chatMessages.get(position).getUserFullName();
-        String firstName = userFullName.split(" ")[0];
-
-        int imageResource = holder.itemView.getContext().getResources()
-                .getIdentifier(firstName.toLowerCase(), "drawable", holder.itemView.getContext().getPackageName());
-
-        if (imageResource != 0) {
-            holder.chatImage.setImageResource(imageResource);
-        } else {
-            holder.chatImage.setImageResource(R.drawable.icon);
-        }
+        Picasso.with(holder.chatImage.getContext())
+                .load(chatMessages.get(position).getSender().getUserProfileImageUrl())
+                .fit()
+                .centerCrop()
+                .into(holder.chatImage);
     }
 
     @Override
@@ -72,7 +67,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         public TextView chatMessage;
         public TextView chatSender;
         public TextView chatTime;
-
         public ImageView chatImage;
 
         public ChatViewHolder(@NonNull View itemView) {

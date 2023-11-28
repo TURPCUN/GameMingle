@@ -67,8 +67,8 @@
                 <ImageView
                     android:id="@+id/ImgGame"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
+                    android:layout_height="250dp"
+                    android:scaleType="centerCrop"
                     tools:srcCompat="@tools:sample/avatars" />
 
             </LinearLayout>

@@ -1,5 +1,6 @@
 package com.nt.gamemingle.ui.eventdetails;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.nt.gamemingle.databinding.FragmentEventDetailsBinding;
 import com.nt.gamemingle.model.Event;
 import com.nt.gamemingle.model.User;
 import com.nt.gamemingle.ui.common.BaseFragment;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,9 +29,10 @@ import java.util.Date;
 
 public class EventDetailsFragment extends BaseFragment implements EventAttendeesAdapter.ItemClickListener {
 
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int RESULT_OK = -1;
     private EventDetailsViewModel mViewModel;
     Event event;
-
     String eventIdFromNotification;
     FragmentEventDetailsBinding binding;
     NavController navController;
@@ -86,13 +89,15 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
             String date = event.getEventDate() + " - " + event.getEventTime();
             binding.eventTime.setText(date);
             binding.eventOwner.setText(event.getEventOwnerName());
-            String gameName = event.getEventGameName();
-            int imageResource = binding.getRoot().getContext().getResources()
-                    .getIdentifier(gameName.toLowerCase().replaceAll("\\s", ""), "drawable", binding.getRoot().getContext().getPackageName());
-            if (imageResource != 0) {
-                binding.imgEvent.setImageResource(imageResource);
-            } else {
+
+            if ( event.getEventImageUrl() == null){
                 binding.imgEvent.setImageResource(R.drawable.icon);
+            } else {
+                Picasso.with(binding.imgEvent.getContext())
+                        .load(event.getEventImageUrl())
+                        .fit()
+                        .centerCrop()
+                        .into(binding.imgEvent);
             }
 
             String userId = appViewModel.mAuth.getCurrentUser().getUid();
@@ -134,7 +139,12 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
                 }
             });
 
-
+            binding.fabUploadPhoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                     openFileChooser();
+                }
+            });
 
             binding.fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -153,8 +163,6 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
 
         setToolBarVisibility(true);
 
-
-// TODO event check null
 
         configurationWithEvent();
 
@@ -193,6 +201,7 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
                         binding.txtStatus.setVisibility(View.GONE);
                         binding.fab.setVisibility(View.VISIBLE);
                         binding.attendeesListLinearLayout.setVisibility(View.VISIBLE);
+                        binding.fabUploadPhoto.setVisibility(View.VISIBLE);
                     }
                     // if event is passed then hide all buttons and text, event history event details
                     if(isEventPassed(event.getEventDate(), event.getEventTime())){
@@ -255,6 +264,24 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
         } catch (ParseException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    private void openFileChooser(){
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null){
+            Picasso.with(requireContext()).load(data.getData()).into(binding.imgEvent);
+            mViewModel.uploadImage(data.getData(), event.getEventId());
         }
     }
 }

@@ -1,5 +1,8 @@
 package com.nt.gamemingle.adapters;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nt.gamemingle.databinding.EventSmallBinding;
 import com.nt.gamemingle.model.Event;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
@@ -40,12 +45,28 @@ public class EventHistoryAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ViewHolderEventHistory)holder).holderBinding.eventName.setText(eventHistoryList.get(position).getEventName());
-        int imageResource = ((ViewHolderEventHistory)holder).itemView.getContext().getResources()
-                .getIdentifier(eventHistoryList.get(position).getEventGameName().toLowerCase().replaceAll("\\s", ""), "drawable", ((ViewHolderEventHistory)holder).itemView.getContext().getPackageName());
-        if (imageResource != 0) {
-            ((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(imageResource);
-        } else {
+
+        if (eventHistoryList.get(position).getEventImageUrl() == null) {
             ((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(com.nt.gamemingle.R.drawable.icon);
+        } else {
+            Picasso.with(((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.getContext())
+                    .load(eventHistoryList.get(position).getEventImageUrl())
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            ((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.setBackground(new BitmapDrawable(((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.getContext().getResources(), bitmap));
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                            ((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(com.nt.gamemingle.R.drawable.icon);
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                            ((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(com.nt.gamemingle.R.drawable.icon);
+                        }
+                    });
         }
         ((ViewHolderEventHistory)holder).holderBinding.eventLocation.setText(eventHistoryList.get(position).getEventLocation());
         String eventDate = eventHistoryList.get(position).getEventDate();

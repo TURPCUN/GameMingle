@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.model.BoardGame;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -38,15 +39,18 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        // TODO. Img should come with url
         String gameName = boardGameList.get(position).getGameName();
-        int imageResource = holder.itemView.getContext().getResources()
-                .getIdentifier(gameName.toLowerCase().replaceAll("\\s", ""), "drawable", holder.itemView.getContext().getPackageName());
-        if (imageResource != 0) {
-            ((ViewHolder)holder).imgSmall.setImageResource(imageResource);
+        if (boardGameList.get(position).getGameImageUrl() == null) {
+            ((ViewHolder) holder).imgSmall.setImageResource(R.drawable.icon);
         } else {
-            ((ViewHolder)holder).imgSmall.setImageResource(R.drawable.icon);
+            Picasso.with(((ViewHolder) holder).imgSmall.getContext())
+                    .load(boardGameList.get(position).getGameImageUrl())
+                    .fit()
+                    .centerCrop()
+                    .into(((ViewHolder) holder).imgSmall);
         }
+        ((ViewHolder) holder).tvTitle.setText(gameName);
+        ((ViewHolder) holder).tvDescription.setText(boardGameList.get(position).getGameDescription());
         ((ViewHolder)holder).tvTitle.setText(boardGameList.get(position).getGameName());
         ((ViewHolder)holder).tvDescription.setText(boardGameList.get(position).getGameDescription());
     }

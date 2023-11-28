@@ -1,5 +1,7 @@
 package com.nt.gamemingle.ui.createevent;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -23,6 +25,7 @@ import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.FragmentCreateEventBinding;
 import com.nt.gamemingle.model.BoardGame;
 import com.nt.gamemingle.ui.common.BaseFragment;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +34,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class CreateEventFragment extends BaseFragment {
+
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int RESULT_OK = -1;
+    private Uri mImageUri;
 
     private CreateEventViewModel mViewModel;
 
@@ -121,6 +128,20 @@ public class CreateEventFragment extends BaseFragment {
             }
         };
         mViewModel.boardGamesLiveDataCreateEvent.observe(getViewLifecycleOwner(), isBoardGameLoaded);
+
+        binding.imgEventBtnUpl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
+        });
+
+        binding.imgEventUpl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
+        });
     }
 
     private void showMaterialDatePicker(){
@@ -215,8 +236,28 @@ public class CreateEventFragment extends BaseFragment {
                 gameId = boardGameList.get(i).getBoardGameId();
             }
         }
-        mViewModel.createEvent(eventName, eventLocation, eventDescription, gameId, formattedDate, formattedTime, requireContext());
+
+        mViewModel.createEvent(eventName, eventLocation, eventDescription, gameId, formattedDate, formattedTime, requireContext(), mImageUri);
         navController.navigate(R.id.action_createEventFragment_to_eventsFragment);
     }
 
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent,PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
+            mImageUri = data.getData();
+            Picasso.with(requireContext())
+                    .load(mImageUri)
+                    .into(binding.imgEventUpl);
+        }
+    }
 }

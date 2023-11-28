@@ -24,9 +24,31 @@
             android:textColor="#120D26"
             android:textSize="29sp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/textInputLayoutEventName"
+            app:layout_constraintBottom_toTopOf="@id/imgEventUpl"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/imgEventUpl"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/add_image"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/createEventText" />
+
+        <Button
+            android:id="@+id/imgEventBtnUpl"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/primary_blue"
+            android:text="+"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/imgEventUpl"
+            app:layout_constraintEnd_toEndOf="@+id/imgEventUpl"
+            app:layout_constraintStart_toStartOf="@+id/imgEventUpl" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutEventName"
@@ -39,7 +61,7 @@
             android:hint="@string/event_name"
             app:endIconMode="clear_text"
             app:errorEnabled="true"
-            app:layout_constraintTop_toBottomOf="@id/createEventText"
+            app:layout_constraintTop_toBottomOf="@id/imgEventBtnUpl"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 

@@ -4,9 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.nt.gamemingle.R;
 import com.nt.gamemingle.adapters.ChatAdapter;
 import com.nt.gamemingle.databinding.FragmentChatBinding;
 import com.nt.gamemingle.model.ChatMessage;
@@ -97,9 +94,9 @@ public class ChatFragment extends BaseFragment {
                             String messageId = chatMessagesLocal.get(position).getChatMessageId();
                             String message = chatMessagesLocal.get(position).getMessage();
                             String messageTime = chatMessagesLocal.get(position).getMessageTime();
-                            String messageSender = chatMessagesLocal.get(position).getUserFullName();
+                            String messageSender = chatMessagesLocal.get(position).getSender().getFullName();
                             String currentUserId = appViewModel.mAuth.getCurrentUser().getUid();
-                            if(chatMessagesLocal.get(position).getUserId().equals(currentUserId)){
+                            if(chatMessagesLocal.get(position).getSender().getUserId().equals(currentUserId)){
                                 Toast.makeText(requireContext(), "You can't report your own message", Toast.LENGTH_SHORT).show();
                                 chatAdapter.notifyDataSetChanged();
                                 return;

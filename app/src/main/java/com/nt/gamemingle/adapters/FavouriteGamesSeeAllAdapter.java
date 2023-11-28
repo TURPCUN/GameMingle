@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.model.BoardGame;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -41,13 +42,14 @@ public class FavouriteGamesSeeAllAdapter extends RecyclerView.Adapter<FavouriteG
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderGameDetails holder, int position) {
-        String gameName = favouriteGamesList.get(position).getGameName();
-        int imageResource = holder.itemView.getContext().getResources()
-                .getIdentifier(gameName.toLowerCase().replaceAll("\\s", ""), "drawable", holder.itemView.getContext().getPackageName());
-        if (imageResource != 0) {
-            holder.imgCard.setImageResource(imageResource);
-        } else {
+        if (favouriteGamesList.get(position).getGameImageUrl() == null) {
             holder.imgCard.setImageResource(R.drawable.icon);
+        } else {
+            Picasso.with(holder.imgCard.getContext())
+                    .load(favouriteGamesList.get(position).getGameImageUrl())
+                    .fit()
+                    .centerCrop()
+                    .into(holder.imgCard);
         }
         holder.titleCard.setText(favouriteGamesList.get(position).getGameName());
         holder.descriptionCard.setText(favouriteGamesList.get(position).getGameDescription());

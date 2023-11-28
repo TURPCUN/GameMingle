@@ -17,6 +17,7 @@ import com.google.android.material.checkbox.MaterialCheckBox;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.model.BoardGame;
 import com.nt.gamemingle.ui.common.BaseFragment;
+import com.squareup.picasso.Picasso;
 
 
 public class AddFavGameFragment extends BaseFragment {
@@ -63,15 +64,14 @@ public class AddFavGameFragment extends BaseFragment {
         if(boardGame != null){
             titleGame = getActivity().findViewById(R.id.titleGame);
             titleGame.setText(boardGame.getGameName());
-
-            int imageResource = getActivity().getResources()
-                    .getIdentifier(boardGame.getGameName().toLowerCase().replaceAll("\\s", ""), "drawable", getActivity().getPackageName());
-
             imageView = getActivity().findViewById(R.id.ImgGame);
-            if (imageResource != 0) {
-                imageView.setImageResource(imageResource);
-            } else{
+            if (boardGame.getGameImageUrl() == null){
                 imageView.setImageResource(R.drawable.icon);
+            } else {
+                Picasso.with(imageView.getContext())
+                        .load(boardGame.getGameImageUrl())
+                        .fit()
+                        .into(imageView);
             }
 
             if (boardGame.getUserFavorite() != null && boardGame.getUserFavorite()) {

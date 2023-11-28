@@ -11,6 +11,7 @@ public class Notification {
     Boolean isRead;
     String eventName;
 
+
     public Notification() {
     }
 

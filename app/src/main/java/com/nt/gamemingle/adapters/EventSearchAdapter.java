@@ -1,6 +1,9 @@
 package com.nt.gamemingle.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,8 +11,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.EventSmallBinding;
 import com.nt.gamemingle.model.Event;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -42,13 +48,30 @@ public class EventSearchAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ViewHolderEvent)holder).holderBinding.eventName.setText(eventList.get(position).getEventName());
-        int imageResource = ((ViewHolderEvent)holder).itemView.getContext().getResources()
-                .getIdentifier(eventList.get(position).getEventGameName().toLowerCase().replaceAll("\\s", ""), "drawable", ((ViewHolderEvent)holder).itemView.getContext().getPackageName());
-        if (imageResource != 0) {
-            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(imageResource);
+
+        if (eventList.get(position).getEventImageUrl() == null) {
+            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(R.drawable.icon);
         } else {
-            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(com.nt.gamemingle.R.drawable.icon);
+            Picasso.with(((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.getContext())
+                    .load(eventList.get(position).getEventImageUrl())
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackground(new BitmapDrawable(((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.getContext().getResources(), bitmap));
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(R.drawable.icon);
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(R.drawable.icon);
+                        }
+                    });
         }
+
         ((ViewHolderEvent)holder).holderBinding.eventLocation.setText(eventList.get(position).getEventLocation());
         String eventDate = eventList.get(position).getEventDate();
         String[] eventDateSplit = eventDate.split("/");

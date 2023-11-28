@@ -1,6 +1,7 @@
 package com.nt.gamemingle.ui.profile;
 
 import android.content.Context;
+import android.net.Uri;
 import android.nfc.Tag;
 import android.util.Log;
 import android.widget.Toast;
@@ -16,6 +17,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.nt.gamemingle.app.AppViewModel;
 import com.nt.gamemingle.model.User;
 
@@ -58,7 +61,9 @@ public class ProfileViewModel {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 String userFullName = snapshot.child("userFullName").getValue(String.class);
+                String profileImageUrl = snapshot.child("profileImageUrl").getValue(String.class);
                 user.setFullName(userFullName);
+                user.setUserProfileImageUrl(profileImageUrl);
                 currentUser.setValue(user);
             }
 
@@ -67,5 +72,23 @@ public class ProfileViewModel {
                 Log.d("ProfileViewModel", "onCancelled: " + error.getMessage());
             }
         });
+    }
+
+    public void uploadImage(Uri imageUri) {
+        if (imageUri != null) {
+            String currentUserId = appViewModel.mAuth.getCurrentUser().getUid();
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference("profileImages/" + currentUserId);
+            storageReference.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                            String imageUrl = uri.toString();
+                            appViewModel.databaseReference.child("Users").child(currentUserId).child("profileImageUrl").setValue(imageUrl);
+                        });
+
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.d("ProfileViewModel", "onFailure: " + e.getMessage());
+                    });
+        }
     }
 }

@@ -58,6 +58,7 @@ public class EventHistoryViewModel {
                                                             String eventDescription = snapshot.child("description").getValue(String.class);
                                                             String eventDate = snapshot.child("date").getValue(String.class);
                                                             String eventTime = snapshot.child("time").getValue(String.class);
+                                                            String eventImgUrl = snapshot.child("imageUrl").getValue(String.class);
                                                             if( isEventPassed(eventDate, eventTime)){
                                                                 String eventLocation = snapshot.child("location").getValue(String.class);
                                                                 String eventGameId = snapshot.child("gameId").getValue(String.class);
@@ -65,6 +66,7 @@ public class EventHistoryViewModel {
                                                                 int eventAttendeesCount = snapshot.child("approvedAttendeesCount").getValue(Integer.class);
                                                                 Event event = new Event(eventId, eventName, eventDescription, eventDate, eventTime, eventLocation, eventOwnerId, eventGameId);
                                                                 event.setEventAttendees(eventAttendeesCount);
+                                                                event.setEventImageUrl(eventImgUrl);
                                                                 DatabaseReference gameReference = appViewModel.database.getReference("Games").child(eventGameId);
                                                                 gameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                                                     @Override

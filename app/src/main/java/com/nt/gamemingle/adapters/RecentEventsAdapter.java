@@ -1,14 +1,23 @@
 package com.nt.gamemingle.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.EventSmallerBinding;
 import com.nt.gamemingle.model.Event;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
@@ -39,13 +48,36 @@ public class RecentEventsAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ViewHolder)holder).holderBinding.eventName.setText(recentEventsList.get(position).getEventName());
-        int imageResource = ((ViewHolder)holder).itemView.getContext().getResources()
-                .getIdentifier(recentEventsList.get(position).getEventGameName().toLowerCase().replaceAll("\\s", ""), "drawable", ((ViewHolder)holder).itemView.getContext().getPackageName());
-        if (imageResource != 0) {
-            ((ViewHolder)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(imageResource);
+
+        if (recentEventsList.get(position).getEventImageUrl() == null) {
+            ((ViewHolder) holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(R.drawable.icon);
         } else {
-            ((ViewHolder)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(com.nt.gamemingle.R.drawable.icon);
+            ImageView imageView = ((ViewHolder) holder).holderBinding.imgLoading;
+
+            // Loading gif using Glide library
+            Glide.with(imageView.getContext())
+                    .asGif()
+                    .load(R.drawable.loading_gif)
+                    .into(imageView);
+
+            Picasso.with(imageView.getContext())
+                    .load(recentEventsList.get(position).getEventImageUrl())
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            ((ViewHolder) holder).holderBinding.linearLayoutImgEvent.setBackground(new BitmapDrawable(imageView.getContext().getResources(), bitmap));
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        }
+                    });
         }
+
         ((ViewHolder)holder).holderBinding.eventLocation.setText(recentEventsList.get(position).getEventLocation());
         String eventDate = recentEventsList.get(position).getEventDate();
         String[] eventDateSplit = eventDate.split("/");
