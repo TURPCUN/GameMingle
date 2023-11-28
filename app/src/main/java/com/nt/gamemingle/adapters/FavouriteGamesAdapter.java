@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.model.BoardGame;
 
@@ -41,17 +42,17 @@ public class FavouriteGamesAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         String gameName = favouriteGamesList.get(position).getGameName();
-        int imageResource = holder.itemView.getContext().getResources()
-                .getIdentifier(gameName.toLowerCase().replaceAll("\\s", ""), "drawable", holder.itemView.getContext().getPackageName());
-        if (imageResource != 0) {
-            ((ViewHolder) holder).imgCard.setImageResource(imageResource);
-        } else {
-            ((ViewHolder) holder).imgCard.setImageResource(R.drawable.icon);
-        }
+
+        Glide.with(((ViewHolder) holder).imgCard.getContext())
+                .load(favouriteGamesList.get(position).getGameImageUrl())
+                .placeholder(R.drawable.loading_gif)
+                .fitCenter()
+                .centerCrop()
+                .error(R.drawable.icon)
+                .into(((ViewHolder) holder).imgCard);
 
         ((ViewHolder) holder).titleCard.setText(gameName);
     }
-
 
     @Override
     public int getItemCount() {

@@ -85,6 +85,7 @@ public class RecentEventsViewModel {
                             String eventDescription = event.get("description");
                             String eventDate = event.get("date");
                             String eventTime = event.get("time");
+                            String eventImageUrl = event.get("imageUrl");
                             if(isEventPassed(eventDate, eventTime)) {
                                 continue;
                             }
@@ -92,6 +93,7 @@ public class RecentEventsViewModel {
                             int eventAttendeesCount = eventS.child("approvedAttendeesCount").getValue(Integer.class);
                             Event eventObj = new Event(eventId, eventName, eventDescription, eventDate, eventTime, eventLocation, ownerId, eventGameId);
                             eventObj.setEventAttendees(eventAttendeesCount);
+                            eventObj.setEventImageUrl(eventImageUrl);
                             DatabaseReference gameReference = appViewModel.database.getReference("Games").child(eventGameId);
                             gameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override

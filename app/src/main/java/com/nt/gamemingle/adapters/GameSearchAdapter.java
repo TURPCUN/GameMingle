@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.model.BoardGame;
 
@@ -38,15 +39,18 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        // TODO. Img should come with url
         String gameName = boardGameList.get(position).getGameName();
-        int imageResource = holder.itemView.getContext().getResources()
-                .getIdentifier(gameName.toLowerCase().replaceAll("\\s", ""), "drawable", holder.itemView.getContext().getPackageName());
-        if (imageResource != 0) {
-            ((ViewHolder)holder).imgSmall.setImageResource(imageResource);
-        } else {
-            ((ViewHolder)holder).imgSmall.setImageResource(R.drawable.icon);
-        }
+
+        Glide.with(((ViewHolder) holder).imgSmall.getContext())
+                .load(boardGameList.get(position).getGameImageUrl())
+                .placeholder(R.drawable.loading_gif)
+                .fitCenter()
+                .centerCrop()
+                .error(R.drawable.icon)
+                .into(((ViewHolder) holder).imgSmall);
+
+        ((ViewHolder) holder).tvTitle.setText(gameName);
+        ((ViewHolder) holder).tvDescription.setText(boardGameList.get(position).getGameDescription());
         ((ViewHolder)holder).tvTitle.setText(boardGameList.get(position).getGameName());
         ((ViewHolder)holder).tvDescription.setText(boardGameList.get(position).getGameDescription());
     }

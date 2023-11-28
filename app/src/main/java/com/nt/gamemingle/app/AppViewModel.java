@@ -15,6 +15,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.nt.gamemingle.model.Event;
 import com.nt.gamemingle.model.Notification;
 
@@ -31,6 +33,9 @@ public class AppViewModel extends ViewModel {
     public final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     public final FirebaseDatabase database = FirebaseDatabase.getInstance();
     public final DatabaseReference databaseReference = database.getReference();
+
+    public final FirebaseStorage storage = FirebaseStorage.getInstance();
+    public final StorageReference storageReference = storage.getReference("uploads");
 
     private final MutableLiveData<NavController> navController = new MutableLiveData<>();
 

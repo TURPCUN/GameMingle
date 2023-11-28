@@ -1,12 +1,19 @@
 package com.nt.gamemingle.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.EventSmallerBinding;
 import com.nt.gamemingle.model.Event;
 
@@ -39,13 +46,14 @@ public class RecentEventsAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ViewHolder)holder).holderBinding.eventName.setText(recentEventsList.get(position).getEventName());
-        int imageResource = ((ViewHolder)holder).itemView.getContext().getResources()
-                .getIdentifier(recentEventsList.get(position).getEventGameName().toLowerCase().replaceAll("\\s", ""), "drawable", ((ViewHolder)holder).itemView.getContext().getPackageName());
-        if (imageResource != 0) {
-            ((ViewHolder)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(imageResource);
-        } else {
-            ((ViewHolder)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(com.nt.gamemingle.R.drawable.icon);
-        }
+
+            // Loading gif using Glide library
+            Glide.with(((ViewHolder) holder).holderBinding.imgEventSml.getContext())
+                    .load(recentEventsList.get(position).getEventImageUrl())
+                    .placeholder(R.drawable.loading_gif)
+                    .error(R.drawable.icon)
+                    .into(((ViewHolder) holder).holderBinding.imgEventSml);
+
         ((ViewHolder)holder).holderBinding.eventLocation.setText(recentEventsList.get(position).getEventLocation());
         String eventDate = recentEventsList.get(position).getEventDate();
         String[] eventDateSplit = eventDate.split("/");

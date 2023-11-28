@@ -1,6 +1,10 @@
 package com.nt.gamemingle.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +12,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.EventSmallBinding;
 import com.nt.gamemingle.model.Event;
 
@@ -41,13 +47,15 @@ public class EventsAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ViewHolderEvent)holder).holderBinding.eventName.setText(upcomingOrMyEventList.get(position).getEventName());
-        int imageResource = ((ViewHolderEvent)holder).itemView.getContext().getResources()
-                .getIdentifier(upcomingOrMyEventList.get(position).getEventGameName().toLowerCase().replaceAll("\\s", ""), "drawable", ((ViewHolderEvent)holder).itemView.getContext().getPackageName());
-        if (imageResource != 0) {
-            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(imageResource);
-        } else {
-            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(com.nt.gamemingle.R.drawable.icon);
-        }
+
+        Glide.with(((ViewHolderEvent)holder).holderBinding.imgEvent.getContext())
+                .load(upcomingOrMyEventList.get(position).getEventImageUrl())
+                .placeholder(R.drawable.loading_gif)
+                .fitCenter()
+                .centerCrop()
+                .error(R.drawable.icon)
+                .into(((ViewHolderEvent)holder).holderBinding.imgEvent);
+
         ((ViewHolderEvent)holder).holderBinding.eventLocation.setText(upcomingOrMyEventList.get(position).getEventLocation());
         String eventDate = upcomingOrMyEventList.get(position).getEventDate();
         String[] eventDateSplit = eventDate.split("/"); // day/ month/ year
@@ -124,6 +132,4 @@ public class EventsAdapter extends RecyclerView.Adapter{
             });
         }
     }
-
-
 }

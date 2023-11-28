@@ -1,5 +1,7 @@
 package com.nt.gamemingle.ui.profile;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nt.gamemingle.R;
@@ -20,9 +23,14 @@ import com.nt.gamemingle.databinding.FragmentProfileBinding;
 import com.nt.gamemingle.model.User;
 import com.nt.gamemingle.ui.chat.ReportDialogFragment;
 import com.nt.gamemingle.ui.common.BaseFragment;
+import com.squareup.picasso.Picasso;
 
 public class ProfileFragment extends BaseFragment {
 
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int RESULT_OK = -1;
+
+    private Uri mImageUri;
     private ProfileViewModel profileViewModel;
 
     private FragmentProfileBinding binding;
@@ -69,15 +77,16 @@ public class ProfileFragment extends BaseFragment {
             public void onChanged(User user) {
                 String fullName = user.getFullName();
                 binding.userFullName.setText(fullName);
-
-                String firstName = fullName.split(" ")[0];
-                int profileImgResource = binding.getRoot().getContext().getResources()
-                        .getIdentifier(firstName.toLowerCase(), "drawable", binding.getRoot().getContext().getPackageName());
-                if (profileImgResource != 0) {
-                    binding.imgProfile.setImageResource(profileImgResource);
+                if (user.getUserProfileImageUrl() != null){
+                    Glide.with(requireContext())
+                            .load(user.getUserProfileImageUrl())
+                            .placeholder(R.drawable.loading_gif)
+                            .error(R.drawable.profile)
+                            .into(binding.imgProfile);
                 } else {
-                    binding.imgProfile.setImageResource(R.drawable.icon);
+                   binding.imgProfile.setImageResource(R.drawable.profile);
                 }
+
                 makeVisibleElements();
             }
         });
@@ -96,6 +105,7 @@ public class ProfileFragment extends BaseFragment {
         binding.txtEventHistory.setVisibility(View.VISIBLE);
         binding.txtTermsAndConditions.setVisibility(View.VISIBLE);
         binding.progressBar.setVisibility(View.GONE);
+        binding.btnUpload.setVisibility(View.VISIBLE);
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -143,5 +153,30 @@ public class ProfileFragment extends BaseFragment {
             }
         });
 
+        binding.btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFileChooser();
+            }
+        });
+    }
+
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent,PICK_IMAGE_REQUEST);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null){
+            mImageUri = data.getData();
+            Picasso.with(requireContext()).load(mImageUri).into(binding.imgProfile);
+            profileViewModel.uploadImage(mImageUri);
+        }
     }
 }

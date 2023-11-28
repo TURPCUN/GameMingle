@@ -21,12 +21,12 @@
             android:id="@+id/imgProfile"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:src="@drawable/alice"
             android:layout_marginTop="50dp"
+            android:src="@drawable/alice"
             android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/userFullName"
@@ -124,5 +124,16 @@
             android:drawableStart="@drawable/logout_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <Button
+            android:id="@+id/btnUpload"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/accent_orange"
+            android:text="+"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
+            app:layout_constraintEnd_toEndOf="@+id/imgProfile"
+            app:layout_constraintStart_toStartOf="@+id/imgProfile" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

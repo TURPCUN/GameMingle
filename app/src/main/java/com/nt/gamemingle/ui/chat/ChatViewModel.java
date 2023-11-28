@@ -11,6 +11,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.nt.gamemingle.app.AppViewModel;
 import com.nt.gamemingle.model.ChatMessage;
+import com.nt.gamemingle.model.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -66,19 +67,41 @@ public class ChatViewModel {
                     String chatMessageId = dataSnapshot.getKey();
                     String message = chatMessage.get("message");
                     String userId = chatMessage.get("userId");
-                    String time = chatMessage.get("messageTime");
-                    String date = chatMessage.get("messageDate");
-                    String username = chatMessage.get("userName");
-                    ChatMessage chatMessage1 = new ChatMessage(message, userId, time, date, username);
-                    chatMessage1.setChatMessageId(chatMessageId);
-                    chatMessages.add(chatMessage1);
+                    if(userId != null) {
+                        DatabaseReference userReference = appViewModel.database.getReference("Users").child(userId);
+                        userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String profileImageUrl = snapshot.child("profileImageUrl").getValue(String.class);
+                                String username = chatMessage.get("userName");
+                                User sender = new User();
+                                sender.setUserProfileImageUrl(profileImageUrl);
+                                sender.setFullName(username);
+                                sender.setUserId(userId);
+
+                                String time = chatMessage.get("messageTime");
+                                String date = chatMessage.get("messageDate");
+
+                                ChatMessage chatMessage1 = new ChatMessage(sender, message, time, date);
+                                chatMessage1.setChatMessageId(chatMessageId);
+                                chatMessages.add(chatMessage1);
+
+                                try {
+                                    orderByMessageDate(chatMessages);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                chatMessageMutableLiveData.setValue(chatMessages);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Log.e("ChatViewModel", "onCancelled: ", error.toException());
+                            }
+                        });
+                    }
                 }
-                try {
-                    orderByMessageDate(chatMessages);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                chatMessageMutableLiveData.setValue(chatMessages);
+
             }
 
             @Override

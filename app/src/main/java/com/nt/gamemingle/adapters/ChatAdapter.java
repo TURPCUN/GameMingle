@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.model.ChatMessage;
 
@@ -35,7 +36,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         String chatMessage = chatMessages.get(position).getMessage();
         holder.chatMessage.setText(chatMessage);
 
-        String chatSender = chatMessages.get(position).getUserFullName();
+        String chatSender = chatMessages.get(position).getSender().getFullName();
         holder.chatSender.setText(chatSender);
 
         String chatTime = chatMessages.get(position).getMessageTime();
@@ -45,17 +46,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         String shortChatTime = chatTime.substring(0, 5);
         holder.chatTime.setText(shortChatTime);
 
-        String userFullName = chatMessages.get(position).getUserFullName();
-        String firstName = userFullName.split(" ")[0];
+        Glide.with(holder.chatImage.getContext())
+                .load(chatMessages.get(position).getSender().getUserProfileImageUrl())
+                .placeholder(R.drawable.loading_gif)
+                .fitCenter()
+                .centerCrop()
+                .error(R.drawable.icon)
+                .into(holder.chatImage);
 
-        int imageResource = holder.itemView.getContext().getResources()
-                .getIdentifier(firstName.toLowerCase(), "drawable", holder.itemView.getContext().getPackageName());
-
-        if (imageResource != 0) {
-            holder.chatImage.setImageResource(imageResource);
-        } else {
-            holder.chatImage.setImageResource(R.drawable.icon);
-        }
     }
 
     @Override
@@ -72,7 +70,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         public TextView chatMessage;
         public TextView chatSender;
         public TextView chatTime;
-
         public ImageView chatImage;
 
         public ChatViewHolder(@NonNull View itemView) {

@@ -1,5 +1,6 @@
 package com.nt.gamemingle.ui.eventdetails;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.nt.gamemingle.app.AppViewModel;
 import com.nt.gamemingle.model.Event;
 import com.nt.gamemingle.model.User;
@@ -21,9 +24,7 @@ import java.util.UUID;
 public class EventDetailsViewModel {
 
     private AppViewModel appViewModel;
-
     MutableLiveData<Event> mutableEvent = new MutableLiveData<>();
-
     public ArrayList<User> attendeesList = new ArrayList<>();
     MutableLiveData<Boolean> isAttendeesReceived = new MutableLiveData<>(false);
     MutableLiveData<Integer> approvedEventAttendeesCount = new MutableLiveData<>(1);
@@ -244,7 +245,9 @@ public class EventDetailsViewModel {
                                     if(isApproved== null){
                                         isApproved = false;
                                     }
+                                    String userProfileImageUrl = userSnapshot.child("profileImageUrl").getValue(String.class);
                                     User attendee = new User(attendeeId, fullName, isApproved.toString());
+                                    attendee.setUserProfileImageUrl(userProfileImageUrl);
                                     if (isApproved) {
                                         approvedAttendeesTemp.add(attendee);
                                     }
@@ -340,9 +343,11 @@ public class EventDetailsViewModel {
                     String eventLocation = snapshot.child("location").getValue(String.class);
                     String eventOwnerId = snapshot.child("ownerId").getValue(String.class);
                     String eventGameId = snapshot.child("gameId").getValue(String.class);
+                    String eventImageUrl = snapshot.child("imageUrl").getValue(String.class);
                     int eventAttendeesCount = snapshot.child("approvedAttendeesCount").getValue(Integer.class);
                     Event event = new Event(eventIdFromNotification, eventName, eventDescription, eventDate, eventTime, eventLocation, eventOwnerId, eventGameId);
                     event.setEventAttendees(eventAttendeesCount);
+                    event.setEventImageUrl(eventImageUrl);
                     DatabaseReference gameReference = appViewModel.database.getReference("Games").child(eventGameId);
                     gameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -372,5 +377,20 @@ public class EventDetailsViewModel {
             }
         });
 
+    }
+
+    public void uploadImage(Uri data, String eventId) {
+        if (data != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference("eventImages/" + eventId);
+            storageReference.putFile(data)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                            appViewModel.databaseReference.child("EVENT").child(eventId).child("imageUrl").setValue(uri.toString());
+                        });
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.d("EventDetailsViewModel", "Error: " + e.getMessage());
+                    });
+        }
     }
 }

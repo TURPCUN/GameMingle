@@ -1,6 +1,7 @@
 package com.nt.gamemingle.ui.createevent;
 
 import android.content.Context;
+import android.net.Uri;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.nt.gamemingle.app.AppViewModel;
 import com.nt.gamemingle.model.BoardGame;
 
@@ -29,7 +32,7 @@ public class CreateEventViewModel {
     }
 
     public void createEvent(String eventName, String eventLocation, String eventDescription, String selectedGame,
-                            String formattedDate, String formattedTime, Context context) {
+                            String formattedDate, String formattedTime, Context context, Uri mImageUri) {
 
         // EVENT
         UUID uuid = UUID.randomUUID();
@@ -46,6 +49,18 @@ public class CreateEventViewModel {
 
         appViewModel.databaseReference.child("Users").child(userId).child("events").child(eventUuid).setValue(true);
 
+        if (mImageUri != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference("eventImages/" + eventUuid);
+            storageReference.putFile(mImageUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                            appViewModel.databaseReference.child("EVENT").child(eventUuid).child("imageUrl").setValue(uri.toString());
+                        });
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        }
         Toast.makeText(context, "Event created successfully", Toast.LENGTH_SHORT).show();
     }
 

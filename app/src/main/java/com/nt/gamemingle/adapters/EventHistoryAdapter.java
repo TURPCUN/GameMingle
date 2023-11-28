@@ -1,5 +1,8 @@
 package com.nt.gamemingle.adapters;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +10,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.EventSmallBinding;
 import com.nt.gamemingle.model.Event;
 
@@ -40,13 +45,15 @@ public class EventHistoryAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ViewHolderEventHistory)holder).holderBinding.eventName.setText(eventHistoryList.get(position).getEventName());
-        int imageResource = ((ViewHolderEventHistory)holder).itemView.getContext().getResources()
-                .getIdentifier(eventHistoryList.get(position).getEventGameName().toLowerCase().replaceAll("\\s", ""), "drawable", ((ViewHolderEventHistory)holder).itemView.getContext().getPackageName());
-        if (imageResource != 0) {
-            ((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(imageResource);
-        } else {
-            ((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(com.nt.gamemingle.R.drawable.icon);
-        }
+
+        Glide.with(((ViewHolderEventHistory)holder).holderBinding.imgEvent.getContext())
+                .load(eventHistoryList.get(position).getEventImageUrl())
+                .placeholder(R.drawable.loading_gif)
+                .fitCenter()
+                .centerCrop()
+                .error(R.drawable.icon)
+                .into(((ViewHolderEventHistory)holder).holderBinding.imgEvent);
+
         ((ViewHolderEventHistory)holder).holderBinding.eventLocation.setText(eventHistoryList.get(position).getEventLocation());
         String eventDate = eventHistoryList.get(position).getEventDate();
         String[] eventDateSplit = eventDate.split("/"); // day/ month/ year

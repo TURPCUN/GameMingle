@@ -35,16 +35,6 @@ public class SearchEventsFragment extends BaseFragment implements EventSearchAda
         // Required empty public constructor
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        eventSearchAdapter = new EventSearchAdapter(requireContext(), new ArrayList<Event>(), this);
-        recyclerSearchEvents.setAdapter(eventSearchAdapter);
-        searchView.setQuery("", false);
-        searchView.clearFocus();
-       // eventList.clear();
-        mViewModel.getEvents(requireContext());
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

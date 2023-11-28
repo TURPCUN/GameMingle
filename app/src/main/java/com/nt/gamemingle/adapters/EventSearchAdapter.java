@@ -1,6 +1,9 @@
 package com.nt.gamemingle.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +11,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.EventSmallBinding;
 import com.nt.gamemingle.model.Event;
 
@@ -42,13 +47,15 @@ public class EventSearchAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ViewHolderEvent)holder).holderBinding.eventName.setText(eventList.get(position).getEventName());
-        int imageResource = ((ViewHolderEvent)holder).itemView.getContext().getResources()
-                .getIdentifier(eventList.get(position).getEventGameName().toLowerCase().replaceAll("\\s", ""), "drawable", ((ViewHolderEvent)holder).itemView.getContext().getPackageName());
-        if (imageResource != 0) {
-            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(imageResource);
-        } else {
-            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(com.nt.gamemingle.R.drawable.icon);
-        }
+
+        Glide.with(((ViewHolderEvent)holder).holderBinding.imgEvent.getContext())
+                .load(eventList.get(position).getEventImageUrl())
+                .placeholder(R.drawable.loading_gif)
+                .fitCenter()
+                .centerCrop()
+                .error(R.drawable.icon)
+                .into(((ViewHolderEvent)holder).holderBinding.imgEvent);
+
         ((ViewHolderEvent)holder).holderBinding.eventLocation.setText(eventList.get(position).getEventLocation());
         String eventDate = eventList.get(position).getEventDate();
         String[] eventDateSplit = eventDate.split("/");

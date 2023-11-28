@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.model.BoardGame;
@@ -64,15 +65,14 @@ public class AddFavGameFragment extends BaseFragment {
             titleGame = getActivity().findViewById(R.id.titleGame);
             titleGame.setText(boardGame.getGameName());
 
-            int imageResource = getActivity().getResources()
-                    .getIdentifier(boardGame.getGameName().toLowerCase().replaceAll("\\s", ""), "drawable", getActivity().getPackageName());
-
             imageView = getActivity().findViewById(R.id.ImgGame);
-            if (imageResource != 0) {
-                imageView.setImageResource(imageResource);
-            } else{
-                imageView.setImageResource(R.drawable.icon);
-            }
+            Glide.with(imageView.getContext())
+                    .load(boardGame.getGameImageUrl())
+                    .placeholder(R.drawable.loading_gif)
+                    .fitCenter()
+                    .centerCrop()
+                    .error(R.drawable.icon)
+                    .into(imageView);
 
             if (boardGame.getUserFavorite() != null && boardGame.getUserFavorite()) {
                 ImageView imgFav = getActivity().findViewById(R.id.imgStarFav);
