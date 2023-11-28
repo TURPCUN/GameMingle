@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.adapters.EventAttendeesAdapter;
 import com.nt.gamemingle.databinding.FragmentEventDetailsBinding;
@@ -90,15 +91,13 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
             binding.eventTime.setText(date);
             binding.eventOwner.setText(event.getEventOwnerName());
 
-            if ( event.getEventImageUrl() == null){
-                binding.imgEvent.setImageResource(R.drawable.icon);
-            } else {
-                Picasso.with(binding.imgEvent.getContext())
-                        .load(event.getEventImageUrl())
-                        .fit()
-                        .centerCrop()
-                        .into(binding.imgEvent);
-            }
+            Glide.with(binding.imgEvent.getContext())
+                    .load(event.getEventImageUrl())
+                    .placeholder(R.drawable.loading_gif)
+                    .fitCenter()
+                    .centerCrop()
+                    .error(R.drawable.icon)
+                    .into(binding.imgEvent);
 
             String userId = appViewModel.mAuth.getCurrentUser().getUid();
             String eventOwnerId = event.getEventOwnerId();
@@ -191,6 +190,7 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
                         binding.attendeesListLinearLayout.setVisibility(View.GONE);
                     } else if (s.equals("approved")){
                         binding.btnRegisterEvent.setVisibility(View.GONE);
+                        binding.btnCancelEvent.setText("UNREGISTER");
                         binding.btnCancelEvent.setVisibility(View.VISIBLE);
                         binding.txtStatus.setVisibility(View.GONE);
                         binding.fab.setVisibility(View.VISIBLE);
@@ -231,9 +231,7 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
                     eventAttendeesAdapter.setAttendeesList(attendeesList);
                 }
             }
-
         });
-
     }
 
     @Override

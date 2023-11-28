@@ -16,8 +16,6 @@ import com.bumptech.glide.Glide;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.EventSmallerBinding;
 import com.nt.gamemingle.model.Event;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
@@ -49,34 +47,12 @@ public class RecentEventsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ViewHolder)holder).holderBinding.eventName.setText(recentEventsList.get(position).getEventName());
 
-        if (recentEventsList.get(position).getEventImageUrl() == null) {
-            ((ViewHolder) holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(R.drawable.icon);
-        } else {
-            ImageView imageView = ((ViewHolder) holder).holderBinding.imgLoading;
-
             // Loading gif using Glide library
-            Glide.with(imageView.getContext())
-                    .asGif()
-                    .load(R.drawable.loading_gif)
-                    .into(imageView);
-
-            Picasso.with(imageView.getContext())
+            Glide.with(((ViewHolder) holder).holderBinding.imgEventSml.getContext())
                     .load(recentEventsList.get(position).getEventImageUrl())
-                    .into(new Target() {
-                        @Override
-                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            ((ViewHolder) holder).holderBinding.linearLayoutImgEvent.setBackground(new BitmapDrawable(imageView.getContext().getResources(), bitmap));
-                        }
-
-                        @Override
-                        public void onBitmapFailed(Drawable errorDrawable) {
-                        }
-
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        }
-                    });
-        }
+                    .placeholder(R.drawable.loading_gif)
+                    .error(R.drawable.icon)
+                    .into(((ViewHolder) holder).holderBinding.imgEventSml);
 
         ((ViewHolder)holder).holderBinding.eventLocation.setText(recentEventsList.get(position).getEventLocation());
         String eventDate = recentEventsList.get(position).getEventDate();

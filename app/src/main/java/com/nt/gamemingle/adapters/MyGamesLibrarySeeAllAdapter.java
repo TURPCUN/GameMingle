@@ -10,9 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.model.BoardGame;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -41,15 +41,15 @@ public class MyGamesLibrarySeeAllAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (myLibraryBoardGameList.get(position).getGameImageUrl() == null) {
-            ((ViewHolderGameDetails)holder).imgCard.setImageResource(R.drawable.icon);
-        } else {
-            Picasso.with(((ViewHolderGameDetails) holder).imgCard.getContext())
-                    .load(myLibraryBoardGameList.get(position).getGameImageUrl())
-                    .fit()
-                    .centerCrop()
-                    .into(((ViewHolderGameDetails) holder).imgCard);
-        }
+
+        Glide.with(((ViewHolderGameDetails) holder).imgCard.getContext())
+                .load(myLibraryBoardGameList.get(position).getGameImageUrl())
+                .placeholder(R.drawable.loading_gif)
+                .fitCenter()
+                .centerCrop()
+                .error(R.drawable.icon)
+                .into(((ViewHolderGameDetails) holder).imgCard);
+
         ((ViewHolderGameDetails)holder).titleCard.setText(myLibraryBoardGameList.get(position).getGameName());
         ((ViewHolderGameDetails)holder).descriptionCard.setText(myLibraryBoardGameList.get(position).getGameDescription());
     }

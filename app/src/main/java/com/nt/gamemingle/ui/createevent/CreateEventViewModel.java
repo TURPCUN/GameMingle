@@ -50,7 +50,7 @@ public class CreateEventViewModel {
         appViewModel.databaseReference.child("Users").child(userId).child("events").child(eventUuid).setValue(true);
 
         if (mImageUri != null) {
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference("gameImages/" + eventUuid);
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference("eventImages/" + eventUuid);
             storageReference.putFile(mImageUri)
                     .addOnSuccessListener(taskSnapshot -> {
                         storageReference.getDownloadUrl().addOnSuccessListener(uri -> {

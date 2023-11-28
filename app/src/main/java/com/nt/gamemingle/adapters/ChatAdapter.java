@@ -9,9 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.model.ChatMessage;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -46,11 +46,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         String shortChatTime = chatTime.substring(0, 5);
         holder.chatTime.setText(shortChatTime);
 
-        Picasso.with(holder.chatImage.getContext())
+        Glide.with(holder.chatImage.getContext())
                 .load(chatMessages.get(position).getSender().getUserProfileImageUrl())
-                .fit()
+                .placeholder(R.drawable.loading_gif)
+                .fitCenter()
                 .centerCrop()
+                .error(R.drawable.icon)
                 .into(holder.chatImage);
+
     }
 
     @Override

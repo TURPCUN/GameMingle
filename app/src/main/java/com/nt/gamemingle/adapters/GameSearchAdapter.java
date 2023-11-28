@@ -10,9 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.model.BoardGame;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -40,15 +40,15 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         String gameName = boardGameList.get(position).getGameName();
-        if (boardGameList.get(position).getGameImageUrl() == null) {
-            ((ViewHolder) holder).imgSmall.setImageResource(R.drawable.icon);
-        } else {
-            Picasso.with(((ViewHolder) holder).imgSmall.getContext())
-                    .load(boardGameList.get(position).getGameImageUrl())
-                    .fit()
-                    .centerCrop()
-                    .into(((ViewHolder) holder).imgSmall);
-        }
+
+        Glide.with(((ViewHolder) holder).imgSmall.getContext())
+                .load(boardGameList.get(position).getGameImageUrl())
+                .placeholder(R.drawable.loading_gif)
+                .fitCenter()
+                .centerCrop()
+                .error(R.drawable.icon)
+                .into(((ViewHolder) holder).imgSmall);
+
         ((ViewHolder) holder).tvTitle.setText(gameName);
         ((ViewHolder) holder).tvDescription.setText(boardGameList.get(position).getGameDescription());
         ((ViewHolder)holder).tvTitle.setText(boardGameList.get(position).getGameName());

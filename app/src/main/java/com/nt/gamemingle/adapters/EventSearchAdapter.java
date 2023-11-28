@@ -11,11 +11,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.EventSmallBinding;
 import com.nt.gamemingle.model.Event;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -49,28 +48,13 @@ public class EventSearchAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ViewHolderEvent)holder).holderBinding.eventName.setText(eventList.get(position).getEventName());
 
-        if (eventList.get(position).getEventImageUrl() == null) {
-            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(R.drawable.icon);
-        } else {
-            Picasso.with(((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.getContext())
-                    .load(eventList.get(position).getEventImageUrl())
-                    .into(new Target() {
-                        @Override
-                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackground(new BitmapDrawable(((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.getContext().getResources(), bitmap));
-                        }
-
-                        @Override
-                        public void onBitmapFailed(Drawable errorDrawable) {
-                            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(R.drawable.icon);
-                        }
-
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-                            ((ViewHolderEvent)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(R.drawable.icon);
-                        }
-                    });
-        }
+        Glide.with(((ViewHolderEvent)holder).holderBinding.imgEvent.getContext())
+                .load(eventList.get(position).getEventImageUrl())
+                .placeholder(R.drawable.loading_gif)
+                .fitCenter()
+                .centerCrop()
+                .error(R.drawable.icon)
+                .into(((ViewHolderEvent)holder).holderBinding.imgEvent);
 
         ((ViewHolderEvent)holder).holderBinding.eventLocation.setText(eventList.get(position).getEventLocation());
         String eventDate = eventList.get(position).getEventDate();

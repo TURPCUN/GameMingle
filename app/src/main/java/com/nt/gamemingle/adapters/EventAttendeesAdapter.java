@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.AttendeesLayoutBinding;
 import com.nt.gamemingle.model.User;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,15 +45,15 @@ public class EventAttendeesAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ViewHolderAttendees)holder).holderBinding.attendeeName.setText(attendeesList.get(position).getFullName());
-        if (attendeesList.get(position).getUserProfileImageUrl() == null) {
-            ((ViewHolderAttendees)holder).holderBinding.attendeeImg.setImageResource(R.drawable.icon);
-        } else {
-            Picasso.with(((ViewHolderAttendees) holder).holderBinding.getRoot().getContext())
-                    .load(attendeesList.get(position).getUserProfileImageUrl())
-                    .fit()
-                    .centerCrop()
-                    .into(((ViewHolderAttendees) holder).holderBinding.attendeeImg);
-        }
+
+        Glide.with(((ViewHolderAttendees) holder).holderBinding.getRoot().getContext())
+                .load(attendeesList.get(position).getUserProfileImageUrl())
+                .placeholder(R.drawable.loading_gif)
+                .fitCenter()
+                .centerCrop()
+                .error(R.drawable.icon)
+                .into(((ViewHolderAttendees) holder).holderBinding.attendeeImg);
+
         if(attendeesList.get(position).getUserEventStatus().equals("true")){
             ((ViewHolderAttendees)holder).holderBinding.btnApprove.setVisibility(View.GONE);
             ((ViewHolderAttendees)holder).holderBinding.btnDeny.setVisibility(View.GONE);

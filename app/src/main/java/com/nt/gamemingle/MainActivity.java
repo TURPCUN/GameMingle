@@ -9,6 +9,8 @@ import android.view.View;
 
 import com.nt.gamemingle.app.AppViewModel;
 import com.nt.gamemingle.databinding.ActivityMainBinding;
+import com.squareup.picasso.LruCache;
+import com.squareup.picasso.Picasso;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,6 +32,12 @@ public class MainActivity extends AppCompatActivity {
         setUpTopAppBarClickListener();
         setUpBottomNavigationBarClickListener();
 
+        // Picasso cache refactoring
+        Picasso picasso = new Picasso.Builder(this)
+                .memoryCache(new LruCache(24000))
+                .build();
+        Picasso.setSingletonInstance(picasso);
+
     }
 
     private void initializeViewModel() {
@@ -50,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        onClickNavigateUp();
+    }
+
 
     private void onClickNavigateUp() {
         navController.navigateUp();

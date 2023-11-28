@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.nt.gamemingle.R;
 import com.nt.gamemingle.databinding.EventSmallBinding;
 import com.nt.gamemingle.model.Event;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.util.ArrayList;
 
@@ -46,28 +46,14 @@ public class EventHistoryAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((ViewHolderEventHistory)holder).holderBinding.eventName.setText(eventHistoryList.get(position).getEventName());
 
-        if (eventHistoryList.get(position).getEventImageUrl() == null) {
-            ((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(com.nt.gamemingle.R.drawable.icon);
-        } else {
-            Picasso.with(((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.getContext())
-                    .load(eventHistoryList.get(position).getEventImageUrl())
-                    .into(new Target() {
-                        @Override
-                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            ((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.setBackground(new BitmapDrawable(((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.getContext().getResources(), bitmap));
-                        }
+        Glide.with(((ViewHolderEventHistory)holder).holderBinding.imgEvent.getContext())
+                .load(eventHistoryList.get(position).getEventImageUrl())
+                .placeholder(R.drawable.loading_gif)
+                .fitCenter()
+                .centerCrop()
+                .error(R.drawable.icon)
+                .into(((ViewHolderEventHistory)holder).holderBinding.imgEvent);
 
-                        @Override
-                        public void onBitmapFailed(Drawable errorDrawable) {
-                            ((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(com.nt.gamemingle.R.drawable.icon);
-                        }
-
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-                            ((ViewHolderEventHistory)holder).holderBinding.linearLayoutImgEvent.setBackgroundResource(com.nt.gamemingle.R.drawable.icon);
-                        }
-                    });
-        }
         ((ViewHolderEventHistory)holder).holderBinding.eventLocation.setText(eventHistoryList.get(position).getEventLocation());
         String eventDate = eventHistoryList.get(position).getEventDate();
         String[] eventDateSplit = eventDate.split("/"); // day/ month/ year

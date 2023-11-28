@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nt.gamemingle.R;
@@ -77,14 +78,13 @@ public class ProfileFragment extends BaseFragment {
                 String fullName = user.getFullName();
                 binding.userFullName.setText(fullName);
                 if (user.getUserProfileImageUrl() != null){
-                    Picasso.with(requireContext())
+                    Glide.with(requireContext())
                             .load(user.getUserProfileImageUrl())
-                                    .fit()
-                                            .centerCrop()
-                                                    .into(binding.imgProfile);
+                            .placeholder(R.drawable.loading_gif)
+                            .error(R.drawable.profile)
+                            .into(binding.imgProfile);
                 } else {
-                   binding.imgProfile.setImageResource(R.drawable.icon);
-
+                   binding.imgProfile.setImageResource(R.drawable.profile);
                 }
 
                 makeVisibleElements();
