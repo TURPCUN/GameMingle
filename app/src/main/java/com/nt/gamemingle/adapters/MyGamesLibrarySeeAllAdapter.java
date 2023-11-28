@@ -20,10 +20,12 @@ public class MyGamesLibrarySeeAllAdapter extends RecyclerView.Adapter {
 
     ArrayList<BoardGame> myLibraryBoardGameList;
     LayoutInflater inflater;
+    ItemClickListener itemClickListener;
 
-    public MyGamesLibrarySeeAllAdapter(Context context, ArrayList<BoardGame> myLibraryBoardGameList){
+    public MyGamesLibrarySeeAllAdapter(Context context, ArrayList<BoardGame> myLibraryBoardGameList, ItemClickListener itemClickListener){
         this.myLibraryBoardGameList = myLibraryBoardGameList;
         inflater = LayoutInflater.from(context);
+        this.itemClickListener = itemClickListener;
     }
 
     public void setMyLibraryBoardGameList(ArrayList<BoardGame> myLibraryBoardGameList){
@@ -59,6 +61,9 @@ public class MyGamesLibrarySeeAllAdapter extends RecyclerView.Adapter {
         return myLibraryBoardGameList.size();
     }
 
+    public interface ItemClickListener{
+        void onItemClick(View view, int position);
+    }
     public class ViewHolderGameDetails extends RecyclerView.ViewHolder{
 
         ImageView imgCard;
@@ -70,6 +75,15 @@ public class MyGamesLibrarySeeAllAdapter extends RecyclerView.Adapter {
             imgCard = itemView.findViewById(R.id.cardImgGameDetail);
             titleCard = itemView.findViewById(R.id.cardTitleGameDetail);
             descriptionCard = itemView.findViewById(R.id.cardDescriptionGameDetail);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (itemClickListener != null){
+                        itemClickListener.onItemClick(v, getAdapterPosition());
+                    }
+                }
+            });
         }
     }
 }

@@ -23,7 +23,7 @@ import com.nt.gamemingle.ui.common.BaseFragment;
 import java.util.ArrayList;
 
 
-public class AllMyLibraryFragment extends BaseFragment {
+public class AllMyLibraryFragment extends BaseFragment implements MyGamesLibrarySeeAllAdapter.ItemClickListener {
 
     private AllMyLibraryViewModel mViewModel;
     ArrayList<BoardGame> myLibraryBoardGameList;
@@ -37,7 +37,7 @@ public class AllMyLibraryFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         myLibraryBoardGameList = getArguments().getParcelableArrayList("myLibraryBoardGameList");
-        myLibrarySeeAllAdapter = new MyGamesLibrarySeeAllAdapter(requireContext(), myLibraryBoardGameList);
+        myLibrarySeeAllAdapter = new MyGamesLibrarySeeAllAdapter(requireContext(), myLibraryBoardGameList, this);
         recyclerMyLibrary.setAdapter(myLibrarySeeAllAdapter);
     }
 
@@ -69,7 +69,7 @@ public class AllMyLibraryFragment extends BaseFragment {
 
         recyclerMyLibrary = getActivity().findViewById(R.id.recycler_all_my_lib);
         recyclerMyLibrary.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false  ));
-        myLibrarySeeAllAdapter = new MyGamesLibrarySeeAllAdapter(requireContext(), myLibraryBoardGameList);
+        myLibrarySeeAllAdapter = new MyGamesLibrarySeeAllAdapter(requireContext(), myLibraryBoardGameList, this);
         recyclerMyLibrary.setAdapter(myLibrarySeeAllAdapter);
         myLibrarySeeAllAdapter.notifyDataSetChanged();
 
@@ -111,4 +111,11 @@ public class AllMyLibraryFragment extends BaseFragment {
 
     }
 
+        @Override
+        public void onItemClick(View view, int position) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("game", myLibraryBoardGameList.get(position));
+            bundle.putBoolean("hideSomeFields", true);
+            navController.navigate(R.id.action_allMyLibraryFragment_to_addFavGameFragment, bundle);
+        }
 }

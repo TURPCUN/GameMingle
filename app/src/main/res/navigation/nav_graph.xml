@@ -72,17 +72,27 @@
         <action
             android:id="@+id/action_myGamesFragment_to_eventDetailsFragment"
             app:destination="@id/eventDetailsFragment" />
+        <action
+            android:id="@+id/action_myGamesFragment_to_addFavGameFragment"
+            app:destination="@id/addFavGameFragment" />
     </fragment>
     <fragment
         android:id="@+id/allFavoriteGamesFragment"
         android:name="com.nt.gamemingle.ui.favoritegames.AllFavouriteGamesFragment"
         android:label="fragment_all_favorite_games"
-        tools:layout="@layout/fragment_all_favorite_games" />
+        tools:layout="@layout/fragment_all_favorite_games" >
+        <action
+            android:id="@+id/action_allFavoriteGamesFragment_to_addFavGameFragment"
+            app:destination="@id/addFavGameFragment" />
+    </fragment>
     <fragment
         android:id="@+id/allMyLibraryFragment"
         android:name="com.nt.gamemingle.ui.mylibrary.AllMyLibraryFragment"
         android:label="fragment_all_my_library"
         tools:layout="@layout/fragment_all_my_library" >
+        <action
+            android:id="@+id/action_allMyLibraryFragment_to_addFavGameFragment"
+            app:destination="@id/addFavGameFragment" />
     </fragment>
     <fragment
         android:id="@+id/eventsFragment"

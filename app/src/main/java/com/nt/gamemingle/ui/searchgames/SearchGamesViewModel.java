@@ -30,7 +30,7 @@ public class SearchGamesViewModel {
         String userId = appViewModel.mAuth.getCurrentUser().getUid();
         if (userId != null) {
             ArrayList<String> userFavoriteGamesIds = new ArrayList<>();
-            HashMap<String,Boolean> userFavoriteGames = new HashMap<>();
+            HashMap<String,Boolean> userFavoriteGames = new HashMap<>(); //gameId, inLibrary
             DatabaseReference userGamesReference = appViewModel.database.getReference("USER_GAME").child(userId);
             userGamesReference.addListenerForSingleValueEvent(new ValueEventListener(){
 
@@ -73,7 +73,7 @@ public class SearchGamesViewModel {
                             gameImageUrl, gameMinPlayers, gameMaxPlayers, gameCategory);
                     if (userFavoriteGames != null && userFavoriteGames.containsKey(gameId)) {
                         boardGame.setUserFavorite(true);
-                        if(userFavoriteGames.get(gameId)){
+                        if(userFavoriteGames.get(gameId)){ // inLibrary true or false
                             boardGame.setInLibrary(true);
                         }
                     }
