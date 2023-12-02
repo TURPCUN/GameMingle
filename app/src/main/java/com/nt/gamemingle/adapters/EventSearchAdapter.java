@@ -63,6 +63,8 @@ public class EventSearchAdapter extends RecyclerView.Adapter{
         String dateMonth = dateFormat(eventDateSplit[1]);
         String dateFormat = dateDay + "\n" + dateMonth;
         ((ViewHolderEvent)holder).holderBinding.eventDate.setText(dateFormat);
+
+        ((ViewHolderEvent)holder).holderBinding.attendeesCount.setText(String.valueOf(eventList.get(position).getEventAttendees()) + " Going");
     }
 
     @Override

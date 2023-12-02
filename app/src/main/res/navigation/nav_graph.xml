@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_signInFragment_to_myGamesFragment"
             app:destination="@id/myGamesFragment" />
+        <action
+            android:id="@+id/action_signInFragment_to_requestFragment"
+            app:destination="@id/requestFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -166,6 +169,9 @@
         <action
             android:id="@+id/action_notificationFragment_to_eventDetailsFragment"
             app:destination="@id/eventDetailsFragment" />
+        <action
+            android:id="@+id/action_notificationFragment_to_addFavGameFragment"
+            app:destination="@id/addFavGameFragment" />
     </fragment>
     <fragment
         android:id="@+id/eventHistoryFragment"
@@ -175,5 +181,28 @@
         <action
             android:id="@+id/action_eventHistoryFragment_to_eventDetailsFragment"
             app:destination="@id/eventDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createGameFragment"
+        android:name="com.nt.gamemingle.ui.creategame.CreateGameFragment"
+        android:label="fragment_create_game"
+        tools:layout="@layout/fragment_create_game" >
+        <action
+            android:id="@+id/action_createGameFragment_to_searchGamesFragment"
+            app:destination="@id/searchGamesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/reportsFragment"
+        android:name="com.nt.gamemingle.ui.reports.ReportsFragment"
+        android:label="fragment_reports"
+        tools:layout="@layout/fragment_reports" />
+    <fragment
+        android:id="@+id/requestFragment"
+        android:name="com.nt.gamemingle.ui.requests.RequestFragment"
+        android:label="fragment_request"
+        tools:layout="@layout/fragment_request" >
+        <action
+            android:id="@+id/action_requestFragment_to_createGameFragment"
+            app:destination="@id/createGameFragment" />
     </fragment>
 </navigation>

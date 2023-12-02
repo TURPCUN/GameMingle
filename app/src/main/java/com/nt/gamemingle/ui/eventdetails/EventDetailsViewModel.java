@@ -29,6 +29,7 @@ public class EventDetailsViewModel {
     MutableLiveData<Boolean> isAttendeesReceived = new MutableLiveData<>(false);
     MutableLiveData<Integer> approvedEventAttendeesCount = new MutableLiveData<>(1);
     MutableLiveData<String> user_EventStatus = new MutableLiveData<>("");
+
     public EventDetailsViewModel(AppViewModel appViewModel) {
         super();
         this.appViewModel = appViewModel;
@@ -67,10 +68,10 @@ public class EventDetailsViewModel {
         userEventsReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     Boolean isApproved = snapshot.child("isApproved").getValue(Boolean.class);
                     if (isApproved != null) {
-                        if(isApproved){
+                        if (isApproved) {
                             isUserApproved.add(true);
                         }
                     }
@@ -93,10 +94,10 @@ public class EventDetailsViewModel {
         userEventsReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     Boolean isApproved = snapshot.child("isApproved").getValue(Boolean.class);
                     if (isApproved != null) {
-                        if(isApproved){
+                        if (isApproved) {
                             DatabaseReference eventReference = appViewModel.database.getReference("EVENT").child(eventId).child("approvedAttendeesCount");
                             eventReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
@@ -140,8 +141,7 @@ public class EventDetailsViewModel {
                                     Log.d("EventDetailsViewModel", "Error: " + error.getMessage());
                                 }
                             });
-                        }
-                        else{
+                        } else {
                             appViewModel.databaseReference.child("USER_ATTEND_EVENT").child(eventId).child("participants").child(appViewModel.mAuth.getCurrentUser().getUid()).removeValue();
                             userEventStatus(eventId, eventOwnerId);
                         }
@@ -156,7 +156,8 @@ public class EventDetailsViewModel {
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("EventDetailsViewModel : userEventStatus ", "Error: " + error.getMessage());
             }
-        });    }
+        });
+    }
 
     public void cancelEvent(String eventId, String eventOwnerId, String eventName) {
         // owner cancels event
@@ -202,10 +203,10 @@ public class EventDetailsViewModel {
             userEventsReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()){
+                    if (snapshot.exists()) {
                         Boolean isApproved = snapshot.child("isApproved").getValue(Boolean.class);
                         if (isApproved != null) {
-                            if(isApproved){
+                            if (isApproved) {
                                 user_EventStatus.setValue("approved");
                             } else {
                                 user_EventStatus.setValue("pending");
@@ -225,24 +226,24 @@ public class EventDetailsViewModel {
         }
     }
 
-    public void getEventAttendees(String eventId){
+    public void getEventAttendees(String eventId) {
         DatabaseReference eventAttendeesReference = appViewModel.database.getReference("USER_ATTEND_EVENT").child(eventId).child("participants");
         eventAttendeesReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     ArrayList<User> attendeesTemp = new ArrayList<>();
                     ArrayList<User> approvedAttendeesTemp = new ArrayList<>();
-                    for(DataSnapshot attendeeS : snapshot.getChildren()) {
+                    for (DataSnapshot attendeeS : snapshot.getChildren()) {
                         String attendeeId = attendeeS.getKey();
                         DatabaseReference userReference = appViewModel.database.getReference("Users").child(attendeeId);
                         userReference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot userSnapshot) {
-                                if (userSnapshot.exists()){
+                                if (userSnapshot.exists()) {
                                     String fullName = userSnapshot.child("userFullName").getValue(String.class);
                                     Boolean isApproved = attendeeS.child("isApproved").getValue(Boolean.class);
-                                    if(isApproved== null){
+                                    if (isApproved == null) {
                                         isApproved = false;
                                     }
                                     String userProfileImageUrl = userSnapshot.child("profileImageUrl").getValue(String.class);
@@ -257,17 +258,19 @@ public class EventDetailsViewModel {
                                     approvedEventAttendeesCount.setValue(approvedAttendeesTemp.size() + 1);
                                 }
                             }
+
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-                                Log.d("EventDetailsViewModel", "Error: " + error.getMessage());
+                                Log.d("EventDetailsViewModel", "Error on userReference: " + error.getMessage());
                             }
                         });
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("EventDetailsViewModel", "Error: " + error.getMessage());
+                Log.d("EventDetailsViewModel", "Error on eventAttendeesReference: " + error.getMessage());
             }
         });
     }
@@ -279,7 +282,7 @@ public class EventDetailsViewModel {
                         attendeesList.removeIf(user -> user.getUserId().equals(userId));
                         isAttendeesReceived.setValue(true);
                     } else {
-                        Log.e("EventDetailsViewModel", "Error: " + task.getException().getMessage());
+                        Log.e("EventDetailsViewModel", "Error on denyUser method: " + task.getException().getMessage());
                     }
                 });
     }
@@ -301,9 +304,15 @@ public class EventDetailsViewModel {
                         // Prepare a notification for the user
                         UUID uuid = UUID.randomUUID();
                         String notificationUuid = uuid.toString();
-                        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("eventId").setValue(eventId);
-                        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("message").setValue("You have been approved for the " + eventName + " event! Let's check the details.");
-                        appViewModel.databaseReference.child("NOTIFICATION").child(userId).child(notificationUuid).child("isRead").setValue(false);
+                        appViewModel.databaseReference.child("NOTIFICATION")
+                                .child(userId).child(notificationUuid).child("eventId").
+                                setValue(eventId);
+                        appViewModel.databaseReference.child("NOTIFICATION")
+                                .child(userId).child(notificationUuid).child("message")
+                                .setValue("You have been approved for the " + eventName + " event! Let's check the details.");
+                        appViewModel.databaseReference.child("NOTIFICATION")
+                                .child(userId).child(notificationUuid).child("isRead")
+                                .setValue(false);
 
                         Calendar calendar = Calendar.getInstance();
                         int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -323,7 +332,7 @@ public class EventDetailsViewModel {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("EventDetailsViewModel", "Error: " + error.getMessage());
+                Log.d("EventDetailsViewModel", "Error on approveUser method: " + error.getMessage());
             }
         });
 
@@ -335,7 +344,7 @@ public class EventDetailsViewModel {
         eventReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
+                if (snapshot.exists()) {
                     String eventName = snapshot.child("eventName").getValue(String.class);
                     String eventDescription = snapshot.child("description").getValue(String.class);
                     String eventDate = snapshot.child("date").getValue(String.class);
@@ -352,20 +361,35 @@ public class EventDetailsViewModel {
                     gameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot gameSnapshot) {
-                            if (gameSnapshot.exists()){
+                            if (gameSnapshot.exists()) {
                                 String gameName = gameSnapshot.child("gameName").getValue(String.class);
                                 String maxPlayers = gameSnapshot.child("maxPlayer").getValue(String.class);
                                 String minPlayers = gameSnapshot.child("minPlayer").getValue(String.class);
                                 event.setEventMaxPlayers(maxPlayers);
                                 event.setEventMinPlayers(minPlayers);
                                 event.setEventGameName(gameName);
-                                mutableEvent.setValue(event);
+                                DatabaseReference userReference = appViewModel.database.getReference("Users").child(eventOwnerId);
+                                userReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot userSnapshot) {
+                                        if (userSnapshot.exists()) {
+                                            String ownerName = userSnapshot.child("userFullName").getValue(String.class);
+                                            event.setEventOwnerName(ownerName);
+                                            mutableEvent.setValue(event);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Log.d("EventDetailsViewModel", "Error on userReference: " + error.getMessage());
+                                    }
+                                });
                             }
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            Log.d("EventDetailsViewModel", "Error: " + error.getMessage());
+                            Log.d("EventDetailsViewModel", "Error on gameReference: " + error.getMessage());
                         }
                     });
                 }
@@ -373,7 +397,7 @@ public class EventDetailsViewModel {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("EventDetailsViewModel", "Error: " + error.getMessage());
+                Log.d("EventDetailsViewModel", "Error on eventReference: " + error.getMessage());
             }
         });
 
@@ -389,7 +413,7 @@ public class EventDetailsViewModel {
                         });
                     })
                     .addOnFailureListener(e -> {
-                        Log.d("EventDetailsViewModel", "Error: " + e.getMessage());
+                        Log.d("EventDetailsViewModel", "Error on method uploadImage: " + e.getMessage());
                     });
         }
     }

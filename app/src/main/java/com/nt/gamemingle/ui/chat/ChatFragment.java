@@ -1,5 +1,6 @@
 package com.nt.gamemingle.ui.chat;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.nt.gamemingle.R;
 import com.nt.gamemingle.adapters.ChatAdapter;
 import com.nt.gamemingle.databinding.FragmentChatBinding;
 import com.nt.gamemingle.model.ChatMessage;
@@ -96,12 +99,15 @@ public class ChatFragment extends BaseFragment {
                             String messageTime = chatMessagesLocal.get(position).getMessageTime();
                             String messageSender = chatMessagesLocal.get(position).getSender().getFullName();
                             String currentUserId = appViewModel.mAuth.getCurrentUser().getUid();
+                            Uri currentUserProfileImage = Uri.parse(chatMessagesLocal.get(position).getSender().getUserProfileImageUrl());
+
+
                             if(chatMessagesLocal.get(position).getSender().getUserId().equals(currentUserId)){
                                 Toast.makeText(requireContext(), "You can't report your own message", Toast.LENGTH_SHORT).show();
                                 chatAdapter.notifyDataSetChanged();
                                 return;
                             }
-                            ReportDialogFragment reportDialogFragment = new ReportDialogFragment(eventId, messageId, message, messageTime, messageSender, appViewModel);
+                            ReportDialogFragment reportDialogFragment = new ReportDialogFragment(eventId, messageId, message, messageTime, messageSender, appViewModel, currentUserProfileImage);
                             reportDialogFragment.show(getParentFragmentManager(), "reportDialog");
                             chatAdapter.notifyDataSetChanged();
                         }

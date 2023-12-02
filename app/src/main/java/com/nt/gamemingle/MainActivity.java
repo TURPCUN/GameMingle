@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         initializeNavController();
         setUpTopAppBarClickListener();
         setUpBottomNavigationBarClickListener();
+        setUpAdminNavigationBarClickListener();
 
         // Picasso cache refactoring
         Picasso picasso = new Picasso.Builder(this)
@@ -68,6 +69,27 @@ public class MainActivity extends AppCompatActivity {
     private void onClickNavigateUp() {
         navController.navigateUp();
         // navController.popBackStack();
+    }
+
+    private void setUpAdminNavigationBarClickListener() {
+        binding.bottomNavigationAdmin.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.menuRequests:
+                    navController.navigate(R.id.requestFragment);
+                    break;
+                case R.id.menuReports:
+                    navController.navigate(R.id.reportsFragment);
+                    break;
+                case R.id.menuCreateGame:
+                    navController.navigate(R.id.createGameFragment);
+                    break;
+                case R.id.menuProfileAdmin:
+                    navController.navigate(R.id.profileFragment);
+                    break;
+
+            }
+            return true;
+        });
     }
 
     private void setUpBottomNavigationBarClickListener() {

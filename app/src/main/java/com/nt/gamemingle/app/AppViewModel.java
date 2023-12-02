@@ -33,10 +33,6 @@ public class AppViewModel extends ViewModel {
     public final FirebaseAuth mAuth = FirebaseAuth.getInstance();
     public final FirebaseDatabase database = FirebaseDatabase.getInstance();
     public final DatabaseReference databaseReference = database.getReference();
-
-    public final FirebaseStorage storage = FirebaseStorage.getInstance();
-    public final StorageReference storageReference = storage.getReference("uploads");
-
     private final MutableLiveData<NavController> navController = new MutableLiveData<>();
 
     public void setNavController(NavController controller) {

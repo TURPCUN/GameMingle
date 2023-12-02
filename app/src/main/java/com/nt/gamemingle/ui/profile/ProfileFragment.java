@@ -106,6 +106,11 @@ public class ProfileFragment extends BaseFragment {
         binding.txtTermsAndConditions.setVisibility(View.VISIBLE);
         binding.progressBar.setVisibility(View.GONE);
         binding.btnUpload.setVisibility(View.VISIBLE);
+        if(binding.userFullName.getText().toString().equals("Administrator")
+                && binding.userEmail.getText().toString().equals("admin@admin.com")){
+
+            binding.txtEventHistory.setVisibility(View.GONE);
+        }
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -138,7 +143,9 @@ public class ProfileFragment extends BaseFragment {
             public void onClick(View v) {
                 new MaterialAlertDialogBuilder(requireContext())
                         .setTitle("Terms and Conditions")
-                        .setMessage(HtmlCompat.fromHtml(getString(R.string.terms_and_conditions), HtmlCompat.FROM_HTML_MODE_LEGACY))
+                        .setMessage(HtmlCompat.
+                                fromHtml(getString(R.string.terms_and_conditions),
+                                                        HtmlCompat.FROM_HTML_MODE_LEGACY))
                         .setPositiveButton("Ok", null)
                         .show();
             }

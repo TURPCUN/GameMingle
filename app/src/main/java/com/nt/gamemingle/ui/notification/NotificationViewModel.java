@@ -44,7 +44,9 @@ public class NotificationViewModel {
                         String message = notificationSnapshot.child("message").getValue(String.class);
                         String notificationDate = notificationSnapshot.child("date").getValue(String.class);
                         String notificationTime = notificationSnapshot.child("time").getValue(String.class);
+                        String gameId = notificationSnapshot.child("gameId").getValue(String.class);
                         Notification notification = new Notification(notificationId, userId, eventId, message, notificationDate, notificationTime, isRead, "");
+                        notification.setGameId(gameId);
                         notificationList.add(notification);
                     }
                     try {

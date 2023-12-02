@@ -97,9 +97,11 @@
             android:textColor="#120D26" />
 
         <TextView
+            android:id="@+id/btnForgotPassword"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:clickable="true"
             android:fontFamily="@font/nunito_sans"
             android:text="@string/forgot_password"
             android:textAlignment="textEnd"

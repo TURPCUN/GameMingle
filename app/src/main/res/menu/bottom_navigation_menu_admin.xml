@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menuRequests"
+        android:enabled="true"
+        android:icon="@drawable/dice_24"
+        android:title="Requests"/>
+    <item
+        android:id="@+id/menuReports"
+        android:enabled="true"
+        android:icon="@drawable/problem_24"
+        android:title="Reports"/>
+    <item
+        android:id="@+id/menuCreateGame"
+        android:enabled="true"
+        android:icon="@drawable/note_add_24"
+        android:title="New Game"/>
+    <item
+        android:id="@+id/menuProfileAdmin"
+        android:enabled="true"
+        android:icon="@drawable/account_24"
+        android:title="Profile"/>
+</menu>

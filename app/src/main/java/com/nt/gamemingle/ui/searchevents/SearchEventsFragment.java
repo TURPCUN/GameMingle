@@ -35,6 +35,13 @@ public class SearchEventsFragment extends BaseFragment implements EventSearchAda
         // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        searchView = getActivity().findViewById(R.id.searchViewEvents);
+        searchView.clearFocus();
+        searchView.setQuery("", false);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

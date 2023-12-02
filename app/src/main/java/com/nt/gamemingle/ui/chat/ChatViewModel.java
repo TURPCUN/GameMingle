@@ -136,5 +136,7 @@ public class ChatViewModel {
         appViewModel.databaseReference.child("REPORTING").child(reportUuid).child("messageId").setValue(messageId);
         appViewModel.databaseReference.child("REPORTING").child(reportUuid).child("reportReason").setValue(reportReason);
         appViewModel.databaseReference.child("REPORTING").child(reportUuid).child("reporter").setValue(userId);
+        appViewModel.databaseReference.child("REPORTING").child(reportUuid).child("isRead").setValue(false);
+        appViewModel.databaseReference.child("REPORTING").child(reportUuid).child("actionComment").setValue("");
     }
 }

@@ -10,6 +10,7 @@ import androidx.navigation.NavController;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.adapters.NotificationAdapter;
+import com.nt.gamemingle.model.BoardGame;
 import com.nt.gamemingle.model.Notification;
 import com.nt.gamemingle.ui.common.BaseFragment;
 
@@ -32,6 +34,7 @@ public class NotificationFragment extends BaseFragment implements NotificationAd
     RecyclerView recyclerNotifications;
     TextView txtMarkAllAsRead;
     NavController navController;
+
     public NotificationFragment() {
         // Required empty public constructor
     }
@@ -92,7 +95,6 @@ public class NotificationFragment extends BaseFragment implements NotificationAd
                 mViewModel.readAllNotifications();
             }
         });
-
     }
 
     @Override
@@ -100,7 +102,16 @@ public class NotificationFragment extends BaseFragment implements NotificationAd
         notifications.get(position).setRead(true);
         mViewModel.readNotification(notifications.get(position).getNotificationId());
         Bundle bundle = new Bundle();
-        bundle.putString("eventId", notifications.get(position).getEventId());
-        navController.navigate(R.id.action_notificationFragment_to_eventDetailsFragment, bundle);
+        try {
+            if (notifications.get(position).getEventId() != null) {
+                bundle.putString("eventId", notifications.get(position).getEventId());
+                navController.navigate(R.id.action_notificationFragment_to_eventDetailsFragment, bundle);
+            } else if (notifications.get(position).getGameId() != null) {
+                bundle.putString("gameId", notifications.get(position).getGameId());
+                navController.navigate(R.id.action_notificationFragment_to_addFavGameFragment, bundle);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

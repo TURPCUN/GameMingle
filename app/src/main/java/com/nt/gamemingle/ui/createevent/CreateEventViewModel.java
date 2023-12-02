@@ -64,37 +64,6 @@ public class CreateEventViewModel {
         Toast.makeText(context, "Event created successfully", Toast.LENGTH_SHORT).show();
     }
 
-    public void getBoardGamess(Context context) {
-        ArrayList<BoardGame> tempBoardGameList = new ArrayList<>();
-        DatabaseReference gamesReference = appViewModel.database.getReference("Games");
-        gamesReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    //BoardGame boardGame = dataSnapshot.getValue(BoardGame.class);
-                    //boardGameList.add(boardGame);
-                    HashMap<String, String> game = (HashMap<String, String>) dataSnapshot.getValue();
-
-                    String gameId = dataSnapshot.getKey();
-                    String gameName = game.get("gameName");
-                    String gameDescription = game.get("gameDescription");
-                    String gameImageUrl = game.get("gameImageUrl"); // TODO, it should come from firebase storage
-                    String gameMinPlayers = game.get("minPlayer").toString();
-                    String gameMaxPlayers = game.get("maxPlayer").toString();
-                    String gameCategory = game.get("gameCategory");
-                    BoardGame boardGame = new BoardGame(gameId, gameName, gameDescription, gameImageUrl, gameMinPlayers, gameMaxPlayers, gameCategory);
-                    tempBoardGameList.add(boardGame);
-                }
-                boardGamesLiveDataCreateEvent.setValue(tempBoardGameList);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(context, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     public void getBoardGames(Context context) {
         String userId = appViewModel.mAuth.getCurrentUser().getUid();
         if(userId != null){

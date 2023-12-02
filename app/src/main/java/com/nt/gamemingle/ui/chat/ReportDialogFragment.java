@@ -2,6 +2,7 @@ package com.nt.gamemingle.ui.chat;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+
+import com.bumptech.glide.Glide;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.app.AppViewModel;
@@ -24,18 +27,20 @@ public class ReportDialogFragment extends DialogFragment {
     private ChatViewModel chatViewModel;
     String eventId;
     String messageId;
-
     String message;
     String messageTime;
     String messageSender;
 
-    public ReportDialogFragment(String eventId, String messageId, String message, String messageTime, String messageSender, AppViewModel appViewModel) {
+    Uri mImageUri;
+
+    public ReportDialogFragment(String eventId, String messageId, String message, String messageTime, String messageSender, AppViewModel appViewModel, Uri mImageUri) {
         chatViewModel = new ChatViewModel(appViewModel);
         this.eventId = eventId;
         this.messageId = messageId;
         this.message = message;
         this.messageTime = messageTime;
         this.messageSender = messageSender;
+        this.mImageUri = mImageUri;
     }
 
 
@@ -66,14 +71,15 @@ public class ReportDialogFragment extends DialogFragment {
 
         String firstName = messageSender.split(" ")[0];
 
-        int imageResource = view.getContext().getResources()
-                .getIdentifier(firstName.toLowerCase(), "drawable", view.getContext().getPackageName());
 
-        if (imageResource != 0) {
-            imgSender.setImageResource(imageResource);
-        } else {
-            imgSender.setImageResource(R.drawable.icon);
-        }
+        Glide.with(imgSender.getContext())
+                .load(mImageUri)
+                .placeholder(R.drawable.loading_gif)
+                .fitCenter()
+                .centerCrop()
+                .error(R.drawable.icon)
+                .into(imgSender);
+
 
         return new MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Report a message")
