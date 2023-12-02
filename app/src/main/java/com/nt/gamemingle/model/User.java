@@ -7,6 +7,7 @@ public class User {
     String userEventStatus;
     private String profileImageUrl;
 
+    private String isAdmin;
     public User(){
 
     }

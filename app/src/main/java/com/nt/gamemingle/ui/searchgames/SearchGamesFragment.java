@@ -14,9 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nt.gamemingle.R;
 import com.nt.gamemingle.adapters.GameSearchAdapter;
 import com.nt.gamemingle.model.BoardGame;
+import com.nt.gamemingle.ui.chat.ReportDialogFragment;
 import com.nt.gamemingle.ui.common.BaseFragment;
 
 import java.util.ArrayList;
@@ -98,6 +101,14 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
             }
         };
         mViewModel.boardGamesLiveData.observe(getViewLifecycleOwner(), isBoardGameLoaded);
+
+        ExtendedFloatingActionButton fab = getActivity().findViewById(R.id.fab_request_game);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openRequestDialog();
+            }
+        });
     }
 
     private void filterList(String text) {
@@ -106,7 +117,9 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
             gameSearchAdapter.setFilteredList(boardGameList);
         } else {
             for(BoardGame game : boardGameList){
-                if(game.getGameName().toLowerCase().contains(text.toLowerCase())){
+                if(game.getGameName()
+                        .toLowerCase()
+                        .contains(text.toLowerCase())){
                     filteredList.add(game);
                 }
             }
@@ -130,5 +143,10 @@ public class SearchGamesFragment extends BaseFragment implements GameSearchAdapt
             bundle.putParcelable("game", filteredList.get(position));
             navController.navigate(R.id.action_searchGamesFragment_to_addFavGameFragment, bundle);
         }
+    }
+
+    private void openRequestDialog() {
+        RequestGameDialogFragment dialogFragment = new RequestGameDialogFragment(appViewModel);
+        dialogFragment.show(getParentFragmentManager(), "requestDialog");
     }
 }

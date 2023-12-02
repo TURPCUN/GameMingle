@@ -129,13 +129,9 @@ public class EventsFragment extends BaseFragment implements EventsAdapter.ItemCl
         if(tabNumber == 1) {
             selectedTextView = binding.tabUpcoming;
             unSelectedTextView = binding.tabMyEvents;
-
-            // Change recyclerview content
         } else {
             selectedTextView = binding.tabMyEvents;
             unSelectedTextView = binding.tabUpcoming;
-
-            // Change recyclerview content
         }
 
         // Animation

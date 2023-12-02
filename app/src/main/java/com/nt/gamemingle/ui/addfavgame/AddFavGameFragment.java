@@ -29,6 +29,8 @@ public class AddFavGameFragment extends BaseFragment {
     private ImageView imageView;
     NavController navController;
     BoardGame boardGame;
+
+    String requestedGameId;
     Boolean isComingFromFavOrLibrary = false; // bundle : hideSomeFields
     public AddFavGameFragment() {
         // Required empty public constructor
@@ -41,6 +43,8 @@ public class AddFavGameFragment extends BaseFragment {
         if (getArguments().getBoolean("hideSomeFields")){
             isComingFromFavOrLibrary = getArguments().getBoolean("hideSomeFields");
         }
+        requestedGameId = getArguments().getString("gameId");
+
     }
 
     @Override
@@ -50,6 +54,7 @@ public class AddFavGameFragment extends BaseFragment {
         if (getArguments().getBoolean("hideSomeFields")){
             isComingFromFavOrLibrary = getArguments().getBoolean("hideSomeFields");
         }
+        requestedGameId = getArguments().getString("gameId");
     }
 
     @Override
@@ -68,6 +73,19 @@ public class AddFavGameFragment extends BaseFragment {
         mViewModel = new AddFavGameViewModel(appViewModel);
         navController = appViewModel.getNavController().getValue();
 
+        if (requestedGameId != null){
+            mViewModel.getGameDetails(requestedGameId);
+            mViewModel.boardGameLiveData.observe(getViewLifecycleOwner(), boardGame -> {
+                this.boardGame = boardGame;
+                setGameDetails();
+            });
+        } else {
+            setGameDetails();
+        }
+
+    }
+
+    private void setGameDetails() {
         if(boardGame != null){
             titleGame = getActivity().findViewById(R.id.titleGame);
             titleGame.setText(boardGame.getGameName());
@@ -89,6 +107,11 @@ public class AddFavGameFragment extends BaseFragment {
             if (boardGame.getInLibrary() != null && boardGame.getInLibrary()) {
                 MaterialCheckBox checkBox = getActivity().findViewById(R.id.checkBoxAddFavGame);
                 checkBox.setVisibility(View.INVISIBLE);
+            }
+
+            if(boardGame.getUserFavorite() != null && boardGame.getUserFavorite() && boardGame.getInLibrary() != null && boardGame.getInLibrary()){
+                Button btnAddFavGame = getActivity().findViewById(R.id.btn_add_fav_game);
+                btnAddFavGame.setVisibility(View.INVISIBLE);
             }
 
             if (isComingFromFavOrLibrary){
@@ -119,7 +142,6 @@ public class AddFavGameFragment extends BaseFragment {
                 }
             });
         }
-
     }
 
     private void addFavGameForUser(String gameID, String userID, boolean inLibrary){

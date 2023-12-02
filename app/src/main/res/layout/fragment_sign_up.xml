@@ -8,8 +8,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/signupText"
@@ -173,14 +172,15 @@
         >
         <CheckBox
             android:id="@+id/checkBox"
-            android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:buttonTint="@color/primary_blue"
             android:fontFamily="@font/nunito_sans"
-            android:text="@string/accept_terms"
+            android:text=""
             android:textColor="#120D26"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
+
     </LinearLayout>
 
     <Button

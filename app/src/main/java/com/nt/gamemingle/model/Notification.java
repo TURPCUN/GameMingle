@@ -10,6 +10,7 @@ public class Notification {
     String time;
     Boolean isRead;
     String eventName;
+    String gameId;
 
 
     public Notification() {
@@ -88,5 +89,13 @@ public class Notification {
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
+    }
+
+    public String getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(String gameId) {
+        this.gameId = gameId;
     }
 }

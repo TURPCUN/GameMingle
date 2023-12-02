@@ -184,6 +184,7 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
                         binding.attendeesListLinearLayout.setVisibility(View.GONE);
                     } else if (s.equals("pending")){
                         binding.btnRegisterEvent.setVisibility(View.GONE);
+                        binding.btnCancelEvent.setText("UNREGISTER");
                         binding.btnCancelEvent.setVisibility(View.VISIBLE);
                         binding.txtStatus.setVisibility(View.VISIBLE);
                         binding.fab.setVisibility(View.GONE);
@@ -204,13 +205,16 @@ public class EventDetailsFragment extends BaseFragment implements EventAttendees
                         binding.fabUploadPhoto.setVisibility(View.VISIBLE);
                     }
                     // if event is passed then hide all buttons and text, event history event details
-                    if(isEventPassed(event.getEventDate(), event.getEventTime())){
-                        binding.btnRegisterEvent.setVisibility(View.INVISIBLE);
-                        binding.btnCancelEvent.setVisibility(View.GONE);
-                        binding.txtStatus.setVisibility(View.GONE);
-                        binding.fab.setVisibility(View.VISIBLE);
-                        binding.attendeesListLinearLayout.setVisibility(View.VISIBLE);
+                    if(event != null){
+                        if(isEventPassed(event.getEventDate(), event.getEventTime())){
+                            binding.btnRegisterEvent.setVisibility(View.INVISIBLE);
+                            binding.btnCancelEvent.setVisibility(View.GONE);
+                            binding.txtStatus.setVisibility(View.GONE);
+                            binding.fab.setVisibility(View.VISIBLE);
+                            binding.attendeesListLinearLayout.setVisibility(View.VISIBLE);
+                        }
                     }
+
                 }
             }
         });

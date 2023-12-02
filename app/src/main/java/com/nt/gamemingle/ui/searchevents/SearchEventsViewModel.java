@@ -61,8 +61,10 @@ public class SearchEventsViewModel {
                             }
                             String eventLocation = event.get("location");
                             String eventGameId = event.get("gameId");
+                            int eventAttendeesCount = eventS.child("approvedAttendeesCount").getValue(Integer.class);
                             Event eventObj = new Event(eventId, eventName, eventDescription, eventDate, eventTime, eventLocation, ownerId, eventGameId);
                             eventObj.setEventImageUrl(eventImageUrl);
+                            eventObj.setEventAttendees(eventAttendeesCount);
                             DatabaseReference gameReference = appViewModel.database.getReference("Games").child(eventGameId);
                             gameReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override

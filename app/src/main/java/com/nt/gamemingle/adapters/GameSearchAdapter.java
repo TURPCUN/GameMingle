@@ -41,18 +41,18 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         String gameName = boardGameList.get(position).getGameName();
 
-        Glide.with(((ViewHolder) holder).imgSmall.getContext())
+        Glide.with(((ViewHolder) holder).cardImgGameDetail.getContext())
                 .load(boardGameList.get(position).getGameImageUrl())
                 .placeholder(R.drawable.loading_gif)
                 .fitCenter()
                 .centerCrop()
                 .error(R.drawable.icon)
-                .into(((ViewHolder) holder).imgSmall);
+                .into(((ViewHolder) holder).cardImgGameDetail);
 
-        ((ViewHolder) holder).tvTitle.setText(gameName);
-        ((ViewHolder) holder).tvDescription.setText(boardGameList.get(position).getGameDescription());
-        ((ViewHolder)holder).tvTitle.setText(boardGameList.get(position).getGameName());
-        ((ViewHolder)holder).tvDescription.setText(boardGameList.get(position).getGameDescription());
+        ((ViewHolder)holder).cardTitleGameDetail.setText(gameName);
+        ((ViewHolder)holder).cardDescriptionGameDetail.setText(boardGameList.get(position).getGameDescription());
+        ((ViewHolder)holder).cardTitleGameDetail.setText(boardGameList.get(position).getGameName());
+        ((ViewHolder)holder).cardDescriptionGameDetail.setText(boardGameList.get(position).getGameDescription());
     }
 
     public void setFilteredList(List<BoardGame> filteredList){
@@ -71,15 +71,15 @@ public class GameSearchAdapter extends RecyclerView.Adapter {
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        ImageView imgSmall;
-        TextView tvTitle;
-        TextView tvDescription;
+        ImageView cardImgGameDetail;
+        TextView cardTitleGameDetail;
+        TextView cardDescriptionGameDetail;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imgSmall = itemView.findViewById(R.id.cardImgGameDetail);
-            tvTitle = itemView.findViewById(R.id.cardTitleGameDetail);
-            tvDescription = itemView.findViewById(R.id.cardDescriptionGameDetail);
+            cardImgGameDetail = itemView.findViewById(R.id.cardImgGameDetail);
+            cardTitleGameDetail = itemView.findViewById(R.id.cardTitleGameDetail);
+            cardDescriptionGameDetail = itemView.findViewById(R.id.cardDescriptionGameDetail);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
