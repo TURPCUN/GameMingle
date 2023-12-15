@@ -98,8 +98,6 @@ If you have any questions or feedback regarding my project, please feel free to 
 
 ## License
 
-This project is licensed under the MIT License.
-
 When using the project's code, please don't forget to give attribution.
 
 
