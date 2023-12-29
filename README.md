@@ -87,7 +87,7 @@ For the project to run Firebase services on Android Studio, configuration throug
 Clone the project using the following command:
 
 ```bash
-git clone https://github.com/kullaniciadi/proje.git
+git clone https://github.com/TURPCUN/GameMingle.git
 ```
 
 ## Contact
