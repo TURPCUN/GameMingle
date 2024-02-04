@@ -2,7 +2,7 @@
 
 With the advancement of technology and people's increasing reliance on online friendships, establishing meaningful in-person connections has become more challenging. Online gaming with virtual friends can't fully replace the joy of sitting down with real friends to play board games over a cup of coffee. However, as our ability to make friends face-to-face diminishes, it's becoming increasingly difficult to meet and spend time with like-minded individuals who share our interests.
 
-The GameMingle App aims to rekindle the experience of gathering with friends as in the past and even foster new friendships. Users can add their favorite board games, both the ones they love and own, through the app. They can then connect with other users interested in playing the same board game and schedule meetings to enjoy their favorite games together over a cup of coffee..
+The GameMingle App aims to rekindle the experience of gathering with friends as in the past and even foster new friendships. Users can add their favorite board games, both the ones they love and own, through the app. They can then connect with other users interested in playing the same board game and schedule meetings to enjoy their favorite games together over a cup of coffee.
 
 ## Project Structure
 
