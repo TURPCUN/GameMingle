@@ -1,6 +1,6 @@
 <h1 align="center"> GameMingle </h1> <br>
 <p align="center">
-    <img alt="GameMingle" title="GameMingle" src="https://i.imgur.com/4MGqQxN.png" width="250">
+    <img alt="GameMingle" title="GameMingle" src="https://github.com/TURPCUN/GameMingle/blob/develop/gameminglelogo.png" width="250">
 </p>
 
 <p align="center">
@@ -38,15 +38,15 @@ A few of the things you can do with GameMingle:
 * Feedback and Ratings: Provide feedback on events and rate other participants.
 
 <p align="center">
-  <img src = "https://i.imgur.com/MzNQadY.png" width=800>
+  <img src = "https://github.com/TURPCUN/GameMingle/blob/develop/screens1.png" width=800>
 </p>
 
 <p align="center">
-  <img src = "https://i.imgur.com/pwmLXiI.png" width=800>
+  <img src = "https://github.com/TURPCUN/GameMingle/blob/develop/screens2.png" width=800>
 </p>
 
 <p align="center">
-  <img src = "https://i.imgur.com/T2VA74w.png" width=800>
+  <img src = "https://github.com/TURPCUN/GameMingle/blob/develop/screens3.png" width=800>
 </p>
 
 ## Feedback
